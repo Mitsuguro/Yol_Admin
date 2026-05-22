@@ -61,7 +61,7 @@
         /* Global Box Sizing */
         *, *::before, *::after { box-sizing: border-box !important; }
         
-        body { background: transparent !important; overflow: hidden; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; color: #F04C00; font-family: 'Inter', sans-serif; user-select: none; margin: 0; padding: 0; }
+        body { background: radial-gradient(circle, #16151f 0%, #0c0b11 100%) !important; overflow: hidden; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; color: #F04C00; font-family: 'Inter', sans-serif; user-select: none; margin: 0; padding: 0; }
         
         /* Hide Browser Scrollbar */
         * { scrollbar-width: none; -ms-overflow-style: none; }
@@ -9554,103 +9554,26 @@ window.togglePipFullscreen = () => {
         };
 
         // STARTUP EMULATION
-        // STARTUP EMULATION
         document.addEventListener('DOMContentLoaded', () => {
-            // Injecter la description Tebex et déplacer les éléments NUI dans le conteneur interactif
-            const tebexHtml = `
-<div style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;max-width:1000px;margin:20px auto;color:#fff;background:#050505;padding:40px;border:1px solid rgba(255,255,255,0.05);position:relative;">
-	<div style="background:#16161d;border:1px solid rgba(168,85,247,0.2);padding:35px;margin-bottom:40px;border-left:8px solid #a855f7;">
-		<div>
-			<div>
-
-				<h1 style="margin:0;font-size:2.8rem;font-weight:900;letter-spacing:-1.5px;text-transform:uppercase;color:#a855f7;">Yol_Admin</h1>
-
-				<p style="margin:8px 0 0 0;color:#888;font-size:1.1rem;letter-spacing:1px;">L&#39;&Eacute;lite de l&#39;Administration FiveM &mdash; Ultimate Suite&nbsp;<a href="https://youtu.be/qvtlHWo-Ib0" rel="noreferrer noopener" target="_blank" style="color:#a855f7;text-decoration:underline;">Video</a></p>
-			</div>
-			<div style="background:rgba(168,85,247,0.1);color:#a855f7;padding:8px 20px;font-size:0.8rem;font-weight:900;border:1px solid rgba(168,85,247,0.3);margin-top:15px;display:inline-block;">PREMIUM EDITION</div></div></div>
-	<div style="margin-bottom:40px;">
-		<div style="background:#0f0f12;padding:25px;border:1px solid rgba(255,255,255,0.05);margin-bottom:20px;">
-			<div style="color:#a855f7;font-size:1.5rem;margin-bottom:15px;">🏗️ Syst&egrave;mes de Cr&eacute;ation</div>
-			<div style="color:#888;font-size:0.95rem;">
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">Job Creator :</strong> Gestion temps r&eacute;el sans reboot.</div>
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">Gang Creator :</strong> Territoires &amp; inventaires complets.</div>
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">Boss Menu :</strong> Salaires &amp; comptes soci&eacute;t&eacute;s int&eacute;gr&eacute;s.</div></div></div>
-		<div style="background:#0f0f12;padding:25px;border:1px solid rgba(255,255,255,0.05);">
-			<div style="color:#f43f5e;font-size:1.5rem;margin-bottom:15px;">👁️ Surveillance &amp; ESP 3D</div>
-			<div style="color:#888;font-size:0.95rem;">
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">ESP Avanc&eacute; :</strong> Bounding Boxes &amp; Bones (Os).</div>
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">Entity Glow :</strong> Identification color&eacute;e.</div>
-				<div style="background:rgba(255,255,255,0.02);padding:10px;margin-bottom:5px;"><strong style="color:#fff;">Info HUD :</strong> Distance, ID, Sant&eacute; &amp; Inventaire.</div></div></div></div>
-
-	<!-- INTERACTIVE DEMO CONTAINER -->
-	<div style="margin-bottom:40px;">
-		<div style="color:#fff;font-weight:800;margin-bottom:20px;font-size:1.2rem;text-transform:uppercase;letter-spacing:1px;"><span style="color:#a855f7;">🎮</span> D&eacute;monstration Interactive</div>
-		<div style="background:#0f0f12;border:1px solid rgba(168,85,247,0.2);border-radius:16px;overflow:hidden;position:relative;height:780px;box-shadow:0 15px 40px rgba(0,0,0,0.8);" id="interactive-demo-container">
-			<!-- Yol_Admin UI will be dynamically moved here -->
+            // Créer l'overlay de restart directement dans le body
+            const restartOverlayHtml = `
 			<div id="demo-restart-overlay" style="position:absolute;inset:0;background:rgba(10,10,12,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:99999;gap:20px;backdrop-filter:blur(8px);">
-				<div style="width:80px;height:80px;border-radius:24px;background:rgba(168,85,247,0.1);display:flex;align-items:center;justify-content:center;color:#a855f7;font-size:2.2rem;border:1px solid rgba(168,85,247,0.2);box-shadow:0 0 30px rgba(168,85,247,0.15);">
+				<div style="width:80px;height:80px;border-radius:24px;background:rgba(240, 76, 0,0.1);display:flex;align-items:center;justify-content:center;color:#F04C00;font-size:2.2rem;border:1px solid rgba(240, 76, 0,0.2);box-shadow:0 0 30px rgba(240, 76, 0,0.15);">
 					<i class="fa-solid fa-gamepad"></i>
 				</div>
 				<div style="text-align:center;">
 					<h3 style="margin:0;color:#fff;font-size:1.5rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;">D&eacute;monstration Ferm&eacute;e</h3>
 					<p style="margin:5px 0 0 0;color:#888;font-size:0.9rem;">Relancez la console Yol_Admin interactive pour tester à nouveau.</p>
 				</div>
-				<button id="restart-demo-btn" style="background:#a855f7;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:0.85rem;padding:16px 32px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,0.4);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
+				<button id="restart-demo-btn" style="background:#F04C00;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:0.85rem;padding:16px 32px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 20px rgba(240, 76, 0,0.4);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
 					Relancer la D&eacute;mo
 				</button>
 			</div>
-		</div>
-	</div>
-
-	<div style="margin-bottom:40px;">
-		<div style="color:#fff;font-weight:800;margin-bottom:20px;font-size:1.2rem;text-transform:uppercase;letter-spacing:1px;"><span style="color:#a855f7;">📸</span> Aper&ccedil;u de l&#39;Interface</div>
-		<div><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/b5d4c0b8e13cd3f997b5ffd7a6c0c5b3a58df50c.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="b5d4c0b8e13cd3f997b5ffd7a6c0c5b3a58df50c.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/928fcc14a891392d7028657c2c9d6d379c90485c.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="928fcc14a891392d7028657c2c9d6d379c90485c.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/f42b53fd1cb2239b702d21d66a1e73ded6f9c4f7.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="f42b53fd1cb2239b702d21d66a1e73ded6f9c4f7.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/1bfe801215613f387b0d72841010ae30c79414c5.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="182.988" alt="1bfe801215613f387b0d72841010ae30c79414c5.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/3d8df9fbd6c1ae2d334fccd8c1f498347760663f.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="3d8df9fbd6c1ae2d334fccd8c1f498347760663f.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/374c246db0f51f886162fa74da407bff076461de.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="374c246db0f51f886162fa74da407bff076461de.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/694beb7769df18aa5633335b9ffe8d05a7b43219.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="694beb7769df18aa5633335b9ffe8d05a7b43219.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/8e2aa2cbb9f37cd51999024daf6f3df87a008942.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="8e2aa2cbb9f37cd51999024daf6f3df87a008942.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/4c071ffc8c36cbe4e071639e8656eddbb7d267ed.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="4c071ffc8c36cbe4e071639e8656eddbb7d267ed.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/ebc896960654ee3fffa9e0b075139499a1310052.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="ebc896960654ee3fffa9e0b075139499a1310052.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/ab929893dc980eacfab2a68db9552feb644f5b94.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="ab929893dc980eacfab2a68db9552feb644f5b94.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/206b3e541f655fdaee4aa343900e402774d275e8.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="206b3e541f655fdaee4aa343900e402774d275e8.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/cb575891444a5b7816105a37d88af9702ba0ad93.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="cb575891444a5b7816105a37d88af9702ba0ad93.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/a4ea017fec81f32be67f87f81a3190e395a34a34.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="a4ea017fec81f32be67f87f81a3190e395a34a34.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/8c1ca4a35576bce830d1bed7f2e60a3541658d11.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185" alt="8c1ca4a35576bce830d1bed7f2e60a3541658d11.png"><img src="https://dunb17ur4ymx4.cloudfront.net/wysiwyg/1816315/ea1e231a875a620462e347b05502797abf96c315.png" style="width:300px;" class="fr-fic fr-dib" width="300" height="185.996" alt="ea1e231a875a620462e347b05502797abf96c315.png"></div></div>
-	<div style="background:#0f0f12;padding:25px;border:1px solid rgba(255,255,255,0.05);margin-bottom:40px;">
-		<div style="color:#3b82f6;font-size:1.5rem;margin-bottom:15px;">🔗 &Eacute;cosyst&egrave;me &amp; Compatibilit&eacute;s</div>
-		<div style="font-size:0.9rem;color:#888;">
-			<div>&bull; <strong style="color:#fff;">Framework :</strong> ESX Legacy</div>
-			<div>&bull; <strong style="color:#fff;">Inventory :</strong> ox_inventory</div>
-			<div>&bull; <strong style="color:#fff;">Syst&egrave;me :</strong> mVehicle &amp; mGarage</div>
-			<div>&bull; <strong style="color:#fff;">&Eacute;conomie :</strong> PEFCL</div>
-		</div>
-	</div>
-	<div style="text-align:center;font-size:0.8rem;color:#444;text-transform:uppercase;letter-spacing:2px;">Int&eacute;gration native txAdmin Logs &amp; Discord Webhooks</div>
-</div>
             `;
 
-            // Création du conteneur de présentation Tebex au début du body
             const wrapper = document.createElement('div');
-            wrapper.style.width = '100%';
-            wrapper.style.minHeight = '100vh';
-            wrapper.style.display = 'block';
-            wrapper.innerHTML = tebexHtml;
-            document.body.prepend(wrapper);
-
-            const demoContainer = document.getElementById('interactive-demo-container');
-
-            // Déplacement des éléments Yol_Admin à l'intérieur du conteneur interactif
-            const elementsToMove = [
-                'main-wrapper',
-                'boss-menu-app',
-                'confirm-modal',
-                'ac-ban-modal',
-                'context-menu-wrapper',
-                'admin-pip-container'
-            ];
-
-            elementsToMove.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    demoContainer.appendChild(el);
-                    el.style.position = 'absolute';
-                    if (id !== 'admin-pip-container' && id !== 'context-menu-wrapper') {
-                        el.style.top = '0';
-                        el.style.left = '0';
-                        el.style.width = '100%';
-                        el.style.height = '100%';
-                    }
-                }
-            });
+            wrapper.innerHTML = restartOverlayHtml;
+            document.body.appendChild(wrapper.firstElementChild);
 
             // Ajustement de la disposition du wrapper principal
             const mainWrapper = document.getElementById('main-wrapper');
