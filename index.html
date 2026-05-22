@@ -1244,8 +1244,9 @@
         body.demo-mode #demo-backdrop { display: block; }
         body.demo-mode { background: transparent !important; }
 
-        /* Scale dynamique du menu en mode démo pour qu'il s'adapte au zoom navigateur */
-        body.demo-mode .admin-wrap {
+        /* Scale dynamique du menu en mode démo pour qu'il s'adapte au zoom navigateur.
+           Appliqué sur #main-wrapper (parent) pour ne pas être écrasé par l'animation menuPop sur .admin-wrap */
+        body.demo-mode #main-wrapper {
             transform: scale(var(--demo-scale, 1));
             transform-origin: center center;
             transition: transform 0.2s ease;
