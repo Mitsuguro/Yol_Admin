@@ -1243,6 +1243,13 @@
         }
         body.demo-mode #demo-backdrop { display: block; }
         body.demo-mode { background: transparent !important; }
+
+        /* Scale dynamique du menu en mode démo pour qu'il s'adapte au zoom navigateur */
+        body.demo-mode .admin-wrap {
+            transform: scale(var(--demo-scale, 1));
+            transform-origin: center center;
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 <body>
@@ -9685,12 +9692,31 @@ window.togglePipFullscreen = () => {
 
     <script>
         // Active le fond GTA + border-radius uniquement hors-jeu (iframe Tebex ou GitHub Pages)
+        // Et ajuste dynamiquement la taille du menu pour qu'il reste proportionnel quel que soit le zoom
         (function () {
             var inIframe = window.self !== window.top;
             var onGithub = /github\.io$/i.test(window.location.hostname);
-            if (inIframe || onGithub) {
-                document.body.classList.add('demo-mode');
+            if (!(inIframe || onGithub)) return;
+
+            document.body.classList.add('demo-mode');
+
+            var MENU_W = 1100;       // .admin-wrap width
+            var MENU_H = 750;        // .admin-wrap height
+            var MARGIN = 80;         // espace autour du menu (backdrop inset + radius + respiration)
+            var MIN_SCALE = 0.4;     // empêche le menu de devenir trop petit
+            var MAX_SCALE = 1.4;     // empêche le menu de devenir trop énorme à très bas zoom
+
+            function fitMenu() {
+                var availW = window.innerWidth - MARGIN * 2;
+                var availH = window.innerHeight - MARGIN * 2;
+                var scale = Math.min(availW / MENU_W, availH / MENU_H);
+                scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale));
+                document.body.style.setProperty('--demo-scale', scale.toFixed(3));
             }
+
+            window.addEventListener('resize', fitMenu);
+            window.addEventListener('load', fitMenu);
+            fitMenu();
         })();
     </script>
 </body>
