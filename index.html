@@ -96,9 +96,9 @@
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            -webkit-backdrop-filter: blur(16px) !important;
-            backdrop-filter: blur(16px) !important;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(240, 76, 0, 0.08) !important;
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
             pointer-events: auto;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -613,7 +613,7 @@
         select:focus {
             border-color: rgba(255, 255, 255, 0.35) !important;
             outline: none !important;
-            box-shadow: 0 0 15px rgba(59, 59, 59, 0.15) !important;
+            box-shadow: none !important;
         }
 
         select option {
@@ -646,7 +646,7 @@
             border: var(--premium-border);
             z-index: 301; 
             border-radius: 24px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: none;
         }
         .boss-tab-panel { display: none; }
         .boss-tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
@@ -662,7 +662,7 @@
             color: #ffffff; 
             background: rgba(240, 76, 0, 0.2); 
             border-color: rgba(240, 76, 0, 0.4);
-            box-shadow: 0 0 20px rgba(240, 76, 0, 0.15); 
+            box-shadow: none;
         }
         .boss-input { 
             background: rgba(0,0,0,0.3); 
@@ -673,8 +673,8 @@
         }
         .boss-input:focus { 
             border-color: rgba(255, 255, 255, 0.35); 
-            background: rgba(0,0,0,0.5); 
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05); 
+            background: rgba(0,0,0,0.5);
+            box-shadow: none;
         }
         
         .boss-card {
@@ -693,10 +693,10 @@
             background: var(--grad);
             color: #ffffff; font-weight: 900; text-transform: uppercase;
             letter-spacing: 0.05em; border-radius: 14px;
-            transition: all 0.3s; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s; box-shadow: none;
             border: none;
         }
-        .btn-boss-primary:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); filter: brightness(1.1); }
+        .btn-boss-primary:hover { transform: scale(1.02); box-shadow: none; filter: brightness(1.1); }
 
         /* CONTEXT MENU SYSTEM */
         #context-menu-wrapper {
@@ -709,7 +709,7 @@
             display: none;
             flex-direction: column;
             gap: 6px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            box-shadow: none;
         }
         .context-item {
             padding: 10px 16px;
@@ -1156,7 +1156,7 @@
         .perms-modal-backdrop {
             position: absolute; inset: 0;
             background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(2px);
+            backdrop-filter: none;
         }
         .perms-modal-box {
             position: relative;
@@ -1164,7 +1164,7 @@
             background: rgba(15,15,15,0.98);
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            box-shadow: none;
             overflow: hidden;
             animation: permsModalIn 0.15s ease-out;
         }
@@ -1230,9 +1230,23 @@
         body::-webkit-scrollbar-thumb:hover {
             background: #a855f7;
         }
+
+        /* Demo backdrop (iframe / GitHub Pages only — FiveM NUI reste transparent) */
+        #demo-backdrop {
+            display: none;
+            position: fixed;
+            inset: 16px;
+            background: url('bg.jpg') center/cover no-repeat #050505;
+            border-radius: 24px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        body.demo-mode #demo-backdrop { display: block; }
+        body.demo-mode { background: transparent !important; }
     </style>
 </head>
 <body>
+    <div id="demo-backdrop"></div>
     <div id="main-wrapper">
         <div id="admin-panel" class="admin-wrap hidden">
         <!-- TOP BAR -->
@@ -7629,7 +7643,7 @@ window.togglePipFullscreen = () => {
     <!-- QUICK MENU (INSERT key) — panneau droite, mouvement libre  -->
     <!--  -->
     <div id="quick-menu" style="position:fixed; top:50%; right:16px; transform:translateY(-50%); display:none; z-index:999998; width:220px; pointer-events:auto;">
-        <div style="background: var(--premium-gradient) !important; border: var(--premium-border) !important; border-radius: 14px; padding: 16px; box-shadow: 0 30px 60px rgba(0,0,0,0.7);">
+        <div style="background: var(--premium-gradient) !important; border: var(--premium-border) !important; border-radius: 14px; padding: 16px; box-shadow: none;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                 <div>
                     <div id="qm-staff-name" style="font-size:8px; color:rgba(240, 76, 0,0.6); text-transform:uppercase; letter-spacing:0.25em; font-weight: 800;">Staff</div>
@@ -9550,15 +9564,15 @@ window.togglePipFullscreen = () => {
         document.addEventListener('DOMContentLoaded', () => {
             // Créer l'overlay de restart directement dans le body
             const restartOverlayHtml = `
-			<div id="demo-restart-overlay" style="position:absolute;inset:0;background:rgba(10,10,12,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:99999;gap:20px;backdrop-filter:blur(8px);">
-				<div style="width:80px;height:80px;border-radius:24px;background:rgba(240, 76, 0,0.1);display:flex;align-items:center;justify-content:center;color:#F04C00;font-size:2.2rem;border:1px solid rgba(240, 76, 0,0.2);box-shadow:0 0 30px rgba(240, 76, 0,0.15);">
+			<div id="demo-restart-overlay" style="position:absolute;inset:0;background:rgba(10,10,12,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:99999;gap:20px;backdrop-filter:none;">
+				<div style="width:80px;height:80px;border-radius:24px;background:rgba(240, 76, 0,0.1);display:flex;align-items:center;justify-content:center;color:#F04C00;font-size:2.2rem;border:1px solid rgba(240, 76, 0,0.2);box-shadow:none;">
 					<i class="fa-solid fa-gamepad"></i>
 				</div>
 				<div style="text-align:center;">
 					<h3 style="margin:0;color:#fff;font-size:1.5rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;">D&eacute;monstration Ferm&eacute;e</h3>
 					<p style="margin:5px 0 0 0;color:#888;font-size:0.9rem;">Relancez la console Yol_Admin interactive pour tester à nouveau.</p>
 				</div>
-				<button id="restart-demo-btn" style="background:#F04C00;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:0.85rem;padding:16px 32px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 20px rgba(240, 76, 0,0.4);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
+				<button id="restart-demo-btn" style="background:#F04C00;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:0.85rem;padding:16px 32px;border:none;border-radius:12px;cursor:pointer;box-shadow:none;transition:all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
 					Relancer la D&eacute;mo
 				</button>
 			</div>
@@ -9669,5 +9683,15 @@ window.togglePipFullscreen = () => {
         });
     </script>
 
+    <script>
+        // Active le fond GTA + border-radius uniquement hors-jeu (iframe Tebex ou GitHub Pages)
+        (function () {
+            var inIframe = window.self !== window.top;
+            var onGithub = /github\.io$/i.test(window.location.hostname);
+            if (inIframe || onGithub) {
+                document.body.classList.add('demo-mode');
+            }
+        })();
+    </script>
 </body>
 </html>
