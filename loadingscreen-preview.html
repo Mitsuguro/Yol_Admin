@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Preview Loadingscreen</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Inter:wght@400;600;700&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+        }
+
+        #bg-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+        #bg-video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        #bg-youtube {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 56.25vw;
+            min-height: 100%; min-width: 177.77vh;
+            pointer-events: none;
+        }
+        #bg-youtube iframe { width: 100%; height: 100%; border: 0; }
+        #bg-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.30), rgba(0,0,0,0.55));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        body.no-overlay #bg-overlay { opacity: 0; }
+        body.no-overlay #content,
+        body.no-overlay #music-player,
+        body.no-overlay #loadbar-wrap { opacity: 0.15; }
+
+        #overlay-toggle {
+            position: fixed;
+            top: 6px;
+            right: 6px;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+        #overlay-toggle:hover { opacity: 1; }
+        #overlay-toggle.on {
+            background: rgba(240, 76, 0, 0.8);
+            border-color: rgba(240, 76, 0, 0.6);
+        }
+
+        #grid-toggle {
+            position: fixed;
+            top: 6px;
+            right: 110px; /* Shifted left of overlay-toggle */
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+        #grid-toggle:hover { opacity: 1; }
+        #grid-toggle.on {
+            background: rgba(240, 76, 0, 0.8);
+            border-color: rgba(240, 76, 0, 0.6);
+        }
+
+        #alignment-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 2; /* In front of backgrounds but behind buttons */
+            pointer-events: none;
+            display: none;
+            background-size: 5% 5%;
+            background-image: 
+                linear-gradient(to right, rgba(240, 76, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(240, 76, 0, 0.08) 1px, transparent 1px);
+        }
+        #alignment-grid::before {
+            content: "";
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(240, 76, 0, 0.35);
+            box-shadow: 0 0 4px rgba(240, 76, 0, 0.5);
+        }
+        #alignment-grid::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0;
+            top: 50%;
+            height: 1px;
+            background: rgba(240, 76, 0, 0.35);
+            box-shadow: 0 0 4px rgba(240, 76, 0, 0.5);
+        }
+
+        #logo-wrap {
+            position: fixed;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        #logo-img {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(240, 76, 0, 0.5));
+        }
+
+        .pos-top-left    { top: 14px; left: 14px;   width: 14%; height: 22%; }
+        .pos-top-center  { top: 14px; left: 50%; transform: translateX(-50%); width: 14%; height: 22%; }
+        .pos-top-right   { top: 14px; right: 14px;  width: 14%; height: 22%; }
+        .pos-center      { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22%; height: 36%; }
+        .pos-bottom-left { bottom: 30%; left: 14px;  width: 12%; height: 18%; }
+        .pos-bottom-right{ bottom: 30%; right: 14px; width: 12%; height: 18%; }
+
+        #content {
+            position: fixed;
+            z-index: 4;
+            bottom: 14%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 90%;
+            max-width: 720px;
+        }
+        #server-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2.6vw;
+            margin: 0;
+            letter-spacing: 0.3vw;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 0%, #F04C00 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        #sub-title {
+            font-size: 0.95vw;
+            opacity: 0.7;
+            margin: 0.3vw 0 1vw 0;
+            text-transform: uppercase;
+            letter-spacing: 0.15vw;
+        }
+        #rules {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(240, 76, 0, 0.25);
+            border-radius: 10px;
+            padding: 0.8vw 1.5vw;
+            margin-bottom: 0.8vw;
+            display: inline-block;
+            text-align: left;
+        }
+        #rules h3 {
+            margin: 0 0 0.4vw 0;
+            font-size: 0.7vw;
+            letter-spacing: 0.3vw;
+            font-weight: 900;
+            color: #F04C00;
+            text-transform: uppercase;
+        }
+        #rules ul { list-style: none; padding: 0; margin: 0; }
+        #rules li {
+            font-size: 0.8vw;
+            padding: 0.2vw 0 0.2vw 1.2vw;
+            position: relative;
+            opacity: 0.9;
+        }
+        #rules li::before { content: "▸"; color: #F04C00; position: absolute; left: 0.3vw; font-weight: 900; }
+        #links {
+            display: flex;
+            justify-content: center;
+            gap: 0.6vw;
+            flex-wrap: wrap;
+        }
+        .link-pill {
+            padding: 0.4vw 0.9vw;
+            background: rgba(240, 76, 0, 0.15);
+            border: 1px solid rgba(240, 76, 0, 0.4);
+            border-radius: 999px;
+            font-size: 0.7vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1vw;
+        }
+
+        #staff-list {
+            position: fixed;
+            z-index: 5;
+            top: 2vw;
+            right: 2vw;
+            width: 15vw;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(240, 76, 0, 0.3);
+            border-radius: 12px;
+            padding: 1vw;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8vw;
+        }
+        #staff-title {
+            color: #F04C00;
+            font-size: 0.8vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2vw;
+            text-align: center;
+            margin: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5vw;
+        }
+        .staff-member {
+            display: flex;
+            align-items: center;
+            gap: 0.6vw;
+        }
+        .staff-avatar {
+            width: 2vw;
+            height: 2vw;
+            border-radius: 50%;
+            background: #222;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .staff-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+        }
+        .staff-name {
+            font-size: 0.75vw;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .staff-role {
+            font-size: 0.6vw;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.05vw;
+        }
+
+        #music-player {
+            position: fixed;
+            z-index: 5;
+            bottom: 1.4vw;
+            left: 1.4vw;
+            display: flex;
+            align-items: center;
+            gap: 0.8vw;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(240, 76, 0, 0.3);
+            border-radius: 10px;
+            padding: 0.6vw 1vw;
+            max-width: 40%;
+        }
+        #music-icon { color: #F04C00; font-size: 1.3vw; }
+        #music-text { min-width: 0; overflow: hidden; }
+        #music-title {
+            font-weight: 700;
+            font-size: 0.85vw;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #music-credit {
+            font-size: 0.65vw;
+            opacity: 0.55;
+            margin-top: 0.1vw;
+        }
+
+        #loadbar-wrap {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+        #loadbar {
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(90deg, #F04C00, #ff7a30);
+            box-shadow: 0 0 10px rgba(240, 76, 0, 0.7);
+            transition: width 0.3s ease;
+        }
+
+        #empty-state {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3vw;
+            background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+        #empty-state.hidden { opacity: 0; pointer-events: none; }
+
+        #audio-toggle {
+            position: fixed;
+            bottom: 6px;
+            left: 6px;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+        #audio-toggle:hover { opacity: 1; }
+        #audio-toggle.on {
+            background: rgba(240, 76, 0, 0.8);
+            border-color: rgba(240, 76, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Arrière-plan (Vidéo MP4, YouTube ou Image) -->
+    <div id="bg-container">
+        <video id="bg-video" autoplay loop muted playsinline style="display:none;"></video>
+        <div id="bg-youtube" style="display:none;"></div>
+        <img id="bg-image" alt="" style="display:none; width: 100%; height: 100%; object-fit: cover;" />
+        <div id="bg-overlay"></div>
+    </div>
+
+    <div id="logo-wrap" class="pos-top-left">
+        <img id="logo-img" alt="" style="display:none;">
+    </div>
+
+    <div id="content">
+        <h1 id="server-name">GrandCity</h1>
+        <p id="sub-title">Chargement…</p>
+        <div id="rules" style="display:none;">
+            <h3>Règlement</h3>
+            <ul id="rules-list"></ul>
+        </div>
+        <div id="links"></div>
+    </div>
+
+    <div id="staff-list" style="display:none;">
+        <h3 id="staff-title">L'Équipe</h3>
+        <div id="staff-container" style="display: flex; flex-direction: column; gap: 0.8vw;"></div>
+    </div>
+
+    <div id="music-player" style="display:none;">
+        <span id="music-icon">♪</span>
+        <div id="music-text">
+            <div id="music-title">—</div>
+            <div id="music-credit"></div>
+        </div>
+    </div>
+
+    <!-- Iframe audio YouTube (cachée) -->
+    <div id="yt-audio" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;"></div>
+
+    <div id="loadbar-wrap"><div id="loadbar"></div></div>
+
+    <div id="empty-state">Aperçu en attente…</div>
+
+    <button id="audio-toggle" type="button" title="Activer / couper la musique de l'aperçu">♪ Musique</button>
+
+    <button id="grid-toggle" type="button" title="Affiche une grille de centrage pour aligner les modules">Grille</button>
+
+    <button id="overlay-toggle" type="button" title="Bascule la pénombre pour bien voir la vidéo">Vue brute</button>
+
+    <div id="alignment-grid"></div>
+
+    <script>
+        let CONFIG = null;
+
+        function $(id) { return document.getElementById(id); }
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        function renderStatic() {
+            $('empty-state').classList.add('hidden');
+
+            $('server-name').textContent = typeof CONFIG.serverName === 'string' ? CONFIG.serverName : 'GrandCity';
+            $('sub-title').textContent = typeof CONFIG.subTitle === 'string' ? CONFIG.subTitle : 'Bienvenue sur le serveur';
+
+            // Logo
+            const wrap = $('logo-wrap');
+            const img = $('logo-img');
+            if (CONFIG.logo && CONFIG.logo.url) {
+                img.src = CONFIG.logo.url;
+                img.style.display = 'block';
+                wrap.className = 'pos-' + (CONFIG.logo.position || 'top-left');
+                wrap.style.display = 'flex';
+                if (CONFIG.logo.size && Number.isFinite(CONFIG.logo.size)) {
+                    // Conversion en viewport width (vw) sur une base 1920px pour un rendu proportionnel
+                    const vwSize = (CONFIG.logo.size / 1920) * 100;
+                    wrap.style.width = vwSize + 'vw';
+                    wrap.style.height = vwSize + 'vw';
+                } else {
+                    wrap.style.width = '';
+                    wrap.style.height = '';
+                }
+            } else {
+                img.style.display = 'none';
+                wrap.style.display = 'none';
+            }
+
+            // Règles
+            const list = $('rules-list');
+            list.innerHTML = '';
+            const rules = Array.isArray(CONFIG.rules) ? CONFIG.rules.slice(0, 6) : [];
+            if (rules.length === 0) {
+                $('rules').style.display = 'none';
+            } else {
+                $('rules').style.display = 'inline-block';
+                rules.forEach(r => {
+                    const li = document.createElement('li');
+                    li.textContent = r;
+                    list.appendChild(li);
+                });
+            }
+
+            // Liens
+            const linksDiv = $('links');
+            linksDiv.innerHTML = '';
+            const links = CONFIG.links || {};
+            const labels = { discord: 'Discord', website: 'Site', store: 'Boutique' };
+            Object.keys(labels).forEach(key => {
+                if (links[key]) {
+                    const span = document.createElement('span');
+                    span.className = 'link-pill';
+                    span.textContent = labels[key];
+                    linksDiv.appendChild(span);
+                }
+            });
+
+            // Music label
+            if (CONFIG.music && CONFIG.music.enabled && CONFIG.music.playlist && CONFIG.music.playlist.length > 0) {
+                const t = CONFIG.music.playlist[0];
+                $('music-title').textContent = t.title || '—';
+                $('music-credit').textContent = t.source ? '© ' + t.source : 'Libre de droits';
+                $('music-player').style.display = 'flex';
+            } else {
+                $('music-player').style.display = 'none';
+            }
+
+            // Staff List
+            const staffListEl = $('staff-list');
+            if (CONFIG.staffListEnabled !== false) {
+                staffListEl.style.display = 'flex';
+                const cont = $('staff-container');
+                cont.innerHTML = `
+                    <div class="staff-member">
+                        <img class="staff-avatar" src="https://ui-avatars.com/api/?name=Admin&background=F04C00&color=fff">
+                        <div class="staff-info">
+                            <span class="staff-name">Admin</span>
+                            <span class="staff-role">Fondateur</span>
+                        </div>
+                    </div>
+                    <div class="staff-member">
+                        <img class="staff-avatar" src="https://ui-avatars.com/api/?name=Modo&background=222&color=fff">
+                        <div class="staff-info">
+                            <span class="staff-name">Modo</span>
+                            <span class="staff-role">Modérateur</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                staffListEl.style.display = 'none';
+            }
+        }
+
+        // Manifest des fichiers locaux exposés par Yol_Loadingscreen (cross-NUI fetch)
+        let MANIFEST = { videos: [], musics: [] };
+        const LS_BASE = 'https://cfx-nui-Yol_Loadingscreen/ui/';
+
+        async function loadManifest() {
+            // Dans le preview, le manifest est envoyé via postMessage (LS_PREVIEW_REFRESH_ASSETS) par index.html
+        }
+
+        function filenameToTitle(name) {
+            if (typeof name !== 'string') return '';
+            return name.replace(/\.[a-zA-Z0-9]+$/, '').replace(/_/g, ' ').trim() || name;
+        }
+
+        function renderBackground() {
+            const v = $('bg-video');
+            const yt = $('bg-youtube');
+            const img = $('bg-image');
+
+            // Reset
+            if (v) { v.style.display = 'none'; v.removeAttribute('src'); }
+            if (yt) { yt.style.display = 'none'; yt.innerHTML = ''; }
+            if (img) { img.style.display = 'none'; img.removeAttribute('src'); }
+
+            const videos = MANIFEST.videos || [];
+            if (videos.length === 0 || !v) return;
+            v.removeAttribute('crossorigin');
+            v.src = LS_BASE + 'assets/video/' + encodeURIComponent(videos[0]);
+            v.style.display = 'block';
+            v.muted = true;
+            v.loop = true;
+            v.autoplay = true;
+            v.playsInline = true;
+            v.play().catch(() => {});
+        }
+
+        // État du toggle musique (false = coupée, true = activée par l'utilisateur)
+        let AUDIO_ENABLED = false;
+
+        function getNativeAudio() {
+            let nativeAudio = $('native-audio');
+            if (!nativeAudio) {
+                nativeAudio = document.createElement('audio');
+                nativeAudio.id = 'native-audio';
+                nativeAudio.style.display = 'none';
+                nativeAudio.loop = true;
+                document.body.appendChild(nativeAudio);
+                nativeAudio.addEventListener('error', () => {
+                    const code = nativeAudio.error ? nativeAudio.error.code : '?';
+                    const msg  = nativeAudio.error ? nativeAudio.error.message : '?';
+                    console.warn('[LS Preview] Erreur lecture MP3 (code ' + code + ') :', msg, 'src=', nativeAudio.src);
+                });
+            }
+            return nativeAudio;
+        }
+
+        function renderAudio() {
+            const nativeAudio = getNativeAudio();
+            const musicEnabled = !CONFIG.music || CONFIG.music.enabled !== false;
+            const musics = MANIFEST.musics || [];
+            if (!musicEnabled || musics.length === 0) {
+                try { nativeAudio.pause(); } catch (_) {}
+                console.log('[LS Preview] Musique désactivée ou aucun MP3 (enabled=' + musicEnabled + ', count=' + musics.length + ')');
+                return;
+            }
+            // Affiche le titre de la première piste sur la barre du player
+            const t = musics[0];
+            const titleEl = document.getElementById('music-title');
+            const creditEl = document.getElementById('music-credit');
+            if (titleEl) titleEl.textContent = filenameToTitle(t);
+            if (creditEl) creditEl.textContent = t;
+
+            const url = LS_BASE + 'assets/music/' + encodeURIComponent(t);
+            // Ne recharge la source que si elle change, pour ne pas relancer du début
+            if (nativeAudio.src !== url) nativeAudio.src = url;
+            nativeAudio.volume = (CONFIG.music && typeof CONFIG.music.volume === 'number') ? CONFIG.music.volume : 0.4;
+
+            // Lecture uniquement si l'utilisateur a activé via le toggle
+            if (!AUDIO_ENABLED) {
+                try { nativeAudio.pause(); } catch (_) {}
+                return;
+            }
+            nativeAudio.muted = false;
+            console.log('[LS Preview] Chargement piste :', t, '→', url);
+            nativeAudio.play()
+                .then(() => console.log('[LS Preview] ▶ Lecture en cours'))
+                .catch((err) => console.warn('[LS Preview] ⚠ Lecture bloquée :', err.name, '-', err.message));
+        }
+
+        // Toggle musique : bouton discret en bas à gauche
+        (function setupAudioToggle() {
+            const toggleBtn = document.getElementById('audio-toggle');
+            if (!toggleBtn) return;
+            const updateLabel = () => {
+                toggleBtn.textContent = AUDIO_ENABLED ? '♪ Couper' : '♪ Musique';
+                toggleBtn.classList.toggle('on', AUDIO_ENABLED);
+            };
+            updateLabel();
+            toggleBtn.addEventListener('click', () => {
+                AUDIO_ENABLED = !AUDIO_ENABLED;
+                updateLabel();
+                const na = getNativeAudio();
+                if (AUDIO_ENABLED) {
+                    // Relance la vidéo aussi si elle était en pause (autoplay CEF)
+                    try {
+                        const v = document.getElementById('bg-video');
+                        if (v && v.paused && v.src) v.play().catch(() => {});
+                    } catch (_) {}
+                    renderAudio();
+                } else {
+                    try { na.pause(); } catch (_) {}
+                }
+            });
+        })();
+
+        let audioDebounceTimer = null;
+        let lastAudioSignature = '';
+
+        async function applyConfig(newCfg) {
+            if (!newCfg || typeof newCfg !== 'object') return;
+            const isFirst = !CONFIG;
+            CONFIG = newCfg;
+            renderStatic();
+            applyLayoutPositions();
+
+            if (isFirst) {
+                // Premier rendu : on charge le manifest des fichiers locaux
+                await loadManifest();
+                renderBackground();
+                renderAudio();
+                return;
+            }
+
+            // Mises à jour ultérieures : ré-applique la musique si volume/enabled change
+            const audioSig = JSON.stringify(CONFIG.music || {});
+            if (audioSig !== lastAudioSignature) {
+                lastAudioSignature = audioSig;
+                if (audioDebounceTimer) clearTimeout(audioDebounceTimer);
+                audioDebounceTimer = setTimeout(renderAudio, 250);
+            }
+        }
+
+        // Re-fetch manifest et re-rend (déclenché après re-scan)
+        async function refreshAssets() {
+            await loadManifest();
+            renderBackground();
+            renderAudio();
+        }
+
+        window.addEventListener('message', (e) => {
+            const d = e.data;
+            if (!d || typeof d !== 'object') return;
+            if (d.type === 'LS_PREVIEW_CONFIG' && d.config) {
+                if (d.manifest) MANIFEST = d.manifest;
+                applyConfig(d.config);
+            } else if (d.type === 'LS_PREVIEW_REFRESH_ASSETS') {
+                if (d.manifest) MANIFEST = d.manifest;
+                refreshAssets();
+            } else if (d.type === 'LS_PREVIEW_TOGGLE_GRID') {
+                const grid = document.getElementById('alignment-grid');
+                if (grid) {
+                    const isVisible = grid.style.display === 'block';
+                    const nextVisible = !isVisible;
+                    grid.style.display = nextVisible ? 'block' : 'none';
+                    const btn = document.getElementById('grid-toggle');
+                    if (btn) btn.classList.toggle('on', nextVisible);
+                    try {
+                        window.parent.postMessage({ type: 'LS_PREVIEW_GRID_STATE', visible: nextVisible }, '*');
+                    } catch (_) {}
+                }
+            }
+        });
+
+        // Toggle "Vue brute" — désactive l'overlay et la pénombre pour valider visuellement la vidéo
+        document.getElementById('overlay-toggle').addEventListener('click', function () {
+            document.body.classList.toggle('no-overlay');
+            this.classList.toggle('on');
+            this.textContent = document.body.classList.contains('no-overlay') ? 'Vue normale' : 'Vue brute';
+        });
+
+        // Toggle "Grille" — affiche une grille de centrage pour aligner les modules
+        document.getElementById('grid-toggle').addEventListener('click', function () {
+            const grid = document.getElementById('alignment-grid');
+            if (grid) {
+                const isVisible = grid.style.display === 'block';
+                const nextVisible = !isVisible;
+                grid.style.display = nextVisible ? 'block' : 'none';
+                this.classList.toggle('on', nextVisible);
+                try {
+                    window.parent.postMessage({ type: 'LS_PREVIEW_GRID_STATE', visible: nextVisible }, '*');
+                } catch (_) {}
+            }
+        });
+
+        // Signal au parent qu'on est prêt
+        try {
+            window.parent.postMessage({ type: 'LS_PREVIEW_READY' }, '*');
+        } catch (_) {}
+        let currentLayout = {};
+        
+        function applyLayoutPositions() {
+            if (CONFIG.layout && typeof CONFIG.layout === 'object' && !Array.isArray(CONFIG.layout)) {
+                currentLayout = JSON.parse(JSON.stringify(CONFIG.layout));
+            } else {
+                currentLayout = {};
+            }
+            for (const [id, pos] of Object.entries(currentLayout)) {
+                    const el = $(id);
+                    if (el) {
+                        el.className = ''; // Supprime les classes de position par défaut (pos-top-left etc)
+                        el.style.position = 'fixed';
+                        el.style.top = pos.y + '%';
+                        el.style.left = pos.x + '%';
+                        el.style.transform = 'none';
+                        el.style.bottom = 'auto';
+                        el.style.right = 'auto';
+                        el.style.margin = '0';
+                    }
+                }
+        }
+
+        function makeDraggable(el) {
+            if (!el) return;
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            el.style.cursor = 'move';
+
+            el.addEventListener('mousedown', function(e) {
+                if (e.target.tagName.toLowerCase() === 'button' || e.target.tagName.toLowerCase() === 'a') return;
+                isDragging = true;
+                
+                el.style.transition = 'none'; // Disable transition for smooth dragging
+                
+                const rect = el.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+                
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                el.style.position = 'fixed';
+                el.className = '';
+                el.style.transform = 'none';
+                el.style.bottom = 'auto';
+                el.style.right = 'auto';
+                el.style.margin = '0';
+                
+                el.style.left = initialX + 'px';
+                el.style.top = initialY + 'px';
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                let newX = initialX + dx;
+                let newY = initialY + dy;
+                
+                el.style.left = newX + 'px';
+                el.style.top = newY + 'px';
+            });
+
+            document.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                const rect = el.getBoundingClientRect();
+                const percentX = (rect.left / window.innerWidth) * 100;
+                const percentY = (rect.top / window.innerHeight) * 100;
+                
+                el.style.left = percentX + '%';
+                el.style.top = percentY + '%';
+                
+                // Restore transition after a tiny delay to avoid jump animation
+                setTimeout(() => el.style.transition = '', 50);
+                
+                currentLayout[el.id] = { x: percentX, y: percentY };
+                
+                try {
+                    window.parent.postMessage({ type: 'LS_PREVIEW_UPDATE_LAYOUT', layout: currentLayout }, '*');
+                } catch(e) {}
+            });
+        }
+
+        // Initialize drag and drop for modules
+        document.addEventListener('DOMContentLoaded', () => {
+            makeDraggable($('logo-wrap'));
+            makeDraggable($('content'));
+            makeDraggable($('staff-list'));
+            makeDraggable($('music-player'));
+        });
+    </script>
+</body>
+</html>

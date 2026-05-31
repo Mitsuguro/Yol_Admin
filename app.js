@@ -1,193 +1,5 @@
 // app.js - Global Logic
-const defaultLocales = {
-    "admin_menu": "Menu Admin",
-    "error": "Erreur",
-    "success": "Succès",
-    "info": "Information",
-    "action_success": "L'action a été effectuée avec succès.",
-    "action_error": "Une erreur est survenue lors de l'action.",
-    "no_permission": "Vous n'avez pas la permission d'utiliser cette commande.",
-    
-    // Notifications
-    "noclip_on": "Noclip Activé",
-    "noclip_off": "Noclip Désactivé",
-    "godmode_on": "Godmode Activé",
-    "godmode_off": "Godmode Désactivé",
-    "invisible_on": "Invisibilité Activée",
-    "invisible_off": "Invisibilité Désactivée",
-    "blips_on": "Blips Joueurs Activés",
-    "blips_off": "Blips Joueurs Désactivés",
-    "healed": "Soigné",
-    "armor_max": "Armure au max",
-    "coords_copied": "Coords copiées: %s",
-    "super_jump_on": "Super Jump Activé",
-    "super_jump_off": "Super Jump Désactivé",
-    "fast_run_on": "Fast Run Activé",
-    "fast_run_off": "Fast Run Désactivé",
-    "tp_map": "Téléporté sur la carte",
-    "veh_spawned": "Véhicule Spawn",
-    "model_invalid": "Modèle invalide",
-    "veh_repaired": "Véhicule réparé",
-    "veh_upgraded": "Véhicule amélioré au maximum",
-    "not_in_veh": "Vous n'êtes pas dans un véhicule",
-    "veh_deleted": "Véhicule supprimé",
-    "veh_flipped": "Véhicule retourné",
-    "veh_washed": "Véhicule lavé",
-    "veh_locked": "Véhicule verrouillé",
-    "veh_unlocked": "Véhicule déverrouillé",
-    "boost_activated": "BOOST!",
-    "plate_changed": "Plaque changée",
-    "engine_on": "Moteur allumé",
-    "engine_off": "Moteur éteint",
-    "tags_on": "Tags Activés",
-    "tags_off": "Tags Désactivés",
-    
-    // Dialogs
-    "dialog_announce": "Annonce Serveur",
-    "dialog_message": "Message",
-    "dialog_unban": "Unban Joueur",
-    "dialog_identifier": "Identifier (license:xxx)",
-    "dialog_give_item": "Give Item",
-    "dialog_select_item": "Sélectionner Item",
-    "dialog_amount": "Montant",
-    "dialog_set_job": "Set Job",
-    "dialog_select_job": "Sélectionner Job",
-    "dialog_grade": "Grade",
-    "dialog_warn_player": "Warn Joueur",
-    "dialog_reason": "Raison",
-    "dialog_ban_player": "Ban Joueur",
-    "dialog_duration": "Durée (ex: 1d, perm)",
-    "dialog_kick_player": "Kick Joueur",
-    "dialog_set_money": "Set Argent",
-    "dialog_give_money": "Give Argent",
-    "dialog_remove_money": "Remove Argent",
-    "dialog_type": "Type",
-    "dialog_set_model": "Set Modèle Joueur",
-    "dialog_model_name": "Modèle (ex: mp_m_freemode_01)",
-    "dialog_give_weapon": "Give Arme",
-    "dialog_select_weapon": "Sélectionner Arme",
-    "dialog_ammo": "Munitions",
-    "dialog_jail_player": "Jail Joueur",
-    "dialog_time_min": "Durée (minutes)",
-    "dialog_set_coords": "Set Coords",
-    "dialog_set_group": "Set Groupe",
-    "dialog_slap_player": "Slap Joueur",
-    "dialog_damage": "Dégâts",
-    "dialog_send_message": "Envoyer Message",
-    "dialog_spawn_veh": "Spawn Véhicule",
-    "dialog_change_plate": "Changer Plaque",
-    "dialog_new_plate": "Nouvelle Plaque (8 chars max)",
-    
-    // UI (NUI)
-    "ui_dashboard": "Tableau de Bord",
-    "ui_players": "Joueurs",
-    "ui_server": "Serveur",
-    "ui_vehicles": "Véhicules",
-    "ui_logs": "Logs",
-    "ui_settings": "Paramètres",
-    "ui_search": "Rechercher...",
-    "ui_online": "En Ligne",
-    "ui_offline": "Hors Ligne",
-    "ui_actions": "Actions",
-    "ui_inventory": "Inventaire",
-    "ui_stats": "Statistiques",
-    "ui_kick": "Kick",
-    "ui_ban": "Bannir",
-    "ui_warn": "Avertir",
-    "ui_revive": "Réanimer",
-    "ui_heal": "Soigner",
-    "ui_goto": "Aller à",
-    "ui_bring": "Ramener",
-    "ui_freeze": "Freeze",
-    "ui_spectate": "Spectateur",
-    "ui_needs": "Besoins",
-    "ui_kill": "Tuer",
-    "ui_infos": "Infos",
-    "ui_signal_live": "SIGNAL LIVE...",
-    "ui_select_player": "SÉLECTIONNEZ UN JOUEUR",
-    "ui_no_job": "Sans emploi",
-    "ui_no_players_found": "Aucun joueur trouvé",
-    "ui_pin": "Epingler",
-    "ui_map": "Carte",
-    "ui_my_actions": "Mes Actions",
-    "ui_global_actions": "Actions Globales",
-    "ui_time": "Heure",
-    "ui_weather": "Météo",
-    "ui_player_management": "Gestion des joueurs",
-    "ui_quick_actions": "Actions rapides sur",
-    "ui_staff_notes": "Notes Staff",
-    "ui_add_note": "Ajouter une note...",
-    "ui_states": "États",
-    "ui_administration": "Administration",
-    "ui_current_vehicle": "Véhicule Actuel",
-    "ui_owned_vehicles": "Véhicules Possédés",
-    "ui_server_management": "Gestion Serveur",
-    "ui_scripts_management": "Gestion des Scripts",
-    "ui_staff_logs": "Logs Staff",
-    "ui_scripts": "Scripts",
-    
-    // Actions
-    "ui_heal_action": "Soigner",
-    "ui_slap": "Gifle",
-    "ui_cuff": "Menotter",
-    "ui_ragdoll": "Ragdoll",
-    "ui_coords": "Coords",
-    "ui_return": "Retour",
-    "ui_teleport": "Téléportation",
-    "ui_economy": "Économie",
-    "ui_give_item": "Donner Item",
-    "ui_give_weapon": "Donner Arme",
-    "ui_remove_weapons": "Retirer Armes",
-    "ui_clear_inventory": "Vider Sac",
-    "ui_set_gang": "Modifier Gang",
-    "ui_set_group": "Set Group",
-    "ui_set_model": "Modifier Modèle",
-    "ui_jail": "Jail",
-    "ui_repair": "Réparer",
-    "ui_wash": "Laver",
-    "ui_delete": "Supprimer",
-    "ui_flip": "Retourner",
-    "ui_engine": "Moteur",
-    "ui_plate": "Plaque",
-    "ui_lock": "Verrou",
-    "ui_boost": "Boost",
-    
-    // Weather
-    "ui_w_sun": "SOLEIL",
-    "ui_w_clear": "CLAIR",
-    "ui_w_clouds": "NUAGES",
-    "ui_w_overcast": "COUVERT",
-    "ui_w_rain": "PLUIE",
-    "ui_w_thunder": "ORAGE",
-    "ui_w_fog": "BROUILLARD",
-    "ui_w_snow": "NEIGE",
-    "ui_yes": "OUI",
-    "ui_no": "NON",
-    "ui_handcuffed": "Menotté",
-    "ui_in_jail": "Prison",
-    "ui_announce": "Annonce",
-    "ui_announce_sent": "Annonce envoyée !",
-    "ui_announce_msg": "Message de l'annonce",
-    "ui_type_msg": "Tapez votre message ici...",
-    "ui_loading_fleet": "Chargement de la flotte...",
-    "ui_no_logs_found": "Aucun log trouvé",
-    "ui_no_vehicles_registered": "Aucun véhicule enregistré",
-    "ui_coords_copied": "Coordonnées copiées !",
-    "ui_noclip": "Noclip",
-    "ui_godmode": "Godmode",
-    "ui_invisible": "Invisible",
-    "ui_my_coords": "Mes Coords",
-    "ui_bring_all": "Bring All",
-    "ui_heal_all": "Heal All",
-    "ui_revive_all": "Revive All",
-    "ui_clear_area": "Clear Area",
-    "ui_status": "Statut",
-    "ui_active": "Actif",
-    "ui_format": "Format",
-    "ui_close": "Fermer"
-};
-
-const _L = (key) => (window.locales && window.locales[key]) ? window.locales[key] : (defaultLocales[key] ? defaultLocales[key] : key);
+const _L = (key) => (window.locales && window.locales[key]) ? window.locales[key] : key;
 window._L = _L;
 
 if (typeof GetParentResourceName === 'undefined') {
@@ -214,6 +26,10 @@ const post = (action, data) => {
     }).catch(() => {});
 };
 window.post = post;
+
+// Sidebar à catégories dépliantes : la redistribution dynamique n'est plus nécessaire.
+const balanceSidebars = () => { /* no-op — préservé pour compat */ };
+window.balanceSidebars = balanceSidebars;
 
 const translateUI = () => {
     document.querySelectorAll('[data-locale]').forEach(el => {
@@ -462,8 +278,39 @@ document.addEventListener('mousemove', (e) => {
 });
 
 document.addEventListener('mouseup', () => {
+    if (isDragging && adminPanel) {
+        // Persiste la position après chaque drag
+        try {
+            localStorage.setItem('yol_admin_position', JSON.stringify({
+                left: adminPanel.style.left,
+                top: adminPanel.style.top,
+            }));
+        } catch (_) {}
+    }
     isDragging = false;
 });
+
+// Restaure la position sauvegardée au chargement (avec clamp si hors écran)
+(function restoreAdminPanelPosition() {
+    if (!adminPanel) return;
+    try {
+        const saved = JSON.parse(localStorage.getItem('yol_admin_position') || 'null');
+        if (saved && saved.left && saved.top) {
+            const left = parseFloat(saved.left) || 0;
+            const top  = parseFloat(saved.top)  || 0;
+            // Clamp : garde au moins 80 px du panel visible dans le viewport
+            const maxLeft = Math.max(0, window.innerWidth  - 80);
+            const maxTop  = Math.max(0, window.innerHeight - 60);
+            const clampedLeft = Math.min(Math.max(0, left), maxLeft);
+            const clampedTop  = Math.min(Math.max(0, top),  maxTop);
+            adminPanel.style.position = 'absolute';
+            adminPanel.style.margin = '0';
+            adminPanel.style.transform = 'none';
+            adminPanel.style.left = clampedLeft + 'px';
+            adminPanel.style.top  = clampedTop  + 'px';
+        }
+    } catch (_) {}
+})();
 
 // Opacity Logic
 if (opacitySlider) {
@@ -475,14 +322,19 @@ if (opacitySlider) {
 // NUI Message listener
 window.addEventListener('message', (event) => {
     const data = event.data;
-    // console.log('NUI Message received:', data.type, data);
-    
+
     if (data.type === 'START_SCREEN_SHARE') {
         window.startWebRTCScreenShare(data.adminId);
         return;
     }
     if (data.type === 'START_ADMIN_PIP') {
         handleAdminPiPStart(data.target);
+        return;
+    }
+    if (data.type === 'STOP_ADMIN_PIP') {
+        const pipContainer = document.getElementById('admin-pip-container');
+        if (pipContainer) pipContainer.style.display = 'none';
+        window.currentPiPTargetId = null;
         return;
     }
     if (data.type === 'STOP_SCREEN_SHARE') {
@@ -539,19 +391,93 @@ window.addEventListener('message', (event) => {
                 window.locales = data.config.locales; 
                 translateUI(); 
             }
+            
+            // Dynamic visibility for AntiCheat & Anti-Cipher panels
+            const hasAnticheat = !!data.config.anticheatActive;
+            const acNavIcon = document.querySelector('.nav-icon[data-tab="tab-anticheat"]');
+            const cipherNavIcon = document.querySelector('.nav-icon[data-tab="tab-anticipher"]');
+            if (acNavIcon) {
+                acNavIcon.style.display = hasAnticheat ? 'flex' : 'none';
+            }
+            if (cipherNavIcon) {
+                cipherNavIcon.style.display = hasAnticheat ? 'flex' : 'none';
+            }
+
+            // Permission-based gating of nav-icons
+            window.userPerms = Array.isArray(data.config.userPerms) ? data.config.userPerms : [];
+            window.userHasPerm = (perm) => {
+                if (!perm) return true;
+                const list = window.userPerms || [];
+                if (list.includes('*')) return true;
+                if (list.includes(perm)) return true;
+                // Wildcard "prefix.*" match (e.g. "module.*" grants all module.X)
+                for (const p of list) {
+                    if (typeof p === 'string' && p.endsWith('.*')) {
+                        const prefix = p.slice(0, -1);
+                        if (perm.startsWith(prefix)) return true;
+                    }
+                }
+                return false;
+            };
+            // Mapping: nav-icon data-tab -> required permission (only listed tabs get gated)
+            const gatedTabs = {
+                'tab-multipip':         'module.multipip',
+                'tab-console':          'module.console',
+                'tab-robberycreator':   'module.robberycreator',
+            };
+            Object.entries(gatedTabs).forEach(([tabId, requiredPerm]) => {
+                const navIcon = document.querySelector(`.nav-icon[data-tab="${tabId}"]`);
+                if (!navIcon) return;
+                if (window.userHasPerm(requiredPerm)) {
+                    navIcon.style.display = '';
+                } else {
+                    navIcon.style.display = 'none';
+                    // If user is currently on a now-forbidden tab, fall back to dashboard
+                    const panel = document.getElementById(tabId);
+                    if (panel && panel.classList.contains('active')) {
+                        const fallback = document.querySelector('.nav-icon[data-tab="tab-dashboard"]');
+                        if (fallback) fallback.click();
+                    }
+                }
+            });
+
+            // Distribute icons evenly between the two columns
+            if (typeof balanceSidebars === 'function') balanceSidebars();
+
+            // Prefill Rich Presence config from server setting
+            if (data.config && data.config.richPresence) {
+                if (typeof window.applyRichPresenceForm === 'function') {
+                    window.applyRichPresenceForm(data.config.richPresence);
+                }
+            }
+
+            // Affiche le vrai nom du staff dans l'entête du panel
+            if (data.config && data.config.staffName) {
+                const adminNameEl = document.getElementById('admin-name');
+                if (adminNameEl) adminNameEl.textContent = data.config.staffName;
+                window.adminName = data.config.staffName;
+            }
         }
         window.playersData = data.players || [];
         window.allPlayers = window.playersData;
         window.serverJobs = data.jobs || [];
         window.serverGangs = data.config ? data.config.gangs || [] : [];
+        window.serverDrugs = data.config ? data.config.drugs || [] : [];
+        // Lazy : items/logs/resources peuvent être null à l'ouverture (gros datasets fetch on-demand).
+        // Ils seront chargés via RECEIVE_LAZY_DATA quand un tab les demandera.
         window.serverItems = data.items || [];
         window.serverLogs = data.logs || [];
         window.serverResources = data.resources || [];
+        window._lazyItemsLoaded = Array.isArray(data.items) && data.items.length > 0;
+        window._lazyLogsLoaded = Array.isArray(data.logs) && data.logs.length > 0;
+        window._lazyResourcesLoaded = Array.isArray(data.resources) && data.resources.length > 0;
         window.serverConfig = data.config || {};
-        
-        // Populate items datalist
-        const itemDatalist = document.getElementById('all-items-list');
-        if (itemDatalist) {
+
+        // Fonction extraite : peuple le datalist <all-items-list> à partir de window.serverItems.
+        // Appelée maintenant ET au moment du fetch lazy.
+        window.populateItemsDatalist = function() {
+            const itemDatalist = document.getElementById('all-items-list');
+            if (!itemDatalist) return;
             itemDatalist.innerHTML = '';
             if (Array.isArray(window.serverItems)) {
                 window.serverItems.forEach(item => {
@@ -562,8 +488,7 @@ window.addEventListener('message', (event) => {
                         itemDatalist.appendChild(opt);
                     }
                 });
-            } else if (typeof window.serverItems === 'object') {
-                // Fallback for object format
+            } else if (typeof window.serverItems === 'object' && window.serverItems !== null) {
                 Object.entries(window.serverItems).forEach(([name, label]) => {
                     const opt = document.createElement('option');
                     opt.value = name;
@@ -571,7 +496,17 @@ window.addEventListener('message', (event) => {
                     itemDatalist.appendChild(opt);
                 });
             }
-        }
+        };
+        populateItemsDatalist();
+
+        // Demande des datasets lazy au backend si nécessaire — déclenché par switch de tab plus tard.
+        window.ensureLazyData = function(dataset) {
+            const loadedFlag = '_lazy' + dataset.charAt(0).toUpperCase() + dataset.slice(1) + 'Loaded';
+            if (window[loadedFlag]) return;
+            // Marque comme "en cours" pour éviter les fetches multiples concurrents
+            window[loadedFlag] = 'loading';
+            post('request_lazy_data', { dataset: dataset });
+        };
         
         // Populate Job/Gang Editor Selects
         const jobSelect = document.getElementById('job-edit-select');
@@ -593,6 +528,17 @@ window.addEventListener('message', (event) => {
                 opt.value = g.name;
                 opt.textContent = `${(g.label || g.name).toUpperCase()} (${g.name})`;
                 gangSelect.appendChild(opt);
+            });
+        }
+
+        const drugSelect = document.getElementById('drug-edit-select');
+        if (drugSelect) {
+            drugSelect.innerHTML = '<option value="">-- [ CRÉER UNE NOUVELLE DROGUE ] --</option>';
+            window.serverDrugs.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d.name;
+                opt.textContent = `${(d.label || d.name).toUpperCase()} (${d.name})`;
+                drugSelect.appendChild(opt);
             });
         }
         
@@ -624,6 +570,10 @@ window.addEventListener('message', (event) => {
             initVehicleActions();
             renderResources();
             renderLogs();
+            // Fetch bot config so the Discord Bot panel is pre-filled with the
+            // saved token/IDs. Sans ça, l'utilisateur voit des champs vides à
+            // l'ouverture et un Save peut écraser la config persistée.
+            try { post('get_bot_status', {}); } catch (_) {}
         }, 100);
     } else if (data.type === 'HIDE_MENU') {
         mainApp.style.display = 'none';
@@ -656,9 +606,42 @@ window.addEventListener('message', (event) => {
                 const existing = playersData.find(pd => pd.id == p.id);
                 if (existing) {
                     existing.coords = p.coords;
+                    // Stats live envoyées par le client : merge sur le cache
+                    if (typeof p.health === 'number') existing.health = p.health;
+                    if (typeof p.armor  === 'number') existing.armor  = p.armor;
+                    if (typeof p.handcuffed === 'boolean') existing.handcuffed = p.handcuffed;
+                    if (typeof p.frozen === 'boolean') existing.frozen = p.frozen;
+                    if (typeof p.dead === 'boolean') existing.dead = p.dead;
                 }
             });
-            // Marker update is handled by the animation frame loop
+            // Rafraîchit le panneau du joueur sélectionné si concerné
+            if (window.selectedPlayerId != null) {
+                const sel = playersData.find(pd => pd.id == window.selectedPlayerId);
+                if (sel) {
+                    const hpEl = document.getElementById('view-hp');
+                    const armorEl = document.getElementById('view-armor');
+                    const jobEl = document.getElementById('view-job');
+                    if (hpEl && typeof sel.health === 'number') hpEl.textContent = sel.health + '%';
+                    if (armorEl && typeof sel.armor === 'number') armorEl.textContent = sel.armor + '%';
+                    if (jobEl && sel.job) jobEl.textContent = sel.job;
+
+                    const handcuffDot = document.getElementById('state-handcuff-dot');
+                    const jailDot = document.getElementById('state-jail-dot');
+                    const frozenDot = document.getElementById('state-frozen-dot');
+                    if (handcuffDot) {
+                        handcuffDot.style.background = sel.handcuffed ? '#fbbf24' : 'rgba(255,255,255,0.1)';
+                        handcuffDot.style.boxShadow  = sel.handcuffed ? '0 0 8px #fbbf24' : 'none';
+                    }
+                    if (jailDot) {
+                        jailDot.style.background = sel.jailed ? '#f87171' : 'rgba(255,255,255,0.1)';
+                        jailDot.style.boxShadow  = sel.jailed ? '0 0 8px #f87171' : 'none';
+                    }
+                    if (frozenDot) {
+                        frozenDot.style.background = sel.frozen ? '#60a5fa' : 'rgba(255,255,255,0.1)';
+                        frozenDot.style.boxShadow  = sel.frozen ? '0 0 8px #60a5fa' : 'none';
+                    }
+                }
+            }
         }
     } else if (data.type === 'UPDATE_ECO') {
         updateEcoUI(data.data);
@@ -666,6 +649,36 @@ window.addEventListener('message', (event) => {
         if (typeof updateInvPlayerResults === 'function') updateInvPlayerResults(data.players);
     } else if (data.type === 'UPDATE_INVENTORY') {
         if (typeof updateInventoryGrid === 'function') updateInventoryGrid(data.items);
+    } else if (data.type === 'UPDATE_INVCREATOR_DATA') {
+        if (typeof updateInventoryCreatorUI === 'function') updateInventoryCreatorUI(data.items, data.shops);
+    } else if (data.type === 'RECEIVE_LAZY_DATA') {
+        // Réception de datasets lazy-loaded (items, logs, resources) après fetch on-demand
+        if (data.dataset === 'items') {
+            window.serverItems = data.payload || [];
+            window._lazyItemsLoaded = true;
+            // Re-peuple les UIs qui dépendent de window.serverItems
+            if (typeof window.populateItemsDatalist === 'function') window.populateItemsDatalist();
+            if (typeof window.updateMarkerNameList === 'function') window.updateMarkerNameList();
+            // Refresh inline datalist all-items-list pour les modales legacy
+            const dl = document.getElementById('all-items-list');
+            if (dl && Array.isArray(window.serverItems)) {
+                dl.innerHTML = window.serverItems.map(i => '<option value="' + i.name + '">' + (i.label || i.name) + '</option>').join('');
+            }
+        } else if (data.dataset === 'logs') {
+            window.serverLogs = data.payload || [];
+            window._lazyLogsLoaded = true;
+            if (typeof renderLogs === 'function') renderLogs();
+        } else if (data.dataset === 'resources') {
+            window.serverResources = data.payload || [];
+            window._lazyResourcesLoaded = true;
+            if (typeof renderResources === 'function') renderResources();
+        }
+    } else if (data.type === 'INVCREATOR_ADD_SHOP_LOCATION') {
+        if (typeof invcreatorAddShopLocation === 'function') invcreatorAddShopLocation(data.location);
+    } else if (data.type === 'INVCREATOR_PICK_START') {
+        document.body.classList.add('invcreator-picking');
+    } else if (data.type === 'INVCREATOR_PICK_END') {
+        document.body.classList.remove('invcreator-picking');
     } else if (data.type === 'UPDATE_ZONES') {
         if (typeof updateZoneList === 'function') updateZoneList(data.zones);
     } else if (data.type === 'UPDATE_FLEET') {
@@ -674,6 +687,23 @@ window.addEventListener('message', (event) => {
         updateAnnouncements(data.announcements);
     } else if (data.type === 'UPDATE_ANTICHEAT_DATA') {
         updateAnticheatUI(data.data);
+    } else if (data.type === 'UPDATE_ANTICIPHER_DATA') {
+        updateAntiCipherUI(data.data);
+    } else if (data.type === 'SWITCH_TAB') {
+        const target = document.querySelector(`.nav-icon[data-tab="${data.tab}"]`);
+        if (target) target.click();
+    } else if (data.type === 'CYCLE_TAB') {
+        const all = Array.from(document.querySelectorAll('.nav-icon[data-tab]'))
+            .filter(t => t.offsetParent !== null || t.closest('.nav-flyout'));
+        const cur = all.findIndex(t => t.classList.contains('active'));
+        if (all.length) {
+            const dir = data.direction || 1;
+            const next = all[((cur >= 0 ? cur : 0) + dir + all.length) % all.length];
+            if (next) next.click();
+        }
+    } else if (data.type === 'FOCUS_SEARCH') {
+        const search = document.getElementById('player-search');
+        if (search) { search.focus(); search.select(); }
     }
 });
 
@@ -747,72 +777,340 @@ if (refreshBtn) {
     });
 }
 
-document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) && mainApp.style.display !== 'none') {
-        closeMenu();
+// Escape key listener : ferme le menu staff principal OU le quick menu si l'un d'eux est visible.
+document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' && event.keyCode !== 27) return;
+
+    // 1) Quick menu visible ? Fermer en priorité (overlay le plus haut)
+    const quickMenu = document.getElementById('quick-menu');
+    if (quickMenu && quickMenu.style.display !== 'none' && quickMenu.offsetParent !== null) {
+        event.preventDefault();
+        event.stopPropagation();
+        fetch(`https://${GetParentResourceName()}/close_quick_menu`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        });
+        return;
+    }
+
+    // 2) Sinon, menu staff principal visible ? Le fermer.
+    const mainPanel = document.getElementById('admin-panel') || document.getElementById('main-app');
+    const isMainVisible = mainPanel && !mainPanel.classList.contains('hidden') && mainPanel.offsetParent !== null;
+    if (isMainVisible) {
+        event.preventDefault();
+        event.stopPropagation();
+        // Cache l'UI tout de suite côté NUI (le serveur recevra aussi via le callback)
+        if (mainPanel) mainPanel.classList.add('hidden');
+        fetch(`https://${GetParentResourceName()}/closeMenu`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        });
     }
 });
 
 // Tabs logic
+window.activeTab = 'tab-dashboard';
+
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
         const targetId = tab.dataset.tab;
         if (!targetId) return;
 
+        // Track previous tab for cleanup
+        const previousTab = window.activeTab;
+        window.activeTab = targetId;
+
         tabs.forEach(t => t.classList.remove('active'));
-        
         tabContents.forEach(c => c.classList.remove('active'));
         
         tab.classList.add('active');
         const contentEl = document.getElementById(targetId);
         if (contentEl) {
             contentEl.classList.add('active');
-            
-            // Tab-specific refreshes
-            if (targetId === 'tab-dashboard') {
-                if (typeof map !== 'undefined' && map) setTimeout(() => map.invalidateSize(), 100);
-                if (typeof updateDashboard === 'function') updateDashboard();
-            } else if (targetId === 'tab-eco') {
-                if (typeof refreshEco === 'function') refreshEco();
-            } else if (targetId === 'tab-jobcreator' || targetId === 'tab-gangcreator') {
-                if (typeof updateMarkerNameList === 'function') updateMarkerNameList();
-                if (typeof renderMarkers === 'function') renderMarkers();
-            } else if (targetId === 'tab-players') {
-                if (typeof renderPlayers === 'function') renderPlayers();
-            } else if (targetId === 'tab-anticheat') {
-                if (typeof refreshAnticheat === 'function') refreshAnticheat();
-            }
-        }
-        
-        // Refresh data based on tab
-        if (targetId === 'tab-dashboard') {
-            if (typeof refreshDashboard === 'function') refreshDashboard();
-        } else if (targetId === 'tab-eco') {
-            if (typeof refreshEco === 'function') refreshEco();
-        } else if (targetId === 'tab-fleet') {
-            if (typeof refreshFleet === 'function') refreshFleet();
-        } else if (targetId === 'tab-inventory') {
-            if (typeof searchInventory === 'function') searchInventory();
-        } else if (targetId === 'tab-anticheat') {
-            if (typeof refreshAnticheat === 'function') refreshAnticheat();
         }
 
         // Keep menu wide as requested by user
         adminPanel.classList.remove('vertical');
-        
-        if (targetId === 'tab-dashboard' && map) {
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 100);
+
+        // Notify Lua side of tab change (so it can gate periodic sends)
+        post('tab_changed', { tab: targetId, previous: previousTab });
+
+        // Single unified refresh per tab (no duplicates)
+        // Lazy : on demande les gros datasets uniquement quand ce tab les nécessite.
+        switch (targetId) {
+            case 'tab-dashboard':
+                if (typeof updateDashboard === 'function') updateDashboard();
+                if (typeof map !== 'undefined' && map) setTimeout(() => map.invalidateSize(), 100);
+                break;
+            case 'tab-players':
+                if (typeof renderPlayers === 'function') renderPlayers();
+                break;
+            case 'tab-eco':
+                if (typeof refreshEco === 'function') refreshEco();
+                break;
+            case 'tab-fleet':
+                if (typeof refreshFleet === 'function') refreshFleet();
+                break;
+            case 'tab-inventory':
+                if (typeof window.ensureLazyData === 'function') window.ensureLazyData('items');
+                if (typeof searchInventory === 'function') searchInventory();
+                break;
+            case 'tab-anticheat':
+                if (typeof refreshAnticheat === 'function') refreshAnticheat();
+                break;
+            case 'tab-anticipher':
+                if (typeof refreshAntiCipher === 'function') refreshAntiCipher();
+                break;
+            case 'tab-console':
+                if (typeof initServerConsole === 'function') initServerConsole();
+                break;
+            case 'tab-jobcreator':
+            case 'tab-gangcreator':
+            case 'tab-drugcreator':
+                if (typeof window.ensureLazyData === 'function') window.ensureLazyData('items');
+                if (typeof updateMarkerNameList === 'function') updateMarkerNameList();
+                if (typeof renderMarkers === 'function') renderMarkers();
+                break;
+            case 'tab-robberycreator':
+                if (typeof rcReloadList === 'function') rcReloadList();
+                if (typeof rcSwitchType === 'function') rcSwitchType((window.rcState && window.rcState.currentType) || 'bank');
+                break;
+            case 'tab-zones':
+                fetch(`https://${GetParentResourceName()}/get_zones`, { method: 'POST' });
+                break;
+            case 'tab-inventorycreator':
+                // refreshInventoryCreator fait déjà son propre fetch — pas besoin de demander serverItems
+                if (typeof refreshInventoryCreator === 'function') refreshInventoryCreator();
+                break;
+            case 'tab-logs':
+                if (typeof window.ensureLazyData === 'function') window.ensureLazyData('logs');
+                if (typeof renderLogs === 'function') renderLogs();
+                break;
+            case 'tab-resources':
+                if (typeof window.ensureLazyData === 'function') window.ensureLazyData('resources');
+                if (typeof renderResources === 'function') renderResources();
+                break;
         }
 
-        // Data fetching for specific modules
-        const module = tab.dataset.module;
-        if (module === 'eco') refreshEco();
-        if (module === 'fleet') refreshFleet();
-        if (module === 'zones') fetch(`https://${GetParentResourceName()}/get_zones`, { method: 'POST' });
+        // Refermer le flyout après sélection d'un item de catégorie
+        if (tab.classList.contains('flyout-item')) {
+            document.querySelectorAll('.nav-category.open').forEach(c => c.classList.remove('open'));
+        }
+        // Marquer la catégorie parente comme contenant l'item actif
+        if (typeof window.updateCategoryActiveState === 'function') window.updateCategoryActiveState();
     });
 });
+
+// ============================================================
+// RESIZE HANDLE : poignée de redimensionnement coin bas-droit
+// ============================================================
+(function initResizeHandle() {
+    const panel = document.getElementById('admin-panel');
+    if (!panel) return;
+    if (document.getElementById('yol-resize-handle')) return; // déjà présent
+
+    const handle = document.createElement('div');
+    handle.id = 'yol-resize-handle';
+    handle.title = 'Redimensionner';
+    handle.innerHTML = '<div class="grip"></div>';
+    panel.appendChild(handle);
+
+    const STORAGE_KEY = 'yol_admin_size';
+    const MIN_W = 420, MIN_H = 400;
+    let resizing = false;
+    let startX = 0, startY = 0;
+    let startW = 0, startH = 0;
+
+    const onDown = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        resizing = true;
+        const point = e.touches ? e.touches[0] : e;
+        startX = point.clientX;
+        startY = point.clientY;
+        const rect = panel.getBoundingClientRect();
+        startW = rect.width;
+        startH = rect.height;
+        panel.classList.add('is-resizing');
+        handle.classList.add('resizing');
+        document.body.classList.add('yol-resizing');
+    };
+
+    const onMove = (e) => {
+        if (!resizing) return;
+        const point = e.touches ? e.touches[0] : e;
+        const maxW = window.innerWidth - 20;
+        const maxH = window.innerHeight - 20;
+        const newW = Math.max(MIN_W, Math.min(maxW, startW + (point.clientX - startX)));
+        const newH = Math.max(MIN_H, Math.min(maxH, startH + (point.clientY - startY)));
+        panel.style.width = newW + 'px';
+        panel.style.height = newH + 'px';
+        // Notifier les composants qui dépendent de la taille (map Leaflet, etc.)
+        if (window.map && typeof window.map.invalidateSize === 'function') {
+            window.map.invalidateSize();
+        }
+    };
+
+    const onUp = () => {
+        if (!resizing) return;
+        resizing = false;
+        panel.classList.remove('is-resizing');
+        handle.classList.remove('resizing');
+        document.body.classList.remove('yol-resizing');
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                width: panel.style.width,
+                height: panel.style.height,
+            }));
+        } catch (_) {}
+        if (window.map && typeof window.map.invalidateSize === 'function') {
+            setTimeout(() => window.map.invalidateSize(), 100);
+        }
+    };
+
+    handle.addEventListener('mousedown', onDown);
+    handle.addEventListener('touchstart', onDown, { passive: false });
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchend', onUp);
+
+    // Restaure la dernière taille
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (saved && saved.width && saved.height) {
+            // N'applique pas si on est en mode vertical (qui a sa propre taille)
+            if (!panel.classList.contains('vertical-mode')) {
+                panel.style.width = saved.width;
+                panel.style.height = saved.height;
+            }
+        }
+    } catch (_) {}
+})();
+
+// ============================================================
+// MODE VERTICAL : auto-iconize boutons + tooltip au survol
+// ============================================================
+(function initVerticalTooltips() {
+    // Iconify un bouton : extrait son texte → data-tooltip, le wrap en span pour masquage CSS
+    const iconifyBtn = (btn) => {
+        if (!btn || btn.dataset.vmodeApplied === '1') return;
+        // Texte principal : un span existant prioritaire, sinon les text nodes directs
+        let label = '';
+        const existingSpan = btn.querySelector(':scope > span');
+        if (existingSpan && existingSpan.textContent.trim()) {
+            label = existingSpan.textContent.trim();
+        } else {
+            const txtNodes = Array.from(btn.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+            if (txtNodes.length) {
+                label = txtNodes.map(n => n.textContent.trim()).join(' ').trim();
+                // Wrap chaque text node dans un span pour qu'on puisse le cacher en mode vertical
+                txtNodes.forEach(node => {
+                    const sp = document.createElement('span');
+                    sp.className = 'vmode-iconize-text';
+                    sp.textContent = node.textContent;
+                    node.parentNode.replaceChild(sp, node);
+                });
+            }
+        }
+        if (!label) return;
+        if (!btn.hasAttribute('data-tooltip')) btn.setAttribute('data-tooltip', label);
+        btn.classList.add('vmode-iconize');
+        btn.dataset.vmodeApplied = '1';
+    };
+
+    const apply = () => {
+        // 1) Catégories de configuration (sidebar interne du panel Configurations)
+        document.querySelectorAll('.cfg-cat').forEach(btn => {
+            if (btn.hasAttribute('data-tooltip')) return;
+            const span = btn.querySelector('span');
+            if (span && span.textContent.trim()) {
+                btn.setAttribute('data-tooltip', span.textContent.trim());
+            }
+        });
+
+        // 2) Boutons d'action principaux qui ont une icône + un texte
+        const selectors = [
+            '.perms-btn',                                  // panel Permissions
+            '.cfg-btn',                                    // panel Configurations
+            '#tab-permissions button:not(.perms-subtab)',  // tout bouton du panel Permissions (hors subtabs)
+            '#tab-configurations [onclick]',               // boutons header Configurations (Recharger, Sauver, etc.)
+            '#tab-server button.btn-action-lg',
+            '#tab-vehicles button.btn-action-lg',
+            '#tab-eco button.btn-action-lg',
+            '#tab-fleet button.btn-action-lg',
+        ];
+        document.querySelectorAll(selectors.join(',')).forEach(btn => {
+            // Ne pas iconifier les boutons sans icône <i>
+            if (!btn.querySelector('i')) return;
+            iconifyBtn(btn);
+        });
+    };
+    apply();
+    // Re-applique après render (boutons rendus en différé)
+    setTimeout(apply, 400);
+    setTimeout(apply, 1200);
+
+    // Watcher pour les boutons ajoutés dynamiquement (ex. cartes joueur, items)
+    const observer = new MutationObserver((mutations) => {
+        let needsApply = false;
+        for (const m of mutations) {
+            for (const n of m.addedNodes) {
+                if (n.nodeType === 1 && (n.matches?.('.perms-btn, .cfg-btn, .btn-action-lg') || n.querySelector?.('.perms-btn, .cfg-btn, .btn-action-lg'))) {
+                    needsApply = true; break;
+                }
+            }
+            if (needsApply) break;
+        }
+        if (needsApply) apply();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// ============================================================
+// Catégories dépliantes (Modérations / Administrations / etc.)
+// ============================================================
+(function initNavCategories() {
+    const categories = document.querySelectorAll('.nav-category');
+    if (!categories.length) return;
+
+    const closeAllCategories = (except) => {
+        categories.forEach(cat => {
+            if (cat !== except) cat.classList.remove('open');
+        });
+    };
+
+    categories.forEach(cat => {
+        const btn = cat.querySelector('.nav-category-btn');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = cat.classList.contains('open');
+            closeAllCategories();
+            if (!isOpen) cat.classList.add('open');
+        });
+    });
+
+    // Empêcher la fermeture lorsqu'on clique à l'intérieur d'un flyout
+    document.querySelectorAll('.nav-flyout').forEach(fly => {
+        fly.addEventListener('click', (e) => e.stopPropagation());
+    });
+
+    // Fermer toute catégorie ouverte au clic ailleurs sur la page
+    document.addEventListener('click', () => closeAllCategories());
+
+    // Highlight la catégorie qui contient l'onglet actif
+    window.updateCategoryActiveState = () => {
+        categories.forEach(cat => {
+            const hasActive = !!cat.querySelector('.flyout-item.active');
+            const btn = cat.querySelector('.nav-category-btn');
+            if (btn) btn.dataset.hasActive = hasActive ? 'true' : 'false';
+        });
+    };
+    window.updateCategoryActiveState();
+})();
 
 // Render Players List
 const renderPlayers = (manualFilter = null) => {
@@ -899,54 +1197,14 @@ window.inspectPlayerFromEco = (identifier) => {
     if (!identifier || identifier === 'Système') return;
     
     // Switch to players tab
-    const playerTabBtn = document.querySelector('button[onclick*="players"]');
+    const playerTabBtn = document.querySelector('.nav-icon[data-tab="tab-players"]');
     if (playerTabBtn) playerTabBtn.click();
     
     // Try to find player in data
-    const player = playersData.find(p => p.identifier === identifier);
+    const player = playersData.find(p => p.identifier === identifier || (p.license && p.license === identifier));
     if (player) {
-        selectPlayer(player.id);
+        setTimeout(() => selectPlayer(player.id, player.name, player.online), 100);
     }
-};
-
-window.updateEcoUI = (data) => {
-    if (!data) return;
-    document.getElementById('eco-total-money').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD' }).format(data.totalMoney || 0);
-    document.getElementById('eco-avg-money').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD' }).format(data.avgMoney || 0);
-    document.getElementById('eco-richest-name').textContent = data.richestName || 'N/A';
-    document.getElementById('eco-total-black').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD' }).format(data.totalBlack || 0);
-
-    const tbody = document.getElementById('eco-transactions-body');
-    tbody.innerHTML = '';
-    (data.transactions || []).forEach(tx => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-b border-white/5 hover:bg-white/5 transition-colors';
-        tr.innerHTML = `
-            <td class="py-3 text-white/40">${tx.date}</td>
-            <td class="py-3 font-bold">${tx.from}</td>
-            <td class="py-3 font-bold">${tx.to}</td>
-            <td class="py-3 font-black text-emerald-400">${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD' }).format(tx.amount)}</td>
-            <td class="py-3 text-right">
-                <button class="w-8 h-8 bg-white/5 hover:bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 hover:text-white transition-all" onclick="inspectPlayerFromEco('${tx.fromIdentifier}')" title="Inspecter le joueur"><i class="fa-solid fa-eye text-[11px]"></i></button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-
-    const topList = document.getElementById('eco-top-players');
-    topList.innerHTML = '';
-    (data.topPlayers || []).forEach((p, i) => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/5';
-        div.innerHTML = `
-            <div class="flex items-center gap-3">
-                <span class="text-[10px] font-black text-white/20">#${i+1}</span>
-                <span class="text-[11px] font-bold">${p.name}</span>
-            </div>
-            <span class="text-[10px] font-black text-emerald-400">${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD' }).format(p.money)}</span>
-        `;
-        topList.appendChild(div);
-    });
 };
 
 // ════════════════════════════════════════════
@@ -1250,16 +1508,7 @@ window.updateFleetUI = updateFleetUI;
 window.removeItemFromInv = removeItemFromInv;
 window.giveItemToStaff = giveItemToStaff;
 window.refreshInventory = refreshInventory;
-// Smooth Update Loop for Markers
-function markerLoop() {
-    if (map && !adminPanel.classList.contains('hidden')) {
-        // Removed dead call
-    }
-    requestAnimationFrame(markerLoop);
-}
-requestAnimationFrame(markerLoop);
 
-window.renderPlayers = renderPlayers;
 window.selectPlayer = selectPlayer;
 window.translateUI = translateUI;
 window.initMap = initMap;
@@ -1356,8 +1605,8 @@ const updateEcoUI = (data) => {
                     <td class="py-3 font-black uppercase text-white">${t.from}</td>
                     <td class="py-3 font-black uppercase text-white">${t.to}</td>
                     <td class="py-3 font-black text-emerald-400">${(t.amount || 0).toLocaleString()} $</td>
-                    <td class="py-3 text-right">
-                        <button class="bg-white/5 hover:bg-white/10 p-1.5 rounded" onclick="post('action', {type:'server', action:'get_transaction_details', id:'${t.id}'})"><i class="fa-solid fa-circle-info"></i></button>
+                    <td class="py-3 text-right flex gap-2 justify-end">
+                        <button class="bg-white/5 hover:bg-blue-500/20 p-1.5 rounded text-blue-400 hover:text-white transition-all" onclick="inspectPlayerFromEco('${t.fromIdentifier}')" title="Inspecter l'expéditeur"><i class="fa-solid fa-eye"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1429,7 +1678,7 @@ function initPlayerActions() {
             { i: 'fa-magnet', l: _L('ui_bring') || 'Amener', a: 'bring' },
             { i: 'fa-location-dot', l: _L('ui_coords') || 'Coords', a: 'setcoords' },
             { i: 'fa-rotate-left', l: _L('ui_return') || 'Retour', a: 'sendback' },
-            { i: 'fa-ban', l: _L('ui_ban') || 'Bannir', a: 'ban', c: 'action-slot-ban' }
+            { i: 'fa-ban', l: 'Ban', a: 'ban', c: 'action-slot-ban' }
         ],
         'cat-economy': [
             { i: 'fa-box-open', l: _L('ui_inventory') || 'Inventaire', a: 'inventory' },
@@ -1439,7 +1688,7 @@ function initPlayerActions() {
         ],
         'cat-admin': [
             { i: 'fa-user-pen', l: _L('ui_set_job') || 'Set Job', a: 'setjob' },
-            { i: 'fa-user-secret', l: _L('ui_set_gang') || 'Modifier Gang', a: 'setgang' },
+            { i: 'fa-user-secret', l: 'Set Gang', a: 'setgang' },
             // Set Group retiré : géré via le module Permissions (groupes Yol)
             { i: 'fa-mask', l: _L('ui_set_model') || 'Set Model', a: 'setmodel' },
             { i: 'fa-circle-info', l: _L('ui_infos') || 'Infos', a: 'copyid' },
@@ -1496,36 +1745,27 @@ function initPlayerActions() {
 };
 
 function initVehicleActions() {
-    const essentials = [
-        { i: 'fa-wrench', l: 'Réparer', a: 'repair_veh' },
-        { i: 'fa-trash', l: 'Supprimer', a: 'dv_veh' },
-        { i: 'fa-arrows-rotate', l: 'Retourner', a: 'flip' },
-        { i: 'fa-key', l: 'Clés', a: 'give_veh_key' }
-    ];
-    
-    const advanced = [
-        { i: 'fa-box-open', l: 'Coffre', a: 'trunk' },
-        { i: 'fa-gas-pump', l: 'Carburant', a: 'fuel' }
+    // Grille unifiée d'actions véhicule (anciennement splittée en "Essentielles" + "Avancée")
+    const actions = [
+        { i: 'fa-wrench',          l: 'Réparer',    a: 'repair_veh' },
+        { i: 'fa-arrows-rotate',   l: 'Retourner',  a: 'flip' },
+        { i: 'fa-key',             l: 'Clés',       a: 'give_veh_key' },
+        { i: 'fa-box-open',        l: 'Coffre',     a: 'trunk' },
+        { i: 'fa-gas-pump',        l: 'Carburant',  a: 'fuel' },
+        { i: 'fa-trash',           l: 'Supprimer',  a: 'dv_veh', danger: true }
     ];
 
-    const essentialGrid = document.getElementById('vehicle-actions-grid');
-    const manageGrid = document.getElementById('vehicle-manage-grid');
-    
-    if (essentialGrid) {
-        essentialGrid.innerHTML = '';
-        essentials.forEach(act => essentialGrid.appendChild(createSlot(act.i, act.l, () => {
+    const grid = document.getElementById('vehicle-actions-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    actions.forEach(act => {
+        const slot = createSlot(act.i, act.l, () => {
             const target = selectedPlayerId || -1;
             post('action', { type: 'player', action: act.a, target: target });
-        })));
-    }
-    
-    if (manageGrid) {
-        manageGrid.innerHTML = '';
-        advanced.forEach(act => manageGrid.appendChild(createSlot(act.i, act.l, () => {
-            const target = selectedPlayerId || -1;
-            post('action', { type: 'player', action: act.a, target: target });
-        })));
-    }
+        });
+        if (act.danger) slot.classList.add('action-slot-ban'); // réutilise le style danger existant
+        grid.appendChild(slot);
+    });
 };
 
 // Initial calls
@@ -1586,19 +1826,63 @@ window.renderLogs = () => {
         list.innerHTML = `<div class="flex items-center justify-center p-20 opacity-20 flex-col gap-4"><i class="fa-solid fa-clock-rotate-left text-5xl"></i><span class="text-xs font-black uppercase tracking-widest">${_L('ui_no_logs_found') || 'Aucun log trouvé'}</span></div>`;
         return;
     }
+    
     logs.forEach(log => {
         const div = document.createElement('div');
-        const adminName = (log.firstname || log.lastname) ? `${log.firstname} ${log.lastname}` : 'Console';
-        div.className = 'bg-black/60 border border-white/5 p-4 rounded-xl flex flex-col gap-2 shadow-lg';
+        const adminName = (log.firstname || log.lastname) ? `${log.firstname || ''} ${log.lastname || ''}`.trim() : (log.admin === 'Console' ? 'Console' : (log.admin || 'Inconnu'));
+        
+        let icon = 'fa-clipboard-list';
+        let color = 'text-admin-gold';
+        const act = (log.action || '').toLowerCase();
+        
+        if (act.includes('revive') || act.includes('heal')) { icon = 'fa-heart'; color = 'text-rose-400'; }
+        else if (act.includes('food') || act.includes('water') || act.includes('fed')) { icon = 'fa-burger'; color = 'text-orange-400'; }
+        else if (act.includes('ban') || act.includes('kick')) { icon = 'fa-gavel'; color = 'text-red-500'; }
+        else if (act.includes('teleport') || act.includes('bring') || act.includes('goto')) { icon = 'fa-location-dot'; color = 'text-blue-400'; }
+        else if (act.includes('vehicle') || act.includes('car')) { icon = 'fa-car'; color = 'text-zinc-300'; }
+        else if (act.includes('item') || act.includes('weapon') || act.includes('money') || act.includes('give')) { icon = 'fa-gift'; color = 'text-emerald-400'; }
+        else if (act.includes('job') || act.includes('gang')) { icon = 'fa-briefcase'; color = 'text-yellow-400'; }
+        else if (act.includes('blackout') || act.includes('weather') || act.includes('time')) { icon = 'fa-cloud-moon'; color = 'text-indigo-400'; }
+        else if (act.includes('freeze')) { icon = 'fa-snowflake'; color = 'text-cyan-400'; }
+
+        // Format Date
+        let dateStr = '';
+        if (log.timestamp) {
+            const dateObj = new Date(log.timestamp);
+            if (!isNaN(dateObj)) {
+                dateStr = dateObj.toLocaleString('fr-FR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }).replace(',', ' à');
+            }
+        } else if (log.date) {
+            dateStr = log.date;
+        }
+
+        div.className = 'bg-black/40 border border-white/5 p-4 rounded-xl flex flex-col gap-3 shadow-lg relative overflow-hidden transition-all hover:bg-black/60 hover:border-white/10 shrink-0';
         div.innerHTML = `
-            <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                <div class="flex flex-col">
-                    <span class="text-[10px] font-black text-admin-gold uppercase tracking-wider">${log.action || 'ACTION'}</span>
-                    <span class="text-[8px] font-bold text-white/40 uppercase">Par: ${adminName}</span>
-                </div>
-                <span class="text-[8px] font-bold text-white/20 uppercase bg-black/40 px-2 py-1 rounded">${log.date || ''}</span>
+            <div class="absolute -right-4 -top-4 opacity-[0.03] pointer-events-none">
+                <i class="fa-solid ${icon} text-8xl"></i>
             </div>
-            <p class="text-[10px] text-white/80 italic">"${log.details || log.message || ''}"</p>
+            <div class="flex justify-between items-start border-b border-white/5 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center border border-white/5 shadow-inner">
+                        <i class="fa-solid ${icon} ${color}"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[11px] font-black text-white uppercase tracking-widest">${log.action || 'ACTION'}</span>
+                        <span class="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-0.5">Par: <span class="text-white/80">${adminName}</span></span>
+                    </div>
+                </div>
+                ${dateStr ? `<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/40 border border-white/5">
+                    <i class="fa-regular fa-clock text-[9px] text-white/20"></i>
+                    <span class="text-[9px] font-black text-white/40 uppercase">${dateStr}</span>
+                </div>` : ''}
+            </div>
+            <div class="bg-black/20 p-3 rounded-lg border border-white/5 pl-4 relative">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-white/5 rounded-l-lg"></div>
+                <p class="text-[11px] text-white/70 font-mono italic">"${log.details || log.message || ''}"</p>
+            </div>
         `;
         list.appendChild(div);
     });
@@ -1771,8 +2055,6 @@ window.closeTacticalMap = closeTacticalMap;
 
 const toggleMapExpand = () => openTacticalMap();
 window.toggleMapExpand = toggleMapExpand;
-
-// Removed redundant syncMapMarkers definition
 
 window.toggleDev = (type) => {
     const dot = document.getElementById(`toggle-${type}-dot`);
@@ -2269,6 +2551,11 @@ window.handleAdminPiPStart = async (targetId) => {
 };
 
 window.handleWebRTCOffer = async (senderId, offer) => {
+    // Multi-PiP: route to the matching slot if the sender is monitored there
+    if (window.multiPipConnections && window.multiPipConnections[senderId]) {
+        return window.handleMultiPipOffer(senderId, offer);
+    }
+
     if (senderId != window.currentPiPTargetId) {
 
         return;
@@ -2346,6 +2633,14 @@ window.handleWebRTCAnswer = async (senderId, answer) => {
 };
 
 window.handleWebRTCCandidate = async (senderId, candidate) => {
+    // Multi-PiP: route candidate to the matching slot connection
+    if (window.multiPipConnections && window.multiPipConnections[senderId] && window.multiPipConnections[senderId].pc) {
+        try {
+            await window.multiPipConnections[senderId].pc.addIceCandidate(new RTCIceCandidate(candidate));
+        } catch (err) {}
+        return;
+    }
+
     const pc = (senderId == window.currentPiPTargetId) ? window.adminPeerConnection : window.activePeerConnections[senderId];
     if (pc) {
         try {
@@ -2480,4 +2775,1968 @@ window.togglePipFullscreen = () => {
         pipContainer.style.right = '0';
     }
 };
+
+
+// ════════════════════════════════════════════
+// MULTI-PIP SURVEILLANCE SYSTEM
+// ════════════════════════════════════════════
+window.multiPipSlots = [];               // [{ slotId, targetId, status }]
+window.multiPipConnections = {};         // targetId -> { pc, slotId, videoEl }
+window.multiPipLayout = 4;               // 2 | 4 | 6 | 9
+window.multiPipPickerSlotId = null;      // currently picking for which slot
+
+const MULTIPIP_LAYOUT_CSS = {
+    2: 'repeat(2, minmax(0, 1fr))',
+    4: 'repeat(2, minmax(0, 1fr))',
+    6: 'repeat(3, minmax(0, 1fr))',
+    9: 'repeat(3, minmax(0, 1fr))'
+};
+
+window.initMultiPipGrid = (count) => {
+    const grid = document.getElementById('multipip-grid');
+    if (!grid) return;
+
+    count = count || window.multiPipLayout || 4;
+    window.multiPipLayout = count;
+
+    // Preserve existing assignments and detach connections we'll remove
+    const oldSlots = window.multiPipSlots || [];
+    const newSlots = [];
+    for (let i = 0; i < count; i++) {
+        const existing = oldSlots[i];
+        newSlots.push(existing || { slotId: i, targetId: null, status: 'empty' });
+    }
+
+    // Disconnect slots beyond the new count
+    for (let i = count; i < oldSlots.length; i++) {
+        if (oldSlots[i] && oldSlots[i].targetId) {
+            stopMultiPipSlot(oldSlots[i].slotId, true);
+        }
+    }
+
+    window.multiPipSlots = newSlots;
+    grid.style.gridTemplateColumns = MULTIPIP_LAYOUT_CSS[count] || MULTIPIP_LAYOUT_CSS[4];
+    grid.innerHTML = '';
+    newSlots.forEach(slot => grid.appendChild(buildMultiPipSlot(slot)));
+
+    document.querySelectorAll('.mpip-layout-btn').forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.mpipLayout, 10) === count);
+    });
+
+    updateMultiPipStatusBar();
+};
+
+const buildMultiPipSlot = (slot) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'mpip-slot';
+    wrap.dataset.slotId = slot.slotId;
+
+    if (!slot.targetId) {
+        wrap.classList.add('empty');
+        wrap.innerHTML = `
+            <div class="flex flex-col items-center justify-center gap-2 text-white/30">
+                <i class="fa-solid fa-circle-plus text-2xl"></i>
+                <span class="text-[9px] font-black uppercase tracking-[0.3em]">Slot ${slot.slotId + 1}</span>
+                <span class="text-[8px] font-bold uppercase tracking-widest text-indigo-400/60">Cliquer pour ajouter</span>
+            </div>
+        `;
+        wrap.addEventListener('click', () => openMultiPipPicker(slot.slotId));
+        return wrap;
+    }
+
+    const player = (window.playersData || []).find(p => p.id == slot.targetId);
+    const displayName = player ? player.name : ('Joueur ' + slot.targetId);
+
+    wrap.classList.add('active');
+    const voiceMuted = !!slot.voiceMuted;
+    wrap.innerHTML = `
+        <div class="mpip-slot-header">
+            <div class="mpip-slot-status">
+                <span class="mpip-status-dot" data-role="status-dot"></span>
+                <span class="text-white/90 truncate max-w-[140px]" title="${displayName}">${displayName}</span>
+                <span class="text-white/40">#${slot.targetId}</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <button class="mpip-action-btn ${voiceMuted ? 'mpip-voice-muted' : 'mpip-voice-on'}" data-role="voice" title="${voiceMuted ? "Activer l'écoute" : "Couper l'écoute"}">
+                    <i class="fa-solid ${voiceMuted ? 'fa-microphone-slash' : 'fa-microphone'}"></i>
+                </button>
+                <button class="mpip-action-btn danger" data-role="stop" title="Arrêter">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+        <video class="mpip-slot-video" autoplay playsinline muted></video>
+        <div class="mpip-slot-loader" data-role="loader">
+            <div class="mpip-loader-spinner"></div>
+            <span class="text-[8px] font-black text-white/40 uppercase tracking-widest">Connexion...</span>
+        </div>
+        <div class="mpip-slot-footer">
+            <button class="mpip-action-btn" data-role="spectate" title="Spectate">
+                <i class="fa-solid fa-eye mr-1"></i> Spectate
+            </button>
+            <button class="mpip-action-btn" data-role="goto" title="Téléporter à ce joueur">
+                <i class="fa-solid fa-location-arrow mr-1"></i> Goto
+            </button>
+            <button class="mpip-action-btn" data-role="focus" title="Voir en grand (PiP solo)">
+                <i class="fa-solid fa-expand mr-1"></i> Focus
+            </button>
+            <button class="mpip-action-btn" data-role="swap" title="Changer de joueur">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </button>
+        </div>
+    `;
+
+    wrap.querySelector('[data-role="stop"]').addEventListener('click', (e) => { e.stopPropagation(); stopMultiPipSlot(slot.slotId); });
+    wrap.querySelector('[data-role="voice"]').addEventListener('click', (e) => { e.stopPropagation(); toggleMultiPipVoice(slot.slotId); });
+    wrap.querySelector('[data-role="spectate"]').addEventListener('click', (e) => { e.stopPropagation(); post('action', { type: 'player', action: 'spectate', target: slot.targetId }); });
+    wrap.querySelector('[data-role="goto"]').addEventListener('click', (e) => { e.stopPropagation(); post('action', { type: 'player', action: 'goto', target: slot.targetId }); });
+    wrap.querySelector('[data-role="focus"]').addEventListener('click', (e) => { e.stopPropagation(); post('action', { type: 'player', action: 'pip_start', target: slot.targetId }); });
+    wrap.querySelector('[data-role="swap"]').addEventListener('click', (e) => { e.stopPropagation(); openMultiPipPicker(slot.slotId); });
+
+    // Re-attach existing stream (covers layout changes that recreate the DOM)
+    const existingConn = window.multiPipConnections[slot.targetId];
+    if (existingConn) {
+        const video = wrap.querySelector('video');
+        existingConn.videoEl = video;
+        if (existingConn.stream && video) {
+            video.srcObject = existingConn.stream;
+            video.play().catch(() => {});
+            const loader = wrap.querySelector('[data-role="loader"]');
+            if (loader) loader.style.display = 'none';
+            const dot = wrap.querySelector('[data-role="status-dot"]');
+            if (dot) dot.classList.add('live');
+        }
+    }
+
+    return wrap;
+};
+
+window.openMultiPipPicker = (slotId) => {
+    window.multiPipPickerSlotId = slotId;
+    const modal = document.getElementById('multipip-picker');
+    const search = document.getElementById('multipip-picker-search');
+    if (search) search.value = '';
+    if (modal) modal.style.display = 'flex';
+    renderMultiPipPickerList('');
+    setTimeout(() => search && search.focus(), 50);
+};
+
+window.closeMultiPipPicker = () => {
+    const modal = document.getElementById('multipip-picker');
+    if (modal) modal.style.display = 'none';
+    window.multiPipPickerSlotId = null;
+};
+
+window.renderMultiPipPickerList = (filterRaw) => {
+    const list = document.getElementById('multipip-picker-list');
+    if (!list) return;
+    const filter = (filterRaw || '').toLowerCase();
+    list.innerHTML = '';
+
+    const used = new Set((window.multiPipSlots || []).map(s => s.targetId).filter(Boolean).map(String));
+    const players = (window.playersData || []).filter(p => p.online).filter(p => {
+        if (!filter) return true;
+        return p.name.toLowerCase().includes(filter) || String(p.id).includes(filter);
+    });
+
+    if (players.length === 0) {
+        list.innerHTML = '<div class="text-[10px] text-white/30 italic text-center p-4">Aucun joueur en ligne</div>';
+        return;
+    }
+
+    players.forEach(p => {
+        const taken = used.has(String(p.id));
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all border ${taken ? 'bg-white/5 border-white/5 opacity-50' : 'bg-black/40 border-white/5 hover:bg-indigo-500/10 hover:border-indigo-500/30'}`;
+        row.innerHTML = `
+            <div class="flex items-center gap-2 min-w-0">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></div>
+                <span class="text-[10px] font-black text-white/90 uppercase truncate">${p.name}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[8px] font-black text-white/30">ID: ${p.id}</span>
+                ${taken ? '<span class="text-[7px] font-black uppercase tracking-widest text-amber-400">EN COURS</span>' : '<i class="fa-solid fa-circle-plus text-indigo-400 text-[10px]"></i>'}
+            </div>
+        `;
+        if (!taken) {
+            row.addEventListener('click', () => assignMultiPipSlot(window.multiPipPickerSlotId, p.id));
+        }
+        list.appendChild(row);
+    });
+};
+
+window.assignMultiPipSlot = (slotId, targetId) => {
+    if (slotId === null || slotId === undefined) return;
+    const slot = (window.multiPipSlots || []).find(s => s.slotId === slotId);
+    if (!slot) return;
+
+    // If slot already had a target, stop it first
+    if (slot.targetId && slot.targetId != targetId) {
+        stopMultiPipSlot(slotId, true);
+    }
+
+    slot.targetId = targetId;
+    slot.status = 'connecting';
+    window.multiPipConnections[targetId] = { pc: null, slotId: slotId, videoEl: null };
+
+    // Rebuild only the changed slot
+    rebuildMultiPipSlot(slotId);
+
+    // Request the target to start screen sharing for this admin
+    post('action', { type: 'player', action: 'multipip_start', target: targetId });
+
+    closeMultiPipPicker();
+    updateMultiPipStatusBar();
+};
+
+const rebuildMultiPipSlot = (slotId) => {
+    const grid = document.getElementById('multipip-grid');
+    if (!grid) return;
+    const oldEl = grid.querySelector(`.mpip-slot[data-slot-id="${slotId}"]`);
+    if (!oldEl) return;
+    const slot = (window.multiPipSlots || []).find(s => s.slotId === slotId);
+    if (!slot) return;
+    const newEl = buildMultiPipSlot(slot);
+    grid.replaceChild(newEl, oldEl);
+};
+
+window.stopMultiPipSlot = (slotId, skipRebuild) => {
+    const slot = (window.multiPipSlots || []).find(s => s.slotId === slotId);
+    if (!slot) return;
+    const targetId = slot.targetId;
+    if (!targetId) return;
+
+    // Close peer connection
+    const conn = window.multiPipConnections[targetId];
+    if (conn && conn.pc) {
+        try { conn.pc.close(); } catch (e) {}
+    }
+    delete window.multiPipConnections[targetId];
+
+    slot.targetId = null;
+    slot.status = 'empty';
+
+    // Tell the target to stop its screen share for us
+    post('action', { type: 'player', action: 'multipip_stop', target: targetId });
+
+    if (!skipRebuild) rebuildMultiPipSlot(slotId);
+    updateMultiPipStatusBar();
+};
+
+window.stopAllMultiPip = () => {
+    (window.multiPipSlots || []).slice().forEach(s => {
+        if (s.targetId) stopMultiPipSlot(s.slotId, true);
+    });
+    // Safety net: ask Lua to drop any lingering voice listens
+    post('multipip_voice_stop_all', {});
+    // Rebuild entire grid to refresh
+    initMultiPipGrid(window.multiPipLayout);
+};
+
+window.toggleMultiPipVoice = (slotId) => {
+    const slot = (window.multiPipSlots || []).find(s => s.slotId === slotId);
+    if (!slot || !slot.targetId) return;
+
+    slot.voiceMuted = !slot.voiceMuted;
+    if (slot.voiceMuted) {
+        post('action', { type: 'player', action: 'multipip_voice_off', target: slot.targetId });
+    } else {
+        post('action', { type: 'player', action: 'multipip_voice_on', target: slot.targetId });
+    }
+    rebuildMultiPipSlot(slotId);
+};
+
+window.handleMultiPipOffer = async (senderId, offer) => {
+    const conn = window.multiPipConnections[senderId];
+    if (!conn) return;
+
+    const grid = document.getElementById('multipip-grid');
+    if (!grid) return;
+    const slotEl = grid.querySelector(`.mpip-slot[data-slot-id="${conn.slotId}"]`);
+    if (!slotEl) return;
+    const videoEl = slotEl.querySelector('video');
+    const loader = slotEl.querySelector('[data-role="loader"]');
+    const statusDot = slotEl.querySelector('[data-role="status-dot"]');
+
+    try {
+        if (conn.pc) {
+            try { conn.pc.close(); } catch (e) {}
+        }
+        const pc = new RTCPeerConnection({
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        });
+        conn.pc = pc;
+        conn.videoEl = videoEl;
+
+        pc.onicecandidate = (event) => {
+            if (event.candidate) {
+                fetch(`https://${GetParentResourceName()}/webrtc_candidate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ targetId: senderId, candidate: event.candidate })
+                });
+            }
+        };
+
+        pc.ontrack = (event) => {
+            conn.stream = event.streams[0];
+            // Always look up the current videoEl in case the DOM was rebuilt
+            const currentVideoEl = (document.querySelector(`.mpip-slot[data-slot-id="${conn.slotId}"] video`)) || videoEl;
+            if (currentVideoEl) {
+                currentVideoEl.srcObject = event.streams[0];
+                currentVideoEl.play().catch(() => {});
+                conn.videoEl = currentVideoEl;
+            }
+            const currentLoader = document.querySelector(`.mpip-slot[data-slot-id="${conn.slotId}"] [data-role="loader"]`);
+            if (currentLoader) currentLoader.style.display = 'none';
+            const currentDot = document.querySelector(`.mpip-slot[data-slot-id="${conn.slotId}"] [data-role="status-dot"]`);
+            if (currentDot) currentDot.classList.add('live');
+            const slot = (window.multiPipSlots || []).find(s => s.slotId === conn.slotId);
+            if (slot) slot.status = 'live';
+            updateMultiPipStatusBar();
+        };
+
+        pc.onconnectionstatechange = () => {
+            if (!pc) return;
+            if (['failed', 'disconnected', 'closed'].includes(pc.connectionState)) {
+                if (statusDot) {
+                    statusDot.classList.remove('live');
+                    statusDot.classList.add('error');
+                }
+            }
+        };
+
+        await pc.setRemoteDescription(new RTCSessionDescription(offer));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+
+        fetch(`https://${GetParentResourceName()}/webrtc_answer`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ targetId: senderId, answer: answer })
+        });
+    } catch (err) {
+        if (loader) loader.style.display = 'none';
+        if (statusDot) {
+            statusDot.classList.remove('live');
+            statusDot.classList.add('error');
+        }
+    }
+};
+
+const updateMultiPipStatusBar = () => {
+    const active = (window.multiPipSlots || []).filter(s => s.targetId).length;
+    const connected = Object.values(window.multiPipConnections || {}).filter(c => c.pc && c.pc.connectionState === 'connected').length;
+    const a = document.getElementById('multipip-active-count');
+    const c = document.getElementById('multipip-connected-count');
+    if (a) a.textContent = active;
+    if (c) c.textContent = connected;
+};
+
+// Init on DOM ready + bind layout buttons + close picker on backdrop click
+document.addEventListener('DOMContentLoaded', () => {
+    // Build initial grid
+    initMultiPipGrid(window.multiPipLayout);
+
+    document.querySelectorAll('.mpip-layout-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const layout = parseInt(btn.dataset.mpipLayout, 10) || 4;
+            initMultiPipGrid(layout);
+        });
+    });
+
+    const picker = document.getElementById('multipip-picker');
+    if (picker) {
+        picker.addEventListener('click', (e) => {
+            if (e.target === picker) closeMultiPipPicker();
+        });
+    }
+
+    // Refresh picker list whenever the players data updates and the picker is open
+    setInterval(() => {
+        const modal = document.getElementById('multipip-picker');
+        if (modal && modal.style.display !== 'none') {
+            const search = document.getElementById('multipip-picker-search');
+            renderMultiPipPickerList(search ? search.value : '');
+        }
+        updateMultiPipStatusBar();
+    }, 2000);
+});
+
+
+// ════════════════════════════════════════════
+// YOL_ANTICHEAT ANTI-CIPHER SYSTEM
+// ════════════════════════════════════════════
+window.cipherData = {
+    detections: [],
+    scannedFiles: 0,
+    threatCount: 0,
+    scanTime: 0,
+    status: 'idle',
+    active: false
+};
+
+window.refreshAntiCipher = () => {
+    post('get_anticipher_data', {});
+};
+
+window.triggerAntiCipherScan = () => {
+    const scanBtn = document.getElementById('anticipher-scan-btn');
+    if (scanBtn) {
+        scanBtn.disabled = true;
+        scanBtn.classList.add('opacity-50', 'pointer-events-none');
+        scanBtn.innerHTML = `<i class="fa-solid fa-arrows-spin animate-spin"></i> Scan en cours...`;
+    }
+    
+    const statusText = document.getElementById('cipher-stat-status');
+    const statusIcon = document.getElementById('cipher-status-icon');
+    if (statusText) {
+        statusText.textContent = "Scan en cours...";
+        statusText.className = "text-xs font-black text-amber-500 animate-pulse";
+    }
+    if (statusIcon) {
+        statusIcon.innerHTML = `<i class="fa-solid fa-arrows-spin animate-spin text-xs"></i>`;
+    }
+
+    post('trigger_anticipher_scan', {});
+};
+
+window.updateAntiCipherUI = (data) => {
+    if (!data) return;
+    window.cipherData = data;
+    
+    const scanBtn = document.getElementById('anticipher-scan-btn');
+    if (scanBtn) {
+        scanBtn.disabled = false;
+        scanBtn.classList.remove('opacity-50', 'pointer-events-none');
+        scanBtn.innerHTML = `<i class="fa-solid fa-radar animate-pulse"></i> Lancer un Scan Complet`;
+    }
+
+    const statusText = document.getElementById('cipher-stat-status');
+    const statusIcon = document.getElementById('cipher-status-icon');
+    const scannedText = document.getElementById('cipher-stat-scanned');
+    const threatsText = document.getElementById('cipher-stat-threats');
+    const threatsIconBox = document.getElementById('cipher-threats-icon-box');
+    const timeText = document.getElementById('cipher-stat-time');
+
+    let statusLabel = "Prêt";
+    let statusClass = "text-xs font-black text-amber-400";
+    let iconHTML = `<i class="fa-solid fa-circle-check text-xs"></i>`;
+
+    if (data.status === 'scanning') {
+        statusLabel = "Scan en cours...";
+        statusClass = "text-xs font-black text-amber-500 animate-pulse";
+        iconHTML = `<i class="fa-solid fa-arrows-spin animate-spin text-xs"></i>`;
+    } else if (data.status === 'done') {
+        if (data.threatCount > 0) {
+            statusLabel = "Menace(s) Trouvée(s)";
+            statusClass = "text-xs font-black text-rose-500 animate-pulse";
+            iconHTML = `<i class="fa-solid fa-triangle-exclamation text-xs"></i>`;
+        } else {
+            statusLabel = "Sécurisé";
+            statusClass = "text-xs font-black text-emerald-400";
+            iconHTML = `<i class="fa-solid fa-shield text-xs"></i>`;
+        }
+    }
+
+    if (statusText) {
+        statusText.textContent = statusLabel;
+        statusText.className = statusClass;
+    }
+    if (statusIcon) {
+        statusIcon.innerHTML = iconHTML;
+        statusIcon.className = `w-6 h-6 rounded-lg flex items-center justify-center ${data.threatCount > 0 ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'}`;
+    }
+
+    if (scannedText) scannedText.textContent = data.scannedFiles || 0;
+    if (threatsText) threatsText.textContent = data.threatCount || 0;
+    if (timeText) timeText.textContent = (data.scanTime || 0) + "s";
+
+    if (threatsIconBox) {
+        threatsIconBox.className = `w-6 h-6 rounded-lg flex items-center justify-center ${data.threatCount > 0 ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400 animate-bounce' : 'bg-rose-500/10 border border-rose-500/20 text-rose-400'}`;
+    }
+
+    renderCipherResults();
+};
+
+window.renderCipherResults = () => {
+    const container = document.getElementById('cipher-results-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const detections = window.cipherData.detections || [];
+    const filterInput = document.getElementById('cipher-search');
+    const filter = filterInput ? filterInput.value.toLowerCase() : '';
+
+    const filtered = detections.filter(d => 
+        (d.resource && d.resource.toLowerCase().includes(filter)) ||
+        (d.file && d.file.toLowerCase().includes(filter)) ||
+        (d.label && d.label.toLowerCase().includes(filter)) ||
+        (d.content && d.content.toLowerCase().includes(filter))
+    );
+
+    if (filtered.length === 0) {
+        if (window.cipherData.status === 'scanning') {
+            container.innerHTML = `
+                <div class="flex items-center justify-center p-12 opacity-35 flex-col gap-2">
+                    <i class="fa-solid fa-arrows-spin animate-spin text-3xl text-amber-500"></i>
+                    <span class="text-[8px] font-black uppercase tracking-widest text-amber-500">Scanner en cours d'analyse... Veuillez patienter</span>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="flex items-center justify-center p-12 opacity-35 flex-col gap-2">
+                    <i class="fa-solid fa-shield text-3xl text-emerald-400"></i>
+                    <span class="text-[8px] font-black uppercase tracking-widest text-emerald-400">Aucune menace détectée. Vos ressources sont propres !</span>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    filtered.forEach(det => {
+        const row = document.createElement('div');
+        row.className = 'bg-black/40 border border-rose-500/20 hover:border-rose-500/40 p-4 rounded-xl flex flex-col gap-2 hover:bg-black/50 transition-all group relative';
+        
+        row.innerHTML = `
+            <div class="flex justify-between items-start gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 shrink-0">
+                        <i class="fa-solid fa-skull-crossbones text-[10px]"></i>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black text-rose-400 uppercase font-mont">${det.label}</span>
+                            <span class="text-[6.5px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/30 px-1.5 py-0.5 rounded-sm uppercase tracking-wide">Menace Critique</span>
+                        </div>
+                        <span class="text-[8px] font-bold text-white/50">Ressource: <strong class="text-white">${det.resource}</strong> · Fichier: <strong class="text-white">${det.file}:${det.line}</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-black/60 rounded-lg p-2.5 border border-white/5 mt-1 relative overflow-hidden group-hover:border-rose-500/10 transition-all">
+                <span class="absolute top-1.5 right-2 text-[6px] font-black text-white/20 uppercase tracking-widest font-mono select-none">Code Snippet</span>
+                <code class="text-[8.5px] font-bold text-rose-300/90 font-mono block select-all whitespace-pre-wrap">${escapeHtml(det.content)}</code>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+};
+
+window.filterCipherResults = () => {
+    renderCipherResults();
+};
+
+function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
+
+// ==========================================
+// [ DISCORD BOT PANEL ]
+// ==========================================
+
+function updateDiscordPreview() {
+    const title = document.getElementById('discord-embed-title').value || "Titre de l'embed";
+    const desc = document.getElementById('discord-embed-desc').value || "Votre message apparaîtra ici...";
+    const color = document.getElementById('discord-embed-color').value || "#ffd700";
+    const imgUrl = document.getElementById('discord-embed-image').value;
+    
+    const authorName = document.getElementById('discord-embed-author-name') ? document.getElementById('discord-embed-author-name').value : "";
+    const authorIcon = document.getElementById('discord-embed-author-icon') ? document.getElementById('discord-embed-author-icon').value : "";
+    const thumbnail = document.getElementById('discord-embed-thumbnail') ? document.getElementById('discord-embed-thumbnail').value : "";
+    const footerText = document.getElementById('discord-embed-footer-text') ? document.getElementById('discord-embed-footer-text').value : "";
+    const footerIcon = document.getElementById('discord-embed-footer-icon') ? document.getElementById('discord-embed-footer-icon').value : "";
+
+    const previewEmbed = document.getElementById('discord-preview-embed');
+    const previewTitle = document.getElementById('discord-preview-title');
+    const previewDesc = document.getElementById('discord-preview-desc');
+    const previewImg = document.getElementById('discord-preview-img');
+    
+    // Author
+    const authorContainer = document.getElementById('discord-preview-author');
+    const authorNameEl = document.getElementById('discord-preview-author-name');
+    const authorIconEl = document.getElementById('discord-preview-author-icon');
+    
+    if (authorContainer) {
+        if (authorName || authorIcon) {
+            authorContainer.classList.remove('hidden');
+            authorContainer.classList.add('flex');
+            authorNameEl.textContent = authorName || "Auteur";
+            if (authorIcon && authorIcon.startsWith('http')) {
+                authorIconEl.src = authorIcon;
+                authorIconEl.classList.remove('hidden');
+            } else {
+                authorIconEl.classList.add('hidden');
+            }
+        } else {
+            authorContainer.classList.add('hidden');
+            authorContainer.classList.remove('flex');
+        }
+    }
+    
+    // Thumbnail
+    const thumbnailContainer = document.getElementById('discord-preview-thumbnail-container');
+    const thumbnailImg = document.getElementById('discord-preview-thumbnail');
+    
+    if (thumbnailContainer) {
+        if (thumbnail && thumbnail.startsWith('http')) {
+            thumbnailContainer.classList.remove('hidden');
+            thumbnailImg.src = thumbnail;
+        } else {
+            thumbnailContainer.classList.add('hidden');
+        }
+    }
+    
+    // Footer
+    const footerContainer = document.getElementById('discord-preview-footer');
+    const footerTextEl = document.getElementById('discord-preview-footer-text');
+    const footerIconEl = document.getElementById('discord-preview-footer-icon');
+    
+    if (footerContainer) {
+        if (footerText || footerIcon) {
+            footerContainer.classList.remove('hidden');
+            footerContainer.classList.add('flex');
+            footerTextEl.textContent = footerText || "";
+            if (footerIcon && footerIcon.startsWith('http')) {
+                footerIconEl.src = footerIcon;
+                footerIconEl.classList.remove('hidden');
+            } else {
+                footerIconEl.classList.add('hidden');
+            }
+        } else {
+            footerContainer.classList.add('hidden');
+            footerContainer.classList.remove('flex');
+        }
+    }
+
+    if (previewEmbed) previewEmbed.style.borderColor = color;
+    if (previewTitle) {
+        previewTitle.textContent = title;
+        previewTitle.style.display = title ? 'block' : 'none';
+    }
+    if (previewDesc) previewDesc.textContent = desc;
+
+    if (previewImg) {
+        if (imgUrl && imgUrl.startsWith('http')) {
+            previewImg.src = imgUrl;
+            previewImg.classList.remove('hidden');
+        } else {
+            previewImg.classList.add('hidden');
+            previewImg.src = '';
+        }
+    }
+}
+
+// ════════════════════════════════════════════
+// YOL_ANTICHEAT ANTI-CIPHER SYSTEM
+// ════════════════════════════════════════════
+window.cipherData = {
+    detections: [],
+    scannedFiles: 0,
+    threatCount: 0,
+    scanTime: 0,
+    status: 'idle',
+    active: false
+};
+
+window.refreshAntiCipher = () => {
+    post('get_anticipher_data', {});
+};
+
+window.triggerAntiCipherScan = () => {
+    const scanBtn = document.getElementById('anticipher-scan-btn');
+    if (scanBtn) {
+        scanBtn.disabled = true;
+        scanBtn.classList.add('opacity-50', 'pointer-events-none');
+        scanBtn.innerHTML = `<i class="fa-solid fa-arrows-spin animate-spin"></i> Scan en cours...`;
+    }
+    
+    const statusText = document.getElementById('cipher-stat-status');
+    const statusIcon = document.getElementById('cipher-status-icon');
+    if (statusText) {
+        statusText.textContent = "Scan en cours...";
+        statusText.className = "text-xs font-black text-amber-500 animate-pulse";
+    }
+    if (statusIcon) {
+        statusIcon.innerHTML = `<i class="fa-solid fa-arrows-spin animate-spin text-xs"></i>`;
+    }
+
+    post('trigger_anticipher_scan', {});
+};
+
+window.updateAntiCipherUI = (data) => {
+    if (!data) return;
+    window.cipherData = data;
+    
+    const scanBtn = document.getElementById('anticipher-scan-btn');
+    if (scanBtn) {
+        scanBtn.disabled = false;
+        scanBtn.classList.remove('opacity-50', 'pointer-events-none');
+        scanBtn.innerHTML = `<i class="fa-solid fa-radar animate-pulse"></i> Lancer un Scan Complet`;
+    }
+
+    const statusText = document.getElementById('cipher-stat-status');
+    const statusIcon = document.getElementById('cipher-status-icon');
+    const scannedText = document.getElementById('cipher-stat-scanned');
+    const threatsText = document.getElementById('cipher-stat-threats');
+    const threatsIconBox = document.getElementById('cipher-threats-icon-box');
+    const timeText = document.getElementById('cipher-stat-time');
+
+    let statusLabel = "Prêt";
+    let statusClass = "text-xs font-black text-amber-400";
+    let iconHTML = `<i class="fa-solid fa-circle-check text-xs"></i>`;
+
+    if (data.status === 'scanning') {
+        statusLabel = "Scan en cours...";
+        statusClass = "text-xs font-black text-amber-500 animate-pulse";
+        iconHTML = `<i class="fa-solid fa-arrows-spin animate-spin text-xs"></i>`;
+    } else if (data.status === 'done') {
+        if (data.threatCount > 0) {
+            statusLabel = "Menace(s) Trouvée(s)";
+            statusClass = "text-xs font-black text-rose-500 animate-pulse";
+            iconHTML = `<i class="fa-solid fa-triangle-exclamation text-xs"></i>`;
+        } else {
+            statusLabel = "Sécurisé";
+            statusClass = "text-xs font-black text-emerald-400";
+            iconHTML = `<i class="fa-solid fa-shield text-xs"></i>`;
+        }
+    }
+
+    if (statusText) {
+        statusText.textContent = statusLabel;
+        statusText.className = statusClass;
+    }
+    if (statusIcon) {
+        statusIcon.innerHTML = iconHTML;
+        statusIcon.className = `w-6 h-6 rounded-lg flex items-center justify-center ${data.threatCount > 0 ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'}`;
+    }
+
+    if (scannedText) scannedText.textContent = data.scannedFiles || 0;
+    if (threatsText) threatsText.textContent = data.threatCount || 0;
+    if (timeText) timeText.textContent = (data.scanTime || 0) + "s";
+
+    if (threatsIconBox) {
+        threatsIconBox.className = `w-6 h-6 rounded-lg flex items-center justify-center ${data.threatCount > 0 ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400 animate-bounce' : 'bg-rose-500/10 border border-rose-500/20 text-rose-400'}`;
+    }
+
+    renderCipherResults();
+};
+
+window.renderCipherResults = () => {
+    const container = document.getElementById('cipher-results-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const detections = window.cipherData.detections || [];
+    const filterInput = document.getElementById('cipher-search');
+    const filter = filterInput ? filterInput.value.toLowerCase() : '';
+
+    const filtered = detections.filter(d => 
+        (d.resource && d.resource.toLowerCase().includes(filter)) ||
+        (d.file && d.file.toLowerCase().includes(filter)) ||
+        (d.label && d.label.toLowerCase().includes(filter)) ||
+        (d.content && d.content.toLowerCase().includes(filter))
+    );
+
+    if (filtered.length === 0) {
+        if (window.cipherData.status === 'scanning') {
+            container.innerHTML = `
+                <div class="flex items-center justify-center p-12 opacity-35 flex-col gap-2">
+                    <i class="fa-solid fa-arrows-spin animate-spin text-3xl text-amber-500"></i>
+                    <span class="text-[8px] font-black uppercase tracking-widest text-amber-500">Scanner en cours d'analyse... Veuillez patienter</span>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="flex items-center justify-center p-12 opacity-35 flex-col gap-2">
+                    <i class="fa-solid fa-shield text-3xl text-emerald-400"></i>
+                    <span class="text-[8px] font-black uppercase tracking-widest text-emerald-400">Aucune menace détectée. Vos ressources sont propres !</span>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    filtered.forEach(det => {
+        const row = document.createElement('div');
+        row.className = 'bg-black/40 border border-rose-500/20 hover:border-rose-500/40 p-4 rounded-xl flex flex-col gap-2 hover:bg-black/50 transition-all group relative';
+        
+        row.innerHTML = `
+            <div class="flex justify-between items-start gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 shrink-0">
+                        <i class="fa-solid fa-skull-crossbones text-[10px]"></i>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black text-rose-400 uppercase font-mont">${det.label}</span>
+                            <span class="text-[6.5px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/30 px-1.5 py-0.5 rounded-sm uppercase tracking-wide">Menace Critique</span>
+                        </div>
+                        <span class="text-[8px] font-bold text-white/50">Ressource: <strong class="text-white">${det.resource}</strong> · Fichier: <strong class="text-white">${det.file}:${det.line}</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-black/60 rounded-lg p-2.5 border border-white/5 mt-1 relative overflow-hidden group-hover:border-rose-500/10 transition-all">
+                <span class="absolute top-1.5 right-2 text-[6px] font-black text-white/20 uppercase tracking-widest font-mono select-none">Code Snippet</span>
+                <code class="text-[8.5px] font-bold text-rose-300/90 font-mono block select-all whitespace-pre-wrap">${escapeHtml(det.content)}</code>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+};
+
+window.filterCipherResults = () => {
+    renderCipherResults();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    ['discord-embed-title', 'discord-embed-desc', 'discord-embed-color', 'discord-embed-image', 'discord-embed-author-name', 'discord-embed-author-icon', 'discord-embed-thumbnail', 'discord-embed-footer-text', 'discord-embed-footer-icon'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateDiscordPreview);
+        }
+    });
+});
+
+window.sendDiscordEmbed = () => {
+    const webhook = document.getElementById('discord-webhook-url').value ? document.getElementById('discord-webhook-url').value.trim() : "";
+    const title = document.getElementById('discord-embed-title').value ? document.getElementById('discord-embed-title').value.trim() : "";
+    const desc = document.getElementById('discord-embed-desc').value ? document.getElementById('discord-embed-desc').value.trim() : "";
+    const color = document.getElementById('discord-embed-color').value || "#ffd700";
+    const image = document.getElementById('discord-embed-image').value ? document.getElementById('discord-embed-image').value.trim() : "";
+    
+    const authorName = document.getElementById('discord-embed-author-name') ? document.getElementById('discord-embed-author-name').value.trim() : "";
+    const authorIcon = document.getElementById('discord-embed-author-icon') ? document.getElementById('discord-embed-author-icon').value.trim() : "";
+    const thumbnail = document.getElementById('discord-embed-thumbnail') ? document.getElementById('discord-embed-thumbnail').value.trim() : "";
+    const footerText = document.getElementById('discord-embed-footer-text') ? document.getElementById('discord-embed-footer-text').value.trim() : "";
+    const footerIcon = document.getElementById('discord-embed-footer-icon') ? document.getElementById('discord-embed-footer-icon').value.trim() : "";
+
+    if (!title && !desc) return;
+
+    const decimalColor = parseInt(color.replace('#', ''), 16);
+
+    post('send_discord_embed', {
+        webhook: webhook,
+        title: title,
+        description: desc,
+        color: decimalColor,
+        image: image,
+        authorName: authorName,
+        authorIcon: authorIcon,
+        thumbnail: thumbnail,
+        footerText: footerText,
+        footerIcon: footerIcon
+    });
+
+    ['discord-embed-title', 'discord-embed-desc', 'discord-embed-image', 'discord-embed-author-name', 'discord-embed-author-icon', 'discord-embed-thumbnail', 'discord-embed-footer-text', 'discord-embed-footer-icon'].forEach(id => {
+        if (document.getElementById(id)) document.getElementById(id).value = '';
+    });
+    updateDiscordPreview();
+};
+
+window.saveBotConfig = () => {
+    const token = document.getElementById('bot-config-token').value;
+    const guild = document.getElementById('bot-config-guild').value.trim();
+    const logChannel = document.getElementById('bot-config-logschannel').value.trim();
+    const adminRole = document.getElementById('bot-config-adminrole') ? document.getElementById('bot-config-adminrole').value.trim() : "";
+    const enableSync = document.getElementById('bot-config-enablesync').checked;
+    const autoRename = document.getElementById('bot-config-autorename') ? document.getElementById('bot-config-autorename').checked : false;
+
+    post('save_bot_config', {
+        token: token,
+        guild: guild,
+        logChannel: logChannel,
+        adminRole: adminRole,
+        enableSync: enableSync,
+        autoRename: autoRename
+    });
+};
+
+window.toggleBotPower = () => {
+    post('toggle_bot_power', {});
+};
+
+window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (data.type === 'UPDATE_BOT_STATUS') {
+        const statusDiv = document.getElementById('discord-bot-status');
+        const powerBtn = document.getElementById('bot-power-btn');
+        
+        if (data.status === 'online') {
+            if (statusDiv) {
+                statusDiv.innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> En Ligne`;
+                statusDiv.className = `flex items-center gap-2 bg-emerald-500/20 text-emerald-500 border border-emerald-500/30 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest`;
+            }
+            if (powerBtn) {
+                powerBtn.innerHTML = `<i class="fa-solid fa-power-off mr-1"></i> Arrêter Bot`;
+                powerBtn.className = `bg-rose-500/20 text-rose-500 border border-rose-500/30 font-black uppercase tracking-[0.2em] text-[9px] py-3 rounded-xl hover:bg-rose-500/40 transition-all`;
+            }
+        } else {
+            if (statusDiv) {
+                statusDiv.innerHTML = `<div class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div> Hors Ligne`;
+                statusDiv.className = `flex items-center gap-2 bg-rose-500/20 text-rose-500 border border-rose-500/30 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest`;
+            }
+            if (powerBtn) {
+                powerBtn.innerHTML = `<i class="fa-solid fa-power-off mr-1"></i> Démarrer Bot`;
+                powerBtn.className = `bg-emerald-500/20 text-emerald-500 border border-emerald-500/30 font-black uppercase tracking-[0.2em] text-[9px] py-3 rounded-xl hover:bg-emerald-500/40 transition-all`;
+            }
+        }
+        
+        if (data.config) {
+            const setVal = (id, v) => {
+                const el = document.getElementById(id);
+                if (el && typeof v === 'string') el.value = v;
+            };
+            setVal('bot-config-token', data.config.token || '');
+            setVal('bot-config-guild', data.config.guild || '');
+            setVal('bot-config-logschannel', data.config.logChannel || '');
+            setVal('bot-config-adminrole', data.config.adminRole || '');
+            if (document.getElementById('bot-config-enablesync')) {
+                document.getElementById('bot-config-enablesync').checked = !!data.config.enableSync;
+            }
+            if (document.getElementById('bot-config-autorename')) {
+                document.getElementById('bot-config-autorename').checked = !!data.config.autoRename;
+            }
+        }
+    }
+});
+
+window.toggleDiscordAdvanced = () => {
+    const adv = document.getElementById('discord-advanced-options');
+    if (adv) {
+        adv.classList.toggle('hidden');
+    }
+};
+
+// =====================================================================
+// SERVER CONSOLE PANEL
+// Live stdout streaming + command execution. Hooks into UPDATE_CONSOLE_LOG
+// messages dispatched by client/main.lua.
+// =====================================================================
+(() => {
+    const MAX_LINES = 2000;
+    const state = {
+        booted: false,
+        autoScroll: true,
+        cmdCount: 0,
+        lineCount: 0,
+        history: [],
+        historyIdx: -1,
+    };
+
+    const escapeHtml = (s) => String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    // Strip FiveM ^N color codes (^1 red, ^2 green, ...) and convert
+    // them to spans for nicer rendering.
+    const colorize = (line) => {
+        const colors = {
+            '0': '#ffffff', '1': '#f87171', '2': '#34d399', '3': '#fbbf24',
+            '4': '#60a5fa', '5': '#a78bfa', '6': '#f472b6', '7': '#9ca3af',
+            '8': '#ef4444', '9': '#3b82f6',
+        };
+        let html = '';
+        let cur = '';
+        let curColor = null;
+        const flush = () => {
+            if (!cur) return;
+            if (curColor && colors[curColor]) {
+                html += `<span style="color:${colors[curColor]}">${escapeHtml(cur)}</span>`;
+            } else {
+                html += escapeHtml(cur);
+            }
+            cur = '';
+        };
+        for (let i = 0; i < line.length; i++) {
+            if (line[i] === '^' && i + 1 < line.length && colors[line[i+1]] !== undefined) {
+                flush();
+                curColor = line[i+1];
+                i++;
+            } else {
+                cur += line[i];
+            }
+        }
+        flush();
+        return html;
+    };
+
+    // ─────────────────────────────────────────────────────────────────
+    // Highlight des tags [XXX] et niveaux de log (ERROR, WARN, …)
+    // Applique apres colorize : si un tag est dans un span ^N, le
+    // span imbrique laisse la couleur du tag prendre le dessus (CSS).
+    // L'echappement HTML a deja transforme les < et > donc nos regex
+    // sur '[...]' ne traversent jamais une balise.
+    // ─────────────────────────────────────────────────────────────────
+    const TAG_RULES = [
+        // Modules Yol
+        { re: /\[console\]/g,                           color: '#34d399', bold: true }, // emerald
+        { re: /\[Yol-AC(?: Admin)?\]/g,                 color: '#fb923c', bold: true }, // orange clair
+        { re: /\[Yol-Admin\]/g,                         color: '#F04C00', bold: true }, // theme orange
+        { re: /\[Yol-AC Watchdog\]/g,                   color: '#dc2626', bold: true }, // rouge
+        // SQL / BDD
+        { re: /\[AutoSQL Debug\]/g,                     color: '#a78bfa', bold: true }, // violet
+        { re: /\[AutoSQL\]/g,                           color: '#06b6d4', bold: true }, // cyan
+        { re: /\[oxmysql\]/gi,                          color: '#06b6d4', bold: true },
+        { re: /\[MySQL\]/gi,                            color: '#06b6d4', bold: true },
+        // Niveaux de log standards
+        { re: /\[(?:FATAL|CRITICAL|CRIT)\]/gi,          color: '#dc2626', bold: true }, // rouge fonce
+        { re: /\[(?:ERROR|ERREUR|ERR)\]/gi,             color: '#ef4444', bold: true }, // rouge
+        { re: /\[(?:WARN|WARNING|ATTENTION)\]/gi,       color: '#fbbf24', bold: true }, // jaune
+        { re: /\[(?:INFO|NOTICE)\]/gi,                  color: '#60a5fa', bold: true }, // bleu
+        { re: /\[(?:DEBUG|TRACE|VERBOSE)\]/gi,          color: '#9ca3af', bold: true }, // gris
+        { re: /\[(?:OK|SUCCESS|SUCCES|DONE)\]/gi,       color: '#10b981', bold: true }, // vert
+        // Resources / system FiveM
+        { re: /\[script:[^\]]+\]/g,                     color: '#a78bfa', bold: true }, // violet
+        { re: /\[c-scripting-core\]/g,                  color: '#a78bfa', bold: true },
+        { re: /\[citizen-server-impl\]/g,               color: '#a78bfa', bold: true },
+        { re: /\[ resources \]/g,                       color: '#a78bfa', bold: true },
+        // Status d'evenements
+        { re: /\[ALERTE\]/gi,                           color: '#dc2626', bold: true },
+        { re: /\[BLOQUE\]/gi,                           color: '#ef4444', bold: true },
+        { re: /\[ACCES REFUSE\]/gi,                     color: '#ef4444', bold: true },
+        { re: /\[RATE LIMIT\]/gi,                       color: '#fbbf24', bold: true },
+        { re: /\[MENACE TROUVEE\]/gi,                   color: '#dc2626', bold: true },
+    ];
+
+    // Patterns generiques (apres les tags nommes)
+    const GENERIC_RULES = [
+        // Timestamps [12:34:56] ou [2024-01-01 12:34:56]
+        { re: /\[(\d{2}:\d{2}:\d{2}(?:\.\d+)?)\]/g,
+          replace: (_, m) => `<span style="color:#6b7280 !important">[${m}]</span>` },
+        { re: /\[(\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:Z|\.\d+)?)\]/g,
+          replace: (_, m) => `<span style="color:#6b7280 !important">[${m}]</span>` },
+        // URLs http(s)://
+        { re: /(https?:\/\/[^\s<>"']+)/g,
+          replace: (_, m) => `<span style="color:#60a5fa !important;text-decoration:underline">${m}</span>` },
+        // Adresses IP:port
+        { re: /\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d+)?)\b/g,
+          replace: (_, m) => `<span style="color:#fbbf24 !important">${m}</span>` },
+        // Tailles octets / Mo
+        { re: /\b(\d+(?:\.\d+)?\s*(?:octets|bytes|KB|MB|GB|ms|s))\b/gi,
+          replace: (_, m) => `<span style="color:#a78bfa !important">${m}</span>` },
+    ];
+
+    const highlightTags = (html) => {
+        for (const r of TAG_RULES) {
+            html = html.replace(r.re, (m) =>
+                `<span style="color:${r.color} !important${r.bold ? ';font-weight:700 !important' : ''}">${m}</span>`);
+        }
+        for (const r of GENERIC_RULES) {
+            html = html.replace(r.re, r.replace);
+        }
+        return html;
+    };
+
+    const appendLine = (line, kind) => {
+        const out = document.getElementById('console-output');
+        if (!out) return;
+        const div = document.createElement('div');
+        let cls = '';
+        if (kind === 'stderr') cls = 'text-rose-300';
+        else if (kind === 'cmd') cls = 'text-emerald-300 font-bold';
+        else if (kind === 'system') cls = 'text-amber-300/80 italic';
+        else cls = 'text-zinc-200/90';
+        div.className = cls;
+        // 1. colorize : codes ^N FiveM -> spans
+        // 2. highlightTags : tags [XXX], niveaux, timestamps, URLs, IPs
+        div.innerHTML = highlightTags(colorize(line));
+        out.appendChild(div);
+
+        state.lineCount++;
+        // Cap buffer
+        while (out.childElementCount > MAX_LINES) {
+            out.removeChild(out.firstChild);
+        }
+        const bc = document.getElementById('console-buffer-count');
+        if (bc) bc.textContent = Math.min(state.lineCount, MAX_LINES);
+        const lc = document.getElementById('console-stat-lines');
+        if (lc) lc.textContent = state.lineCount;
+
+        if (state.autoScroll) out.scrollTop = out.scrollHeight;
+    };
+
+    window.initServerConsole = () => {
+        if (state.booted) return;
+        state.booted = true;
+
+        // Set initial "connected" status
+        const st = document.getElementById('console-stat-status');
+        if (st) { st.textContent = 'Active'; st.classList.add('text-emerald-400'); }
+
+        // Ask the backend to start streaming + flush its buffer
+        fetch(`https://${GetParentResourceName()}/console_subscribe`, {
+            method: 'POST',
+            body: JSON.stringify({ subscribe: true })
+        }).catch(() => {});
+
+        // History keyboard nav
+        const input = document.getElementById('console-input');
+        if (input) {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowUp') {
+                    if (state.history.length === 0) return;
+                    state.historyIdx = Math.max(0, state.historyIdx - 1);
+                    input.value = state.history[state.historyIdx] || '';
+                    e.preventDefault();
+                } else if (e.key === 'ArrowDown') {
+                    if (state.history.length === 0) return;
+                    state.historyIdx = Math.min(state.history.length, state.historyIdx + 1);
+                    input.value = state.history[state.historyIdx] || '';
+                    e.preventDefault();
+                }
+            });
+        }
+
+        appendLine('[console] Stream connecté. Tapez une commande ci-dessous.', 'system');
+    };
+
+    window.executeConsoleCommand = (ev) => {
+        ev.preventDefault();
+        const input = document.getElementById('console-input');
+        if (!input) return false;
+        const cmd = (input.value || '').trim();
+        if (!cmd) return false;
+
+        state.history.push(cmd);
+        if (state.history.length > 100) state.history.shift();
+        state.historyIdx = state.history.length;
+        state.cmdCount++;
+        const cc = document.getElementById('console-stat-cmds');
+        if (cc) cc.textContent = state.cmdCount;
+        const last = document.getElementById('console-stat-last');
+        if (last) last.textContent = cmd.length > 22 ? cmd.slice(0, 22) + '…' : cmd;
+
+        appendLine('> ' + cmd, 'cmd');
+        input.value = '';
+
+        fetch(`https://${GetParentResourceName()}/console_execute`, {
+            method: 'POST',
+            body: JSON.stringify({ command: cmd })
+        }).catch(() => {
+            appendLine('[erreur] échec de l\'envoi de la commande', 'stderr');
+        });
+        return false;
+    };
+
+    window.clearConsoleOutput = () => {
+        const out = document.getElementById('console-output');
+        if (out) out.innerHTML = '';
+        state.lineCount = 0;
+        const bc = document.getElementById('console-buffer-count');
+        if (bc) bc.textContent = 0;
+        const lc = document.getElementById('console-stat-lines');
+        if (lc) lc.textContent = 0;
+    };
+
+    window.toggleConsoleAutoScroll = () => {
+        state.autoScroll = !state.autoScroll;
+        const icon = document.getElementById('console-pause-icon');
+        const label = document.getElementById('console-pause-label');
+        if (state.autoScroll) {
+            if (icon) icon.className = 'fa-solid fa-pause';
+            if (label) label.textContent = 'Pause';
+        } else {
+            if (icon) icon.className = 'fa-solid fa-play';
+            if (label) label.textContent = 'Reprendre';
+        }
+    };
+
+    // Stream listener
+    window.addEventListener('message', (event) => {
+        const data = event.data || {};
+        if (data.type !== 'UPDATE_CONSOLE_LOG') return;
+        const lines = Array.isArray(data.lines) ? data.lines : [];
+        for (const entry of lines) {
+            const txt = typeof entry === 'string' ? entry : (entry.text || '');
+            const kind = typeof entry === 'string' ? 'stdout' : (entry.kind || 'stdout');
+            appendLine(txt, kind);
+        }
+    });
+})();
+
+// =====================================================================
+// ITEMS & SHOPS CREATOR PANEL
+// =====================================================================
+let cachedItems = {};
+let cachedShops = {};
+let activeShopId = null;
+
+window.refreshInventoryCreator = () => {
+    fetch(`https://${GetParentResourceName()}/invcreator_getData`, {
+        method: 'POST',
+        body: JSON.stringify({})
+    });
+};
+
+window.updateInventoryCreatorUI = (items, shops) => {
+    cachedItems = items || {};
+    cachedShops = shops || {};
+    // Populate items list
+    renderItemsList();
+    
+    // Populate shops selector
+    const selector = document.getElementById('invcreator-shop-select');
+    if (selector) {
+        // Keep active shop selection if it still exists
+        const prevActive = selector.value;
+        selector.innerHTML = '<option value="" disabled selected>Choisir une boutique...</option>';
+        Object.keys(cachedShops).sort().forEach(shopId => {
+            const shop = cachedShops[shopId];
+            const name = shop.name || shopId;
+            const opt = document.createElement('option');
+            opt.value = shopId;
+            opt.textContent = `${name} (${shopId})`;
+            selector.appendChild(opt);
+        });
+        if (prevActive && cachedShops[prevActive]) {
+            selector.value = prevActive;
+            selectActiveShop();
+        } else {
+            document.getElementById('invcreator-shop-config').classList.add('hidden');
+            document.getElementById('invcreator-shop-placeholder').classList.remove('hidden');
+        }
+    }
+};
+
+const renderItemsList = () => {
+    const listContainer = document.getElementById('invcreator-items-list');
+    if (!listContainer) return;
+    
+    const filterText = document.getElementById('invcreator-item-search').value.toLowerCase();
+    listContainer.innerHTML = '';
+    
+    const sortedItemKeys = Object.keys(cachedItems).sort((a, b) => {
+        const labelA = (cachedItems[a].label || a).toLowerCase();
+        const labelB = (cachedItems[b].label || b).toLowerCase();
+        return labelA.localeCompare(labelB);
+    });
+    
+    let count = 0;
+    sortedItemKeys.forEach(itemId => {
+        const item = cachedItems[itemId];
+        const label = item.label || itemId;
+
+        if (filterText && !itemId.includes(filterText) && !label.toLowerCase().includes(filterText)) {
+            return;
+        }
+
+        count++;
+        const card = document.createElement('div');
+        card.className = "group flex justify-between items-center bg-black/45 border border-white/5 hover:border-orange-500/30 p-2.5 rounded-xl transition-all cursor-pointer";
+        const customImage = (item.client && item.client.image) ? item.client.image : null;
+        const imgPath = customImage ? customImage : `nui://ox_inventory/web/images/${itemId}.png`;
+        const safeId = String(itemId).replace(/'/g, "\\'");
+        card.innerHTML = `
+            <div class="flex items-center gap-3 flex-1 min-w-0" onclick="openItemCreatorOverlay(true, '${safeId}')">
+                <div class="w-10 h-10 shrink-0 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-orange-500/40 transition-all">
+                    <img src="${imgPath}" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-full h-full items-center justify-center text-white/25" style="display:none;">
+                        <i class="fa-solid fa-cube text-sm"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5 min-w-0">
+                    <span class="text-[10px] font-black text-white uppercase truncate">${label}</span>
+                    <span class="text-[8px] font-bold text-white/30 uppercase tracking-wider truncate">${itemId}</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0 ml-2">
+                <span class="bg-white/5 border border-white/10 px-2 py-0.5 rounded text-[8px] font-bold text-white/50 uppercase">${item.weight}g</span>
+                ${item.stack ? '<span class="bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded text-[8px] font-bold text-emerald-400 uppercase">Pile</span>' : '<span class="bg-rose-500/10 border border-rose-500/25 px-2 py-0.5 rounded text-[8px] font-bold text-rose-400 uppercase">Unique</span>'}
+                <button class="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/25 transition-all" onclick="event.stopPropagation(); openItemCreatorOverlay(true, '${safeId}')" title="Modifier">
+                    <i class="fa-solid fa-pen text-[9px]"></i>
+                </button>
+                <button class="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/25 transition-all" onclick="event.stopPropagation(); confirmDeleteItem('${safeId}')" title="Supprimer">
+                    <i class="fa-solid fa-trash-can text-[9px]"></i>
+                </button>
+            </div>
+        `;
+        listContainer.appendChild(card);
+    });
+    
+    if (count === 0) {
+        listContainer.innerHTML = `
+            <div class="py-10 text-center opacity-30 flex flex-col items-center justify-center">
+                <i class="fa-solid fa-box-open text-2xl mb-2"></i>
+                <span class="text-[9px] font-black uppercase tracking-widest">Aucun item trouvé</span>
+            </div>
+        `;
+    }
+};
+
+window.filterItemsList = () => {
+    renderItemsList();
+};
+
+window.openItemCreatorOverlay = (show, editItemId = null) => {
+    const overlay = document.getElementById('invcreator-item-overlay');
+    if (!overlay) return;
+
+    if (!show) {
+        overlay.classList.add('hidden');
+        return;
+    }
+
+    const form = document.getElementById('invcreator-item-form');
+    form.reset();
+
+    const titleEl = document.getElementById('invcreator-form-title');
+    const submitLabel = document.getElementById('invcreator-form-submit-label');
+    const submitIcon = document.getElementById('invcreator-form-submit-icon');
+    const nameInput = document.getElementById('invcreator-form-name');
+    const editingInput = document.getElementById('invcreator-form-editing');
+    const imageDataInput = document.getElementById('invcreator-form-image-data');
+    const previewImg = document.getElementById('invcreator-image-preview-img');
+    const previewIcon = document.getElementById('invcreator-image-preview-icon');
+    const clearBtn = document.getElementById('invcreator-image-clear');
+
+    imageDataInput.value = '';
+    previewImg.src = '';
+    previewImg.style.display = 'none';
+    previewIcon.style.display = '';
+    clearBtn.classList.add('hidden');
+
+    if (editItemId && cachedItems[editItemId]) {
+        const item = cachedItems[editItemId];
+        editingInput.value = editItemId;
+        titleEl.textContent = 'Modifier l\'item';
+        submitLabel.textContent = 'Enregistrer';
+        submitIcon.className = 'fa-solid fa-floppy-disk text-[10px]';
+
+        nameInput.value = editItemId;
+        nameInput.readOnly = true;
+        nameInput.classList.add('opacity-60', 'cursor-not-allowed');
+
+        const setVal = (selector, value) => {
+            const el = form.querySelector(selector);
+            if (el) el.value = value == null ? '' : value;
+        };
+
+        setVal('[name="label"]', item.label || '');
+        setVal('[name="weight"]', item.weight != null ? item.weight : 0);
+        setVal('[name="stack"]', item.stack === false ? 'false' : 'true');
+        setVal('[name="close"]', item.close === false ? 'false' : 'true');
+        setVal('[name="description"]', item.description || '');
+
+        setVal('[name="consume"]', item.consume != null ? item.consume : '');
+        setVal('[name="allowArmed"]', item.allowArmed === true ? 'true' : 'false');
+        setVal('[name="degrade"]', item.degrade != null ? item.degrade : '');
+        setVal('[name="decay"]', item.decay === true ? 'true' : 'false');
+
+        const client = item.client || {};
+        const server = item.server || {};
+        setVal('[name="clientEvent"]', client.event || '');
+        setVal('[name="clientExport"]', client.export || '');
+        setVal('[name="serverExport"]', server.export || '');
+        setVal('[name="clientUsetime"]', client.usetime != null ? client.usetime : '');
+        setVal('[name="clientCancel"]', client.cancel === true ? 'true' : 'false');
+        setVal('[name="animDict"]', (client.anim && client.anim.dict) || '');
+        setVal('[name="animClip"]', (client.anim && client.anim.clip) || '');
+
+        const jsonOrEmpty = (val) => (val == null) ? '' : JSON.stringify(val, null, 2);
+        setVal('[name="buttonsJson"]', jsonOrEmpty(item.buttons));
+        setVal('[name="clientStatusJson"]', jsonOrEmpty(client.status));
+        setVal('[name="clientPropJson"]', jsonOrEmpty(client.prop));
+        setVal('[name="clientDisableJson"]', jsonOrEmpty(client.disable));
+
+        const customImage = client.image ? client.image : null;
+        const imgPath = customImage ? customImage : `nui://ox_inventory/web/images/${editItemId}.png`;
+        previewImg.onerror = () => { previewImg.style.display = 'none'; previewIcon.style.display = ''; };
+        previewImg.onload = () => { previewImg.style.display = ''; previewIcon.style.display = 'none'; };
+        previewImg.src = imgPath;
+    } else {
+        editingInput.value = '';
+        titleEl.textContent = 'Nouvel Item';
+        submitLabel.textContent = 'Créer l\'item';
+        submitIcon.className = 'fa-solid fa-plus text-[10px]';
+
+        nameInput.readOnly = false;
+        nameInput.classList.remove('opacity-60', 'cursor-not-allowed');
+    }
+
+    overlay.classList.remove('hidden');
+};
+
+window.toggleAdvancedJson = () => {
+    const body = document.getElementById('invcreator-advanced-body');
+    const chevron = document.getElementById('invcreator-advanced-chevron');
+    const label = document.getElementById('invcreator-advanced-toggle-label');
+    if (!body) return;
+    const isHidden = body.classList.contains('hidden');
+    if (isHidden) {
+        body.classList.remove('hidden');
+        chevron.className = 'fa-solid fa-chevron-up';
+        label.textContent = 'Replier';
+    } else {
+        body.classList.add('hidden');
+        chevron.className = 'fa-solid fa-chevron-down';
+        label.textContent = 'Déplier';
+    }
+};
+
+window.onItemImagePicked = (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Image trop volumineuse (max 2 Mo).');
+        event.target.value = '';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        document.getElementById('invcreator-form-image-data').value = dataUrl;
+        const previewImg = document.getElementById('invcreator-image-preview-img');
+        const previewIcon = document.getElementById('invcreator-image-preview-icon');
+        previewImg.onerror = null;
+        previewImg.onload = null;
+        previewImg.src = dataUrl;
+        previewImg.style.display = '';
+        previewIcon.style.display = 'none';
+        document.getElementById('invcreator-image-clear').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+};
+
+window.clearItemImage = () => {
+    document.getElementById('invcreator-form-image-data').value = '';
+    document.getElementById('invcreator-image-file').value = '';
+    const previewImg = document.getElementById('invcreator-image-preview-img');
+    const previewIcon = document.getElementById('invcreator-image-preview-icon');
+    previewImg.src = '';
+    previewImg.style.display = 'none';
+    previewIcon.style.display = '';
+    document.getElementById('invcreator-image-clear').classList.add('hidden');
+};
+
+const tryParseJSON = (raw, fallback) => {
+    if (raw == null) return fallback;
+    const s = String(raw).trim();
+    if (s === '') return fallback;
+    try { return JSON.parse(s); } catch (e) { return undefined; }
+};
+
+window.submitNewItem = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const editingId = (formData.get('editing') || '').trim();
+    const isEdit = !!editingId;
+
+    // Parse JSON avancés (undefined si invalide, on alerte alors)
+    const buttons = tryParseJSON(formData.get('buttonsJson'), null);
+    const clientStatus = tryParseJSON(formData.get('clientStatusJson'), null);
+    const clientProp = tryParseJSON(formData.get('clientPropJson'), null);
+    const clientDisable = tryParseJSON(formData.get('clientDisableJson'), null);
+
+    const invalidFields = [];
+    if (buttons === undefined) invalidFields.push('buttons');
+    if (clientStatus === undefined) invalidFields.push('client.status');
+    if (clientProp === undefined) invalidFields.push('client.prop');
+    if (clientDisable === undefined) invalidFields.push('client.disable');
+    if (invalidFields.length > 0) {
+        alert('JSON invalide dans : ' + invalidFields.join(', '));
+        return;
+    }
+
+    const consumeRaw = (formData.get('consume') || '').trim();
+    const degradeRaw = (formData.get('degrade') || '').trim();
+    const usetimeRaw = (formData.get('clientUsetime') || '').trim();
+
+    const clientExtra = {};
+    if (clientStatus) clientExtra.status = clientStatus;
+    if (clientProp) clientExtra.prop = clientProp;
+    if (clientDisable) clientExtra.disable = clientDisable;
+
+    const payload = {
+        name: isEdit ? editingId : formData.get('name').trim().toLowerCase(),
+        label: formData.get('label').trim(),
+        weight: parseInt(formData.get('weight')) || 0,
+        stack: formData.get('stack') === 'true',
+        close: formData.get('close') === 'true',
+        description: (formData.get('description') || '').trim(),
+        imageData: formData.get('imageData') || '',
+
+        consume: consumeRaw === '' ? null : parseFloat(consumeRaw),
+        allowArmed: formData.get('allowArmed') === 'true',
+        degrade: degradeRaw === '' ? null : parseFloat(degradeRaw),
+        decay: formData.get('decay') === 'true',
+
+        clientEvent: (formData.get('clientEvent') || '').trim(),
+        clientExport: (formData.get('clientExport') || '').trim(),
+        serverExport: (formData.get('serverExport') || '').trim(),
+        clientUsetime: usetimeRaw === '' ? null : parseInt(usetimeRaw),
+        clientCancel: formData.get('clientCancel') === 'true',
+        animDict: (formData.get('animDict') || '').trim(),
+        animClip: (formData.get('animClip') || '').trim(),
+
+        buttons: buttons || null,
+        clientExtra: clientExtra
+    };
+
+    if (!payload.name || !payload.label) return;
+
+    const endpoint = isEdit ? 'invcreator_updateItem' : 'invcreator_createItem';
+    fetch(`https://${GetParentResourceName()}/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    openItemCreatorOverlay(false);
+};
+
+window.confirmDeleteItem = (itemId) => {
+    if (!itemId || !cachedItems[itemId]) return;
+    const label = cachedItems[itemId].label || itemId;
+    if (!confirm(`Supprimer l'item "${label}" (${itemId}) ?\n\nL'image associée sera également supprimée.`)) return;
+
+    fetch(`https://${GetParentResourceName()}/invcreator_deleteItem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: itemId })
+    });
+};
+
+window.openShopCreatorOverlay = (show) => {
+    const overlay = document.getElementById('invcreator-shop-overlay');
+    if (!overlay) return;
+    const form = document.getElementById('invcreator-shop-form');
+    if (show) {
+        form.reset();
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            const idInput = form.querySelector('[name="shopId"]');
+            if (idInput) idInput.focus();
+        }, 50);
+    } else {
+        overlay.classList.add('hidden');
+    }
+};
+
+window.submitNewShop = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const rawId = (formData.get('shopId') || '').trim();
+    const cleanId = rawId.replace(/[^a-zA-Z0-9_]/g, '');
+    if (!cleanId) {
+        alert("ID invalide : utilise uniquement lettres, chiffres et underscore.");
+        return;
+    }
+    if (cachedShops[cleanId]) {
+        alert("Une boutique avec cet ID existe déjà.");
+        return;
+    }
+
+    const name = (formData.get('shopName') || '').trim() || cleanId;
+    const blipId = parseInt(formData.get('blipId'));
+    const blipColour = parseInt(formData.get('blipColour'));
+    const blipScale = parseFloat(formData.get('blipScale'));
+
+    cachedShops[cleanId] = {
+        name: name,
+        blip: {
+            id: !isNaN(blipId) ? blipId : 59,
+            colour: !isNaN(blipColour) ? blipColour : 69,
+            scale: !isNaN(blipScale) ? blipScale : 0.8
+        },
+        inventory: [],
+        locations: [],
+        targets: []
+    };
+
+    // Add option and select it
+    const selector = document.getElementById('invcreator-shop-select');
+    if (selector) {
+        const opt = document.createElement('option');
+        opt.value = cleanId;
+        opt.textContent = `${name} (${cleanId})`;
+        selector.appendChild(opt);
+        selector.value = cleanId;
+        selectActiveShop();
+    }
+
+    openShopCreatorOverlay(false);
+};
+
+// Normalise inventory en array, peu importe la forme reçue (array vs objet avec clés numériques)
+const normalizeInventory = (inv) => {
+    if (!inv) return [];
+    if (Array.isArray(inv)) return inv;
+    if (typeof inv === 'object') {
+        // Cas tables Lua sérialisées en objet { "1": {...}, "2": {...} }
+        const keys = Object.keys(inv);
+        // Vérifier que toutes les clés sont numériques
+        if (keys.every(k => /^\d+$/.test(k))) {
+            return keys
+                .sort((a, b) => parseInt(a) - parseInt(b))
+                .map(k => inv[k]);
+        }
+        return Object.values(inv);
+    }
+    return [];
+};
+
+window.selectActiveShop = () => {
+    const selector = document.getElementById('invcreator-shop-select');
+    if (!selector) return;
+
+    const shopId = selector.value;
+    const shop = cachedShops[shopId];
+    if (!shop) return;
+
+    activeShopId = shopId;
+
+    // Hide placeholder, show config
+    document.getElementById('invcreator-shop-placeholder').classList.add('hidden');
+    document.getElementById('invcreator-shop-config').classList.remove('hidden');
+
+    // Populate simple fields
+    document.getElementById('shop-id-input').value = shopId;
+    document.getElementById('shop-name-input').value = shop.name || '';
+    document.getElementById('shop-blip-id').value = (shop.blip && shop.blip.id) || 59;
+    document.getElementById('shop-blip-colour').value = (shop.blip && shop.blip.colour) || 69;
+    document.getElementById('shop-blip-scale').value = (shop.blip && shop.blip.scale) || 0.8;
+
+    // Populate items grid
+    const container = document.getElementById('shop-items-container');
+    container.innerHTML = '';
+
+    const items = normalizeInventory(shop.inventory);
+    items.forEach((item) => {
+        addShopItemRow(item.name, item.price, item.count, item.currency, item.slot);
+    });
+
+    // Populate locations
+    renderShopLocations();
+};
+
+const normalizeLocation = (loc) => {
+    if (!loc) return null;
+    if (typeof loc.x === 'number') return { x: loc.x, y: loc.y, z: loc.z };
+    // Cas array [x, y, z] (sérialisation alternative de vec3)
+    if (Array.isArray(loc) && loc.length >= 3) return { x: loc[0], y: loc[1], z: loc[2] };
+    return null;
+};
+
+window.renderShopLocations = () => {
+    const container = document.getElementById('shop-locations-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const shop = cachedShops[activeShopId];
+
+    // Normalisation des locations en array de {x,y,z} pur (au cas où elles arrivent en objet ou array [x,y,z])
+    let rawList = shop.locations;
+    if (!Array.isArray(rawList)) {
+        rawList = (rawList && typeof rawList === 'object') ? Object.values(rawList) : [];
+    }
+    const locations = rawList.map(normalizeLocation).filter(Boolean);
+    shop.locations = locations; // on persiste la forme normalisée pour les opérations suivantes
+
+    if (locations.length === 0) {
+        container.innerHTML = `
+            <div class="py-3 text-center opacity-30 flex flex-col items-center justify-center">
+                <i class="fa-solid fa-map-location-dot text-lg mb-1"></i>
+                <span class="text-[8.5px] font-black uppercase tracking-widest">Aucun point de vente</span>
+            </div>
+        `;
+        return;
+    }
+
+    // Vérifie si la location idx a un target ox_target associé
+    const targets = Array.isArray(shop.targets) ? shop.targets : [];
+    const hasTargetForIdx = (idx) => {
+        if (targets[idx] && targets[idx].loc) return true;
+        // Sinon, cherche un target par coord proche
+        const here = locations[idx];
+        return targets.some(t => {
+            if (!t || !t.loc) return false;
+            const tl = normalizeLocation(t.loc);
+            if (!tl) return false;
+            return Math.abs(tl.x - here.x) < 2 && Math.abs(tl.y - here.y) < 2 && Math.abs(tl.z - here.z) < 3;
+        });
+    };
+
+    locations.forEach((loc, idx) => {
+        const hasTarget = hasTargetForIdx(idx);
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between gap-2 bg-black/40 border border-white/5 hover:border-orange-500/20 px-2.5 py-1.5 rounded-lg transition-all";
+        const targetBadge = hasTarget
+            ? `<span class="bg-emerald-500/10 border border-emerald-500/25 px-1.5 py-0.5 rounded text-[7px] font-bold text-emerald-400 uppercase" title="Target ox_target présent">target ✓</span>`
+            : `<button class="bg-amber-500/15 hover:bg-amber-500/30 border border-amber-500/30 px-1.5 py-0.5 rounded text-[7px] font-black text-amber-400 uppercase transition-all" onclick="shopAddTargetForLocation(${idx})" title="Créer un target ox_target par défaut ici">+ target</button>`;
+        row.innerHTML = `
+            <div class="flex items-center gap-2 flex-1 min-w-0">
+                <span class="text-[9px] font-black text-orange-400/80 w-5 text-center">#${idx + 1}</span>
+                <span class="text-[9px] font-mono text-white/70 truncate">X: ${loc.x.toFixed(2)} · Y: ${loc.y.toFixed(2)} · Z: ${loc.z.toFixed(2)}</span>
+                ${targetBadge}
+            </div>
+            <div class="flex items-center gap-1">
+                <button class="w-6 h-6 flex items-center justify-center rounded text-white/30 hover:text-sky-400 hover:bg-sky-500/10 transition-all" onclick="shopTeleportToLocation(${idx})" title="Téléporter">
+                    <i class="fa-solid fa-paper-plane text-[8px]"></i>
+                </button>
+                <button class="w-6 h-6 flex items-center justify-center rounded text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-all" onclick="shopRemoveLocation(${idx})" title="Supprimer">
+                    <i class="fa-solid fa-trash-can text-[8px]"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+};
+
+window.shopRegenerateTargets = () => {
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const shop = cachedShops[activeShopId];
+    const locations = Array.isArray(shop.locations) ? shop.locations.map(normalizeLocation).filter(Boolean) : [];
+    if (locations.length === 0) {
+        alert("Cette boutique n'a aucune location — ajoute d'abord des points de vente.");
+        return;
+    }
+    if (!confirm(`Régénérer ${locations.length} target(s) au niveau du sol ?\n\nLes targets actuels seront remplacés. Utile si ox_target ne s'active pas (ex: Ammunation).`)) return;
+    shop.targets = locations.map(buildDefaultTarget);
+    renderShopLocations();
+    alert("Targets régénérés. N'oublie pas de cliquer Enregistrer pour persister.");
+};
+
+window.shopAddTargetForLocation = (idx) => {
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const shop = cachedShops[activeShopId];
+    if (!Array.isArray(shop.locations) || !shop.locations[idx]) return;
+    const loc = normalizeLocation(shop.locations[idx]);
+    if (!loc) return;
+    if (!Array.isArray(shop.targets)) shop.targets = [];
+    shop.targets.push(buildDefaultTarget(loc));
+    renderShopLocations();
+};
+
+window.deleteActiveShop = () => {
+    if (!activeShopId) {
+        alert('Aucune boutique sélectionnée.');
+        return;
+    }
+    const shopId = activeShopId;
+    const shop = cachedShops[shopId];
+    const label = (shop && shop.name) || shopId;
+    if (!confirm(`Supprimer définitivement la boutique "${label}" (${shopId}) ?\n\nElle disparaîtra du fichier shops.lua et de la map.`)) return;
+
+    fetch(`https://${GetParentResourceName()}/invcreator_deleteShop`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shopType: shopId })
+    });
+
+    // Suppression optimiste côté UI (le serveur renverra de toute façon les fresh data)
+    delete cachedShops[shopId];
+    activeShopId = null;
+    const selector = document.getElementById('invcreator-shop-select');
+    if (selector) {
+        const opt = selector.querySelector(`option[value="${shopId}"]`);
+        if (opt) opt.remove();
+        selector.value = '';
+    }
+    document.getElementById('invcreator-shop-config').classList.add('hidden');
+    document.getElementById('invcreator-shop-placeholder').classList.remove('hidden');
+};
+
+window.shopAddCurrentPosition = () => {
+    if (!activeShopId) return;
+    fetch(`https://${GetParentResourceName()}/invcreator_shopGetCurrentPos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+    });
+};
+
+window.shopPickLocation = () => {
+    if (!activeShopId) return;
+    fetch(`https://${GetParentResourceName()}/invcreator_shopPickLocation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+    });
+};
+
+// Crée un target par défaut AU NIVEAU DU SOL, compatible ox_target.
+// (Ne PAS soustraire 1.20m de z : la box doit englober le joueur debout, pas être sous le sol.)
+const buildDefaultTarget = (loc) => ({
+    loc: { x: loc.x, y: loc.y, z: loc.z },
+    length: 0.7,
+    width: 0.5,
+    heading: 0.0,
+    minZ: loc.z,
+    maxZ: loc.z + 1.0,
+    distance: 1.5
+});
+
+// Appelé depuis le client Lua après confirmation du raycast / position
+window.invcreatorAddShopLocation = (loc) => {
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const norm = normalizeLocation(loc);
+    if (!norm) return;
+    const shop = cachedShops[activeShopId];
+    if (!Array.isArray(shop.locations)) shop.locations = [];
+    if (!Array.isArray(shop.targets)) shop.targets = [];
+    shop.locations.push(norm);
+    // Ajoute aussi un target ox_target alignée sur la même position
+    // (sinon l'armurier/shop avec useTarget ne peut pas être ouvert via E)
+    shop.targets.push(buildDefaultTarget(norm));
+    renderShopLocations();
+};
+
+window.shopRemoveLocation = (idx) => {
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const shop = cachedShops[activeShopId];
+    if (!Array.isArray(shop.locations) || idx < 0 || idx >= shop.locations.length) return;
+    if (!confirm(`Supprimer le point de vente #${idx + 1} (location + target) ?`)) return;
+    shop.locations.splice(idx, 1);
+    // Si on a un target aligné 1-1 sur les locations, on le retire aussi
+    if (Array.isArray(shop.targets) && shop.targets.length === shop.locations.length + 1) {
+        shop.targets.splice(idx, 1);
+    }
+    renderShopLocations();
+};
+
+window.shopTeleportToLocation = (idx) => {
+    if (!activeShopId || !cachedShops[activeShopId]) return;
+    const shop = cachedShops[activeShopId];
+    const loc = normalizeLocation(shop.locations && shop.locations[idx]);
+    if (!loc) return;
+    fetch(`https://${GetParentResourceName()}/invcreator_shopTeleport`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ x: loc.x, y: loc.y, z: loc.z })
+    });
+};
+
+window.addShopItemRow = (rawName, rawPrice, rawCount, rawCurrency, rawSlot) => {
+    const container = document.getElementById('shop-items-container');
+    if (!container) return;
+
+    // Normalisation défensive : on ne laisse jamais "undefined" se retrouver dans value=
+    const name = (rawName == null) ? '' : String(rawName);
+    const price = (rawPrice == null || isNaN(rawPrice)) ? 0 : Number(rawPrice);
+    const count = (rawCount == null || rawCount === '') ? '' : Number(rawCount);
+    const currency = (rawCurrency == null) ? '' : String(rawCurrency);
+    const slot = (rawSlot == null) ? '' : String(rawSlot);
+
+    const row = document.createElement('div');
+    row.className = "grid grid-cols-12 gap-2 items-center bg-black/30 border border-white/5 px-2 py-1.5 rounded-lg";
+    row.dataset.slot = slot;
+
+    // Item selector with options sorted alphabetically
+    let optionsHtml = `<option value="" disabled ${!name ? 'selected' : ''}>Choisir...</option>`;
+    const itemKeys = Object.keys(cachedItems).sort((a,b) => (cachedItems[a].label || a).localeCompare(cachedItems[b].label || b));
+    // Si l'item référencé n'existe plus dans la registry, on l'ajoute quand même en tête pour préserver la valeur
+    if (name && !cachedItems[name]) {
+        optionsHtml += `<option value="${name}" selected>⚠ ${name} (introuvable)</option>`;
+    }
+    itemKeys.forEach(itemId => {
+        optionsHtml += `<option value="${itemId}" ${itemId === name ? 'selected' : ''}>${cachedItems[itemId].label || itemId} (${itemId})</option>`;
+    });
+    
+    row.innerHTML = `
+        <div class="col-span-4">
+            <select class="item-name-select w-full bg-black/60 border border-white/10 rounded px-2 py-1 text-[9px] text-white outline-none focus:border-orange-500/30 font-bold">
+                ${optionsHtml}
+            </select>
+        </div>
+        <div class="col-span-3">
+            <input class="item-price-input w-full bg-black/60 border border-white/10 rounded px-2 py-1 text-[9px] text-white outline-none focus:border-orange-500/30" type="number" placeholder="Prix" value="${price}">
+        </div>
+        <div class="col-span-2">
+            <input class="item-count-input w-full bg-black/60 border border-white/10 rounded px-2 py-1 text-[9px] text-white outline-none focus:border-orange-500/30" type="number" placeholder="Aucune" value="${count !== undefined ? count : ''}">
+        </div>
+        <div class="col-span-2">
+            <input class="item-currency-input w-full bg-black/60 border border-white/10 rounded px-2 py-1 text-[9px] text-white outline-none focus:border-orange-500/30" type="text" placeholder="money" value="${currency || ''}">
+        </div>
+        <div class="col-span-1 text-right">
+            <button type="button" class="text-rose-500/75 hover:text-rose-500" onclick="this.parentElement.parentElement.remove()"><i class="fa-solid fa-trash-can text-sm"></i></button>
+        </div>
+    `;
+    
+    container.appendChild(row);
+};
+
+window.saveActiveShopChanges = () => {
+    if (!activeShopId) return;
+    
+    const shop = cachedShops[activeShopId];
+    if (!shop) return;
+    
+    const name = document.getElementById('shop-name-input').value.trim();
+    const blipId = parseInt(document.getElementById('shop-blip-id').value) || 59;
+    const blipColour = parseInt(document.getElementById('shop-blip-colour').value) || 69;
+    const blipScale = parseFloat(document.getElementById('shop-blip-scale').value) || 0.8;
+    
+    const inventory = [];
+    const container = document.getElementById('shop-items-container');
+    const rows = container.querySelectorAll('.grid');
+    let skippedRows = 0;
+    
+    rows.forEach((row) => {
+        const itemSelect = row.querySelector('.item-name-select');
+        if (!itemSelect) return;
+        const priceInput = row.querySelector('.item-price-input');
+        const countInput = row.querySelector('.item-count-input');
+        const currencyInput = row.querySelector('.item-currency-input');
+
+        const itemName = itemSelect.value;
+        const price = parseInt(priceInput.value) || 0;
+        const count = countInput.value !== '' ? parseInt(countInput.value) : undefined;
+        const currency = currencyInput.value.trim();
+
+        if (itemName) {
+            const entry = { name: itemName, price: price };
+            if (count !== undefined && !isNaN(count) && count !== '') entry.count = count;
+            if (currency) entry.currency = currency;
+            inventory.push(entry);
+        } else {
+            skippedRows++;
+        }
+    });
+
+    if (skippedRows > 0) {
+        if (!confirm(`${skippedRows} ligne(s) sans item sélectionné seront ignorée(s) à la sauvegarde.\n\nContinuer quand même ?`)) {
+            return;
+        }
+    }
+    
+    // Construct updated details
+    const updatedDetails = {
+        name: name,
+        blip: { id: blipId, colour: blipColour, scale: blipScale },
+        inventory: inventory,
+        // Preserve locations/targets/models from previous config if they exist
+        locations: shop.locations || [],
+        targets: shop.targets || [],
+        model: shop.model || undefined
+    };
+    
+    const payload = {
+        shopType: activeShopId,
+        shopDetails: updatedDetails
+    };
+    
+    fetch(`https://${GetParentResourceName()}/invcreator_saveShop`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    // Mise à jour optimiste locale : le round-trip serveur peut prendre 1-2s
+    // et l'utilisateur attendrait sans voir ses modifs. On reflète immédiatement.
+    cachedShops[activeShopId] = updatedDetails;
+    selectActiveShop();
+};
+
 
