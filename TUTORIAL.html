@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yol_Admin — Tutoriel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg-0: #0a0c10;
+    --bg-1: #11141a;
+    --bg-2: #181c25;
+    --bg-3: #1f2530;
+    --border: rgba(255,255,255,0.06);
+    --border-strong: rgba(255,255,255,0.12);
+    --text-0: #ffffff;
+    --text-1: #d1d5dc;
+    --text-2: #9aa3af;
+    --text-3: #6b7280;
+    --gold: #f0a830;
+    --gold-soft: rgba(240,168,48,0.12);
+    --accent: #f04c00;
+    --accent-soft: rgba(240,76,0,0.12);
+    --green: #10b981;
+    --green-soft: rgba(16,185,129,0.12);
+    --blue: #3b82f6;
+    --blue-soft: rgba(59,130,246,0.12);
+    --purple: #8b5cf6;
+    --purple-soft: rgba(139,92,246,0.12);
+    --rose: #ef4444;
+    --rose-soft: rgba(239,68,68,0.12);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+    --radius: 14px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg-0);
+    color: var(--text-1);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ====== LAYOUT ====== */
+.layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* ====== SIDEBAR ====== */
+.sidebar {
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+.brand-logo {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 18px; color: white;
+    box-shadow: 0 4px 14px rgba(240,76,0,0.4);
+}
+.brand-name {
+    font-weight: 900; font-size: 16px;
+    letter-spacing: 0.5px;
+    color: var(--text-0);
+}
+.brand-sub {
+    font-size: 10px;
+    color: var(--text-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.nav-group { margin-bottom: 8px; }
+.nav-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 12px 6px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.18s;
+    cursor: pointer;
+}
+.nav-item:hover {
+    background: var(--bg-2);
+    color: var(--text-0);
+}
+.nav-item.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+.nav-item i { width: 16px; text-align: center; font-size: 12px; }
+
+/* ====== MAIN ====== */
+.main {
+    padding: 40px 56px 80px;
+    max-width: 1100px;
+}
+
+/* ====== HERO ====== */
+.hero {
+    position: relative;
+    padding: 60px 48px;
+    margin-bottom: 56px;
+    border-radius: 24px;
+    background:
+        radial-gradient(ellipse 60% 80% at 0% 0%, var(--accent-soft) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 80% at 100% 100%, var(--gold-soft) 0%, transparent 50%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--gold-soft);
+    color: var(--gold);
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+.hero-title {
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--text-0);
+    line-height: 1.05;
+    margin-bottom: 18px;
+    letter-spacing: -1.5px;
+}
+.hero-title .grad {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.hero-desc {
+    font-size: 17px;
+    color: var(--text-2);
+    max-width: 700px;
+    line-height: 1.6;
+}
+.hero-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+.hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-2);
+}
+.hero-meta-item i {
+    color: var(--gold);
+    font-size: 14px;
+}
+
+/* ====== SECTIONS ====== */
+.section {
+    margin-bottom: 64px;
+    scroll-margin-top: 30px;
+}
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+.section-icon {
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    display: grid; place-items: center;
+    font-size: 16px;
+}
+.section-icon.gold   { background: var(--gold-soft);   color: var(--gold); }
+.section-icon.green  { background: var(--green-soft);  color: var(--green); }
+.section-icon.blue   { background: var(--blue-soft);   color: var(--blue); }
+.section-icon.purple { background: var(--purple-soft); color: var(--purple); }
+.section-icon.accent { background: var(--accent-soft); color: var(--accent); }
+.section-icon.rose   { background: var(--rose-soft);   color: var(--rose); }
+
+.section-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-0);
+    letter-spacing: -0.5px;
+}
+.section-sub {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-top: 2px;
+}
+
+/* ====== CARDS ====== */
+.card-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    margin-bottom: 24px;
+}
+.card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: all 0.2s;
+}
+.card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+.card-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+.card-icon.gold   { background: var(--gold-soft);   color: var(--gold); }
+.card-icon.green  { background: var(--green-soft);  color: var(--green); }
+.card-icon.blue   { background: var(--blue-soft);   color: var(--blue); }
+.card-icon.purple { background: var(--purple-soft); color: var(--purple); }
+.card-icon.accent { background: var(--accent-soft); color: var(--accent); }
+.card-icon.rose   { background: var(--rose-soft);   color: var(--rose); }
+.card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-0);
+    margin-bottom: 6px;
+}
+.card-desc {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.55;
+}
+
+/* ====== STEPS ====== */
+.steps { display: grid; gap: 14px; }
+.step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+}
+.step-num {
+    width: 32px; height: 32px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 13px;
+}
+.step-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-0);
+    margin-bottom: 4px;
+}
+.step-content p { font-size: 13px; color: var(--text-2); }
+
+/* ====== TABLES ====== */
+.table-wrap {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+thead {
+    background: var(--bg-2);
+    text-align: left;
+}
+th {
+    padding: 14px 18px;
+    font-weight: 700;
+    color: var(--text-2);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+}
+td {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-1);
+    vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.015); }
+td code, th code {
+    background: var(--bg-3);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+}
+
+/* ====== PANEL CARDS ====== */
+.panel-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.panel-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    transition: all 0.2s;
+}
+.panel-card:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-2);
+}
+.panel-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.panel-card-icon {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    display: grid; place-items: center;
+    font-size: 13px;
+}
+.panel-card-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-0);
+}
+.panel-card-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-3);
+    background: var(--bg-3);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+.panel-card-desc {
+    font-size: 12.5px;
+    color: var(--text-2);
+    line-height: 1.55;
+}
+
+/* ====== CODE BLOCKS ====== */
+.code-block {
+    position: relative;
+    background: var(--bg-0);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 16px 0;
+}
+.code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+}
+.code-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.code-lang i { color: var(--gold); }
+.code-copy {
+    background: transparent;
+    color: var(--text-3);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+.code-copy:hover {
+    color: var(--text-0);
+    border-color: var(--border-strong);
+}
+.code-copy.copied {
+    color: var(--green);
+    border-color: var(--green-soft);
+}
+pre {
+    padding: 20px 22px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text-1);
+}
+.tk { color: #ff79c6; }   /* keyword */
+.tf { color: #50fa7b; }   /* function */
+.ts { color: #f1fa8c; }   /* string */
+.tn { color: #bd93f9; }   /* number */
+.tc { color: #6272a4; }   /* comment */
+.tp { color: #8be9fd; }   /* property */
+
+/* ====== BADGES ====== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+.badge.required { background: var(--rose-soft); color: var(--rose); }
+.badge.optional { background: var(--blue-soft);  color: var(--blue); }
+.badge.new      { background: var(--green-soft); color: var(--green); }
+.badge.client   { background: var(--purple-soft); color: var(--purple); }
+.badge.server   { background: var(--gold-soft);  color: var(--gold); }
+
+/* ====== ALERTS ====== */
+.alert {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 16px 0;
+}
+.alert.warn    { border-left-color: var(--gold); }
+.alert.success { border-left-color: var(--green); }
+.alert.danger  { border-left-color: var(--rose); }
+.alert-icon {
+    color: var(--blue);
+    font-size: 16px;
+    margin-top: 2px;
+}
+.alert.warn    .alert-icon { color: var(--gold); }
+.alert.success .alert-icon { color: var(--green); }
+.alert.danger  .alert-icon { color: var(--rose); }
+.alert-content { font-size: 13px; color: var(--text-2); }
+.alert-title { font-weight: 700; color: var(--text-0); margin-bottom: 3px; }
+
+/* ====== KEYBINDS ====== */
+.key-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.key-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+.key-action { font-size: 13px; color: var(--text-1); font-weight: 500; }
+.kbd {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.kbd-key {
+    background: linear-gradient(180deg, var(--bg-2), var(--bg-3));
+    border: 1px solid var(--border-strong);
+    border-bottom-width: 2px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-0);
+    min-width: 24px;
+    text-align: center;
+}
+.kbd-plus { color: var(--text-3); font-size: 11px; }
+
+/* ====== INTRO TEXT ====== */
+.intro-text {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.7;
+    max-width: 800px;
+    margin-bottom: 24px;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+    margin-top: 80px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-3);
+    font-size: 12px;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; }
+    .main { padding: 24px; }
+    .hero { padding: 36px 24px; }
+    .hero-title { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+                <div class="brand-name">Yol_Admin</div>
+                <div class="brand-sub">Documentation</div>
+            </div>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">Démarrage</div>
+            <a class="nav-item active" href="#intro"><i class="fa-solid fa-rocket"></i> Présentation</a>
+            <a class="nav-item" href="#install"><i class="fa-solid fa-download"></i> Installation</a>
+            <a class="nav-item" href="#config"><i class="fa-solid fa-gear"></i> Configuration</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">Utilisation</div>
+            <a class="nav-item" href="#panels"><i class="fa-solid fa-grip"></i> Panels du menu</a>
+            <a class="nav-item" href="#quickmenu"><i class="fa-solid fa-bolt"></i> Quick Menu</a>
+            <a class="nav-item" href="#keys"><i class="fa-solid fa-keyboard"></i> Raccourcis</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">Développement</div>
+            <a class="nav-item" href="#exports"><i class="fa-solid fa-share-nodes"></i> Exports</a>
+            <a class="nav-item" href="#events"><i class="fa-solid fa-bolt-lightning"></i> Events réseau</a>
+            <a class="nav-item" href="#globals"><i class="fa-solid fa-code"></i> Fonctions globales</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">Intégrations</div>
+            <a class="nav-item" href="#items"><i class="fa-solid fa-box"></i> Items requis</a>
+            <a class="nav-item" href="#discord"><i class="fa-brands fa-discord"></i> Bot Discord</a>
+        </div>
+    </aside>
+
+    <!-- ====== MAIN ====== -->
+    <main class="main">
+
+        <!-- ====== HERO ====== -->
+        <section class="hero" id="intro">
+            <div class="hero-eyebrow">
+                <i class="fa-solid fa-sparkles"></i> Premium Admin Suite v2.6
+            </div>
+            <h1 class="hero-title">
+                Bienvenue dans<br>
+                <span class="grad">Yol_Admin</span>
+            </h1>
+            <p class="hero-desc">
+                Système d'administration tout-en-un pour FiveM. Menu admin complet, bot Discord natif,
+                Rich Notifications, modules de braquage unifiés, gestion de zones, doorlock, props
+                persistés, et bien plus — le tout configurable en jeu via un dashboard premium.
+            </p>
+            <div class="hero-meta">
+                <div class="hero-meta-item"><i class="fa-solid fa-grip"></i> 27 panels intégrés</div>
+                <div class="hero-meta-item"><i class="fa-solid fa-shield-check"></i> ESX Legacy + ox_lib</div>
+                <div class="hero-meta-item"><i class="fa-brands fa-discord"></i> Bot Discord inclus</div>
+                <div class="hero-meta-item"><i class="fa-solid fa-bolt"></i> 22 000 lignes optimisées</div>
+            </div>
+        </section>
+
+        <!-- ====== INSTALLATION ====== -->
+        <section class="section" id="install">
+            <div class="section-head">
+                <div class="section-icon green"><i class="fa-solid fa-download"></i></div>
+                <div>
+                    <div class="section-title">Installation</div>
+                    <div class="section-sub">5 minutes pour démarrer</div>
+                </div>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">Dépendances</h3>
+            <div class="card-grid" style="margin-bottom:32px;">
+                <div class="card">
+                    <div class="card-icon rose"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="card-title">Obligatoires <span class="badge required">required</span></div>
+                    <div class="card-desc">
+                        <code>es_extended</code> · <code>ox_lib</code> · <code>oxmysql</code> · <code>Yol_Bridge</code>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue"><i class="fa-solid fa-plus"></i></div>
+                    <div class="card-title">Recommandées <span class="badge optional">optional</span></div>
+                    <div class="card-desc">
+                        <code>ox_inventory</code> · <code>ox_target</code> · <code>ox_doorlock</code> · <code>mVehicle</code> · <code>mGarage</code> · <code>pefcl</code>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">Étapes d'installation</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Placer la ressource</h4>
+                        <p>Copier le dossier <code>Yol_Admin</code> dans <code>resources/</code> de votre serveur FiveM.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Ajouter au server.cfg</h4>
+                        <p>Ajouter <code>ensure Yol_Admin</code> après vos dépendances (oxmysql, ox_lib, es_extended).</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Tables SQL</h4>
+                        <p>Les tables SQL sont créées automatiquement par oxmysql au premier démarrage.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Ajouter les items requis</h4>
+                        <p>Ajouter les items du <a href="#items" style="color:var(--gold);text-decoration:none;font-weight:700;">tableau ci-dessous</a> dans <code>ox_inventory/data/items.lua</code>.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>Permissions ACE</h4>
+                        <p>Dans <code>server.cfg</code>, déclarer un admin :</p>
+                        <div class="code-block" style="margin-top:10px;">
+                            <pre><span class="tk">add_ace</span> group.admin command allow
+<span class="tk">add_principal</span> identifier.discord:VOTRE_DISCORD_ID group.admin</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== CONFIGURATION ====== -->
+        <section class="section" id="config">
+            <div class="section-head">
+                <div class="section-icon gold"><i class="fa-solid fa-gear"></i></div>
+                <div>
+                    <div class="section-title">Configuration</div>
+                    <div class="section-sub">Les fichiers à connaître</div>
+                </div>
+            </div>
+
+            <p class="intro-text">
+                Yol_Admin tente d'auto-détecter les frameworks installés (inventory, target, garage, vehicle, banking). Vous pouvez forcer un choix précis ou désactiver l'auto-détection dans <code>shared/config.lua</code>.
+            </p>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin:24px 0 14px;">Clés principales de <code>shared/config.lua</code></h3>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th style="width:35%;">Clé</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>Config.Locale</code></td><td>Langue : <code>'fr'</code> ou <code>'en'</code></td></tr>
+                        <tr><td><code>Config.ServerName</code></td><td>Nom affiché du serveur</td></tr>
+                        <tr><td><code>Config.AdminGroups</code></td><td>Groupes ACE autorisés à ouvrir le menu</td></tr>
+                        <tr><td><code>Config.AutoDetectDependencies</code></td><td>Auto-détection des frameworks au démarrage</td></tr>
+                        <tr><td><code>Config.Dependencies</code></td><td>Mapping manuel : inventory, target, garage, vehicle, banking, vehicleKeys</td></tr>
+                        <tr><td><code>Config.Modules</code></td><td>Activation/désactivation par module (table de bools)</td></tr>
+                        <tr><td><code>Config.ModulePermissions</code></td><td>Permission ACE requise pour chaque module</td></tr>
+                        <tr><td><code>Config.Weapons</code></td><td>Liste des armes du panel d'attribution</td></tr>
+                        <tr><td><code>Config.TargetOptions</code></td><td>Options à exposer via ox_target (Player/Vehicle/Ped/Object)</td></tr>
+                        <tr><td><code>Config.NotifDefaults</code></td><td>Image/durée/icône par défaut + compatibilité ESX/ox_lib</td></tr>
+                        <tr><td><code>Config.UseYolAnticheat</code></td><td>Si <code>true</code>, expose un hook pour Yol_Anticheat</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert success" style="margin-top:24px;">
+                <i class="fa-solid fa-circle-check alert-icon"></i>
+                <div class="alert-content">
+                    <div class="alert-title">Persistance du Robbery Manager</div>
+                    Les paramètres modifiés via le panel <strong>Robbery Manager</strong> sont stockés dans <code>data/robbery_config.json</code> et survivent aux reboots du serveur.
+                </div>
+            </div>
+
+            <div class="alert">
+                <i class="fa-solid fa-circle-info alert-icon"></i>
+                <div class="alert-content">
+                    <div class="alert-title">Persistance des raccourcis clavier</div>
+                    Les raccourcis personnalisés via le panel <strong>Configurations</strong> sont stockés en KVP côté client (<code>SetResourceKvp</code>) — ils survivent aux reloads et déconnexions.
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== PANELS ====== -->
+        <section class="section" id="panels">
+            <div class="section-head">
+                <div class="section-icon purple"><i class="fa-solid fa-grip"></i></div>
+                <div>
+                    <div class="section-title">Panels du menu</div>
+                    <div class="section-sub">27 onglets disponibles</div>
+                </div>
+            </div>
+            <p class="intro-text">
+                Pour désactiver un panel : <code>Config.Modules['nom'] = false</code>. Pour restreindre l'accès : <code>Config.ModulePermissions['nom'] = 'permission'</code>.
+            </p>
+
+            <div class="panel-grid">
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon gold"><i class="fa-solid fa-gauge"></i></div>
+                        <div class="panel-card-id">dashboard</div>
+                    </div>
+                    <div class="panel-card-name">Dashboard</div>
+                    <div class="panel-card-desc">Vue d'ensemble : joueurs en ligne, mini-carte temps réel, modules tiers, raccourcis.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-solid fa-users"></i></div>
+                        <div class="panel-card-id">players</div>
+                    </div>
+                    <div class="panel-card-name">Players</div>
+                    <div class="panel-card-desc">Liste des joueurs. Kick, Ban, Warn, Jail, Slap, SetJob, SetGroup, Bring, Goto, Revive, Heal, Spectate, ESP, inventaire.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon purple"><i class="fa-solid fa-tower-broadcast"></i></div>
+                        <div class="panel-card-id">multipip</div>
+                    </div>
+                    <div class="panel-card-name">Multi-PIP</div>
+                    <div class="panel-card-desc">Picture-in-picture multi-canaux pour superviser plusieurs joueurs simultanément.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon accent"><i class="fa-solid fa-bell"></i></div>
+                        <div class="panel-card-id">notifications</div>
+                    </div>
+                    <div class="panel-card-name">Notifications</div>
+                    <div class="panel-card-desc">Rich Notifications : annonces avec image, vidéo MP4 ou YouTube. Historique en BDD.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-solid fa-car"></i></div>
+                        <div class="panel-card-id">vehicles</div>
+                    </div>
+                    <div class="panel-card-name">Vehicles</div>
+                    <div class="panel-card-desc">Game pool. Réparation, suppression, déverrouillage, téléportation, infos owner.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon green"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="panel-card-id">eco</div>
+                    </div>
+                    <div class="panel-card-name">Eco</div>
+                    <div class="panel-card-desc">Statistiques économiques : cash, banque, society accounts. Refresh auto / 30 min.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon gold"><i class="fa-solid fa-truck-fast"></i></div>
+                        <div class="panel-card-id">fleet</div>
+                    </div>
+                    <div class="panel-card-name">Fleet</div>
+                    <div class="panel-card-desc">Gestion de la flotte serveur (véhicules persistés).</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon purple"><i class="fa-solid fa-list-check"></i></div>
+                        <div class="panel-card-id">logs</div>
+                    </div>
+                    <div class="panel-card-name">Logs</div>
+                    <div class="panel-card-desc">Historique complet des actions admin (LogAction) avec filtres.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon rose"><i class="fa-solid fa-key"></i></div>
+                        <div class="panel-card-id">permissions</div>
+                    </div>
+                    <div class="panel-card-name">Permissions</div>
+                    <div class="panel-card-desc">Éditeur visuel de groupes et permissions (basé sur PermissionsCatalog).</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-solid fa-map-location-dot"></i></div>
+                        <div class="panel-card-id">zones</div>
+                    </div>
+                    <div class="panel-card-name">Zones</div>
+                    <div class="panel-card-desc">Zones map (circulaire/polygone). Flags : godmode, no_weapon, no_vehicles, no_peds, speed_limit.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon green"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="panel-card-id">jobcreator</div>
+                    </div>
+                    <div class="panel-card-name">Job Creator</div>
+                    <div class="panel-card-desc">Création / édition de jobs ESX avec grades et salaires.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon rose"><i class="fa-solid fa-skull"></i></div>
+                        <div class="panel-card-id">gangcreator</div>
+                    </div>
+                    <div class="panel-card-name">Gang Creator</div>
+                    <div class="panel-card-desc">Création / édition de gangs.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon purple"><i class="fa-solid fa-pills"></i></div>
+                        <div class="panel-card-id">drugcreator</div>
+                    </div>
+                    <div class="panel-card-name">Drug Creator</div>
+                    <div class="panel-card-desc">Markers drug : minigame récolte, payout cash/black_money, dispatch police optionnel.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon rose"><i class="fa-solid fa-vault"></i></div>
+                        <div class="panel-card-id">robberycreator</div>
+                    </div>
+                    <div class="panel-card-name">Robbery Manager</div>
+                    <div class="panel-card-desc">6 modules : Bank, Carheist, Train, Storerobbery, Fraud, ATM. Cooldowns, police, loot, items. Persistance disque.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon accent"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="panel-card-id">inventorycreator</div>
+                    </div>
+                    <div class="panel-card-name">Inventory Creator</div>
+                    <div class="panel-card-desc">Création visuelle d'items ox_inventory avec image et raycast.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon purple"><i class="fa-solid fa-door-closed"></i></div>
+                        <div class="panel-card-id">doorlock</div>
+                    </div>
+                    <div class="panel-card-name">Doorlock</div>
+                    <div class="panel-card-desc">Création / édition de portes ox_doorlock depuis l'UI.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon gold"><i class="fa-solid fa-cube"></i></div>
+                        <div class="panel-card-id">props</div>
+                    </div>
+                    <div class="panel-card-name">Props</div>
+                    <div class="panel-card-desc">Spawn et placement de props mondiaux persistés.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-solid fa-server"></i></div>
+                        <div class="panel-card-id">server</div>
+                    </div>
+                    <div class="panel-card-name">Server</div>
+                    <div class="panel-card-desc">États : maintenance, whitelist, message d'accueil, restart programmé.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon green"><i class="fa-solid fa-folder-tree"></i></div>
+                        <div class="panel-card-id">scripts</div>
+                    </div>
+                    <div class="panel-card-name">Resources</div>
+                    <div class="panel-card-desc">Liste des ressources : start / stop / restart en un clic.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon green"><i class="fa-solid fa-terminal"></i></div>
+                        <div class="panel-card-id">console</div>
+                    </div>
+                    <div class="panel-card-name">Console</div>
+                    <div class="panel-card-desc">Console serveur live (subscribers, exécution de commandes, buffer ring).</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-brands fa-discord"></i></div>
+                        <div class="panel-card-id">discordbot</div>
+                    </div>
+                    <div class="panel-card-name">Discord Bot</div>
+                    <div class="panel-card-desc">Token, guild, role admin, channel logs. Start/Stop depuis l'UI.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon rose"><i class="fa-solid fa-shield-virus"></i></div>
+                        <div class="panel-card-id">anticheat</div>
+                    </div>
+                    <div class="panel-card-name">Anticheat</div>
+                    <div class="panel-card-desc">Pont vers Yol_Anticheat (affichage des détections).</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon accent"><i class="fa-solid fa-fingerprint"></i></div>
+                        <div class="panel-card-id">anticheat</div>
+                    </div>
+                    <div class="panel-card-name">AntiCipher</div>
+                    <div class="panel-card-desc">Sous-panel anticheat — analyse de signatures de ressources.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon purple"><i class="fa-solid fa-image"></i></div>
+                        <div class="panel-card-id">loadingscreen</div>
+                    </div>
+                    <div class="panel-card-name">Loading Screen</div>
+                    <div class="panel-card-desc">Éditeur : logo, position, phrases positives/négatives détectées.</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon blue"><i class="fa-brands fa-discord"></i></div>
+                        <div class="panel-card-id">richpresence</div>
+                    </div>
+                    <div class="panel-card-name">Rich Presence</div>
+                    <div class="panel-card-desc">Configuration Discord Rich Presence (titre, image, état joueur).</div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <div class="panel-card-icon gold"><i class="fa-solid fa-sliders"></i></div>
+                        <div class="panel-card-id">configurations</div>
+                    </div>
+                    <div class="panel-card-name">Configurations</div>
+                    <div class="panel-card-desc">Raccourcis clavier, options UI, préférences. Persistés en KVP côté client.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== QUICK MENU ====== -->
+        <section class="section" id="quickmenu">
+            <div class="section-head">
+                <div class="section-icon accent"><i class="fa-solid fa-bolt"></i></div>
+                <div>
+                    <div class="section-title">Quick Menu</div>
+                    <div class="section-sub">Touche par défaut : <span class="kbd-key">INSERT</span></div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon purple"><i class="fa-solid fa-user-shield"></i></div>
+                    <div class="card-title">Staff</div>
+                    <div class="card-desc">Infos du joueur le plus proche (ID, nom RP, distance, ping, vie/armure). Actions : Revive, Heal, Bring, Goto, Open Inventory.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon gold"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <div class="card-title">Tools</div>
+                    <div class="card-desc">Toggles : Noclip, Godmode, Invisibility, ESP, Name Tags, Player Blips. Copy Coords. Vehicle Spawner.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue"><i class="fa-solid fa-globe"></i></div>
+                    <div class="card-title">World</div>
+                    <div class="card-desc">Toggles serveur (météo, heure, restart) selon permissions.</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon accent"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <div class="card-title">Modules</div>
+                    <div class="card-desc">Raccourcis vers les modules tiers détectés (Yol_Epave, Yol_Core...).</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== RACCOURCIS ====== -->
+        <section class="section" id="keys">
+            <div class="section-head">
+                <div class="section-icon blue"><i class="fa-solid fa-keyboard"></i></div>
+                <div>
+                    <div class="section-title">Raccourcis clavier</div>
+                    <div class="section-sub">Configurables in-game · Persistance KVP</div>
+                </div>
+            </div>
+
+            <p class="intro-text">
+                Reconfigurables dans <strong>Configurations &gt; Raccourcis Clavier</strong>, ou dans le menu FiveM natif
+                (<span class="kbd-key">ESC</span> &gt; Paramètres &gt; Affectations clavier &gt; FiveM).
+            </p>
+
+            <div class="key-grid">
+                <div class="key-row">
+                    <div class="key-action">Ouvrir l'admin</div>
+                    <div class="kbd"><span class="kbd-key">F6</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Quick Menu</div>
+                    <div class="kbd"><span class="kbd-key">INSERT</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Console Serveur</div>
+                    <div class="kbd"><span class="kbd-key">F7</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Recherche Joueur</div>
+                    <div class="kbd">
+                        <span class="kbd-key">CTRL</span>
+                        <span class="kbd-plus">+</span>
+                        <span class="kbd-key">K</span>
+                    </div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Noclip</div>
+                    <div class="kbd"><span class="kbd-key">F9</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Godmode</div>
+                    <div class="kbd"><span class="kbd-key">F10</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Onglet Suivant</div>
+                    <div class="kbd">
+                        <span class="kbd-key">CTRL</span>
+                        <span class="kbd-plus">+</span>
+                        <span class="kbd-key">TAB</span>
+                    </div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Onglet Précédent</div>
+                    <div class="kbd">
+                        <span class="kbd-key">CTRL</span>
+                        <span class="kbd-plus">+</span>
+                        <span class="kbd-key">SHIFT</span>
+                        <span class="kbd-plus">+</span>
+                        <span class="kbd-key">TAB</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== EXPORTS ====== -->
+        <section class="section" id="exports">
+            <div class="section-head">
+                <div class="section-icon green"><i class="fa-solid fa-share-nodes"></i></div>
+                <div>
+                    <div class="section-title">Exports publics</div>
+                    <div class="section-sub">3 fonctions exposées</div>
+                </div>
+            </div>
+
+            <h3 style="font-size:14px;font-weight:700;color:var(--text-0);margin:0 0 8px;">
+                <span class="badge client">CLIENT</span> <code>ShowRichNotification</code>
+            </h3>
+            <p style="color:var(--text-2);font-size:13px;margin-bottom:12px;">
+                Affiche une Rich Notification (image, vidéo MP4 ou YouTube).
+            </p>
+            <div class="code-block">
+                <div class="code-head">
+                    <div class="code-lang"><i class="fa-solid fa-code"></i> Lua · Client</div>
+                    <button class="code-copy" onclick="copyCode(this)">Copier</button>
+                </div>
+                <pre><span class="tk">exports</span>.Yol_Admin:<span class="tf">ShowRichNotification</span>({
+    <span class="tp">title</span>    = <span class="ts">"TITRE"</span>,
+    <span class="tp">message</span>  = <span class="ts">"Description"</span>,
+    <span class="tp">image</span>    = <span class="ts">"https://example.com/img.png"</span>,  <span class="tc">-- optionnel</span>
+    <span class="tp">video</span>    = <span class="ts">"https://example.com/vid.mp4"</span>,  <span class="tc">-- optionnel</span>
+    <span class="tp">icon</span>     = <span class="ts">"fa-solid fa-bell"</span>,             <span class="tc">-- optionnel</span>
+    <span class="tp">duration</span> = <span class="tn">5000</span>                             <span class="tc">-- ms, optionnel</span>
+})</pre>
+            </div>
+
+            <h3 style="font-size:14px;font-weight:700;color:var(--text-0);margin:28px 0 8px;">
+                <span class="badge server">SERVER</span> <code>HasPermission</code>
+            </h3>
+            <p style="color:var(--text-2);font-size:13px;margin-bottom:12px;">
+                Vérifie si un joueur possède une permission précise (groupe ACE ou perm custom).
+            </p>
+            <div class="code-block">
+                <div class="code-head">
+                    <div class="code-lang"><i class="fa-solid fa-code"></i> Lua · Server</div>
+                    <button class="code-copy" onclick="copyCode(this)">Copier</button>
+                </div>
+                <pre><span class="tk">local</span> ok = <span class="tk">exports</span>.Yol_Admin:<span class="tf">HasPermission</span>(source, <span class="ts">'admin.access'</span>)
+<span class="tk">if</span> ok <span class="tk">then</span>
+    <span class="tc">-- Joueur autorisé</span>
+<span class="tk">end</span></pre>
+            </div>
+
+            <h3 style="font-size:14px;font-weight:700;color:var(--text-0);margin:28px 0 8px;">
+                <span class="badge server">SERVER</span> <code>GetUserGroups</code>
+            </h3>
+            <p style="color:var(--text-2);font-size:13px;margin-bottom:12px;">
+                Récupère la liste des groupes ACE/custom d'un joueur par sa license.
+            </p>
+            <div class="code-block">
+                <div class="code-head">
+                    <div class="code-lang"><i class="fa-solid fa-code"></i> Lua · Server</div>
+                    <button class="code-copy" onclick="copyCode(this)">Copier</button>
+                </div>
+                <pre><span class="tk">local</span> groups = <span class="tk">exports</span>.Yol_Admin:<span class="tf">GetUserGroups</span>(<span class="ts">'license:abc123'</span>)
+<span class="tc">-- Retourne : { ['group.admin'] = true, ... }</span></pre>
+            </div>
+        </section>
+
+        <!-- ====== EVENTS RÉSEAU ====== -->
+        <section class="section" id="events">
+            <div class="section-head">
+                <div class="section-icon accent"><i class="fa-solid fa-bolt-lightning"></i></div>
+                <div>
+                    <div class="section-title">Events réseau publics</div>
+                    <div class="section-sub">Pour l'intégration avec d'autres ressources</div>
+                </div>
+            </div>
+
+            <h3 style="font-size:14px;font-weight:700;color:var(--text-0);margin:0 0 8px;">
+                <code>Yol_Admin:client:ShowRichNotification</code>
+            </h3>
+            <p style="color:var(--text-2);font-size:13px;margin-bottom:12px;">
+                Server → Client. Envoyer une notification premium à un joueur depuis n'importe quelle ressource.
+            </p>
+            <div class="code-block">
+                <div class="code-head">
+                    <div class="code-lang"><i class="fa-solid fa-paper-plane"></i> Trigger · Server</div>
+                    <button class="code-copy" onclick="copyCode(this)">Copier</button>
+                </div>
+                <pre><span class="tf">TriggerClientEvent</span>(<span class="ts">'Yol_Admin:client:ShowRichNotification'</span>, source, {
+    <span class="tp">title</span>   = <span class="ts">"BIENVENUE"</span>,
+    <span class="tp">message</span> = <span class="ts">"Profitez bien du serveur !"</span>,
+    <span class="tp">image</span>   = <span class="ts">"https://example.com/welcome.png"</span>
+})</pre>
+            </div>
+
+            <div class="alert success">
+                <i class="fa-solid fa-wand-magic-sparkles alert-icon"></i>
+                <div class="alert-content">
+                    <div class="alert-title">Interception automatique</div>
+                    Si <code>Config.NotifDefaults.compatibility = true</code> (par défaut), les appels
+                    <code>ESX.ShowNotification</code>, <code>ESX.ShowAdvancedNotification</code> et
+                    <code>lib.notify</code> sont automatiquement convertis en Rich Notifications.
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== FONCTIONS GLOBALES ====== -->
+        <section class="section" id="globals">
+            <div class="section-head">
+                <div class="section-icon gold"><i class="fa-solid fa-code"></i></div>
+                <div>
+                    <div class="section-title">Fonctions globales</div>
+                    <div class="section-sub">Utilisables depuis les sous-modules de la ressource</div>
+                </div>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">
+                <span class="badge server">SERVER</span>
+            </h3>
+            <div class="table-wrap" style="margin-bottom:32px;">
+                <table>
+                    <thead><tr><th style="width:40%;">Signature</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>IsStaffMenuOpen(src)</code></td><td>Retourne <code>true</code> si le menu admin est ouvert.</td></tr>
+                        <tr><td><code>IsStaffOnTab(src, tab)</code></td><td>Retourne <code>true</code> si le staff est sur l'onglet donné.</td></tr>
+                        <tr><td><code>GetStaffActiveTab(src)</code></td><td>Retourne le nom de l'onglet actif.</td></tr>
+                        <tr><td><code>GetCharacterRPName(playerId)</code></td><td>Prénom + nom RP via ESX.</td></tr>
+                        <tr><td><code>LogAction(adminId, action, details, targetId)</code></td><td>Enregistre une ligne dans le journal d'actions admin.</td></tr>
+                        <tr><td><code>CreateSocietyAccount(source, name, label)</code></td><td>Crée un compte société (PEFCL ou ESX).</td></tr>
+                        <tr><td><code>RM_ServerGetConfig(name)</code></td><td>Lit un convar du Robbery Manager (avec fallback).</td></tr>
+                        <tr><td><code>RM_ServerGetConfigInt(name)</code></td><td>Variante int.</td></tr>
+                        <tr><td><code>RM_ServerModuleEnabled(moduleName)</code></td><td>Vérifie si un module robbery est actif.</td></tr>
+                        <tr><td><code>BroadcastAnnouncements()</code></td><td>Force un re-broadcast des annonces actives.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">
+                <span class="badge client">CLIENT</span>
+            </h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th style="width:40%;">Signature</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>ShowRichNotification(data)</code></td><td>Identique à l'export.</td></tr>
+                        <tr><td><code>HandleSelfAction(action, data)</code></td><td>Action sur soi : <code>noclip</code>, <code>godmode</code>, <code>invisible</code>.</td></tr>
+                        <tr><td><code>HandleVehicleAction(action, data)</code></td><td>Action sur le véhicule courant : <code>fix</code>, <code>delete</code>, <code>unlock</code>...</td></tr>
+                        <tr><td><code>RM_ClientGetConfig(name, default)</code></td><td>Lit la config robbery côté client.</td></tr>
+                        <tr><td><code>RM_ClientModuleEnabled(moduleName)</code></td><td>Vérifie si un module est actif.</td></tr>
+                        <tr><td><code>OpenNUIContextMenu(title, items)</code></td><td>Ouvre un menu contextuel NUI personnalisable.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ====== ITEMS ====== -->
+        <section class="section" id="items">
+            <div class="section-head">
+                <div class="section-icon rose"><i class="fa-solid fa-box"></i></div>
+                <div>
+                    <div class="section-title">Items requis (ox_inventory)</div>
+                    <div class="section-sub">À ajouter à <code>ox_inventory/data/items.lua</code></div>
+                </div>
+            </div>
+
+            <div class="alert warn">
+                <i class="fa-solid fa-triangle-exclamation alert-icon"></i>
+                <div class="alert-content">
+                    <div class="alert-title">Sans ces items les modules de braquage ne fonctionneront pas</div>
+                    Hack, ATM clonecard, train heist (grinder, gold), storerobbery (montre), payouts black money — tout passe par ces items.
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-head">
+                    <div class="code-lang"><i class="fa-solid fa-code"></i> Lua · items.lua</div>
+                    <button class="code-copy" onclick="copyCode(this)">Copier</button>
+                </div>
+<pre>[<span class="ts">'laptop'</span>] = { <span class="tp">label</span> = <span class="ts">'Laptop de Hack'</span>, <span class="tp">weight</span> = <span class="tn">2000</span>, <span class="tp">stack</span> = <span class="tk">false</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'printer'</span>] = { <span class="tp">label</span> = <span class="ts">'Imprimante à Cartes'</span>, <span class="tp">weight</span> = <span class="tn">5000</span>, <span class="tp">stack</span> = <span class="tk">false</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'generator'</span>] = { <span class="tp">label</span> = <span class="ts">'Générateur Électrique'</span>, <span class="tp">weight</span> = <span class="tn">15000</span>, <span class="tp">stack</span> = <span class="tk">false</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'fuelcan'</span>] = { <span class="tp">label</span> = <span class="ts">"Bidon d'essence"</span>, <span class="tp">weight</span> = <span class="tn">3000</span>, <span class="tp">stack</span> = <span class="tk">true</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'clone_card'</span>] = { <span class="tp">label</span> = <span class="ts">'Carte Bancaire Clonée'</span>, <span class="tp">weight</span> = <span class="tn">50</span>, <span class="tp">stack</span> = <span class="tk">true</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'grinder2'</span>] = { <span class="tp">label</span> = <span class="ts">"Meuleuse d'angle"</span>, <span class="tp">weight</span> = <span class="tn">4000</span>, <span class="tp">stack</span> = <span class="tk">false</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'gold'</span>] = { <span class="tp">label</span> = <span class="ts">"Lingot d'Or"</span>, <span class="tp">weight</span> = <span class="tn">5000</span>, <span class="tp">stack</span> = <span class="tk">true</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'montre'</span>] = { <span class="tp">label</span> = <span class="ts">'Montre de Luxe'</span>, <span class="tp">weight</span> = <span class="tn">100</span>, <span class="tp">stack</span> = <span class="tk">true</span>, <span class="tp">close</span> = <span class="tk">true</span> },
+[<span class="ts">'black_money'</span>] = { <span class="tp">label</span> = <span class="ts">'Argent Sale'</span>, <span class="tp">weight</span> = <span class="tn">0</span>, <span class="tp">stack</span> = <span class="tk">true</span>, <span class="tp">close</span> = <span class="tk">false</span> },</pre>
+            </div>
+        </section>
+
+        <!-- ====== DISCORD ====== -->
+        <section class="section" id="discord">
+            <div class="section-head">
+                <div class="section-icon blue"><i class="fa-brands fa-discord"></i></div>
+                <div>
+                    <div class="section-title">Bot Discord</div>
+                    <div class="section-sub">Configuration en jeu · Slash commands incluses</div>
+                </div>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">Étapes de configuration</h3>
+            <div class="steps" style="margin-bottom:32px;">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Ouvrir le menu Yol_Admin</h4>
+                        <p>Appuyer sur <span class="kbd-key">F6</span>.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Aller dans Discord Bot</h4>
+                        <p>Onglet <strong>Discord Bot</strong> dans la sidebar.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Renseigner les informations</h4>
+                        <p><strong>Token</strong> · <strong>Guild ID</strong> · <strong>Role Admin ID</strong> · <strong>Channel Logs</strong></p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Sauvegarder et démarrer</h4>
+                        <p>Cliquer sur <strong>Sauver</strong> puis <strong>Démarrer</strong>.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>Inviter le bot</h4>
+                        <p>Inviter le bot avec les intents <code>GUILDS</code>, <code>GUILD_MEMBERS</code>, <code>MESSAGE_CONTENT</code>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-size:15px;font-weight:700;color:var(--text-0);margin-bottom:14px;">Slash commands</h3>
+            <div class="key-grid">
+                <div class="key-row">
+                    <div class="key-action">Statut serveur + joueurs</div>
+                    <div class="kbd"><span class="kbd-key">/joueurs</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Identique à /joueurs</div>
+                    <div class="kbd"><span class="kbd-key">/serveur</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Message global en jeu</div>
+                    <div class="kbd"><span class="kbd-key">/say</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Kick un joueur</div>
+                    <div class="kbd"><span class="kbd-key">/kick</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Ban un joueur</div>
+                    <div class="kbd"><span class="kbd-key">/ban</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Revive un joueur</div>
+                    <div class="kbd"><span class="kbd-key">/revive</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Soigne un joueur</div>
+                    <div class="kbd"><span class="kbd-key">/heal</span></div>
+                </div>
+                <div class="key-row">
+                    <div class="key-action">Change le job</div>
+                    <div class="kbd"><span class="kbd-key">/setjob</span></div>
+                </div>
+            </div>
+
+            <div class="alert" style="margin-top:24px;">
+                <i class="fa-solid fa-lock alert-icon"></i>
+                <div class="alert-content">
+                    <div class="alert-title">Restriction par rôle</div>
+                    Toutes les slash commands sont restreintes au rôle Admin Discord configuré dans le panel.
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            <strong>Yol_Admin</strong> · Premium Admin Suite pour FiveM · Version 2.6
+        </div>
+
+    </main>
+</div>
+
+<script>
+// Sidebar active link on scroll
+const sections = document.querySelectorAll('.section, .hero');
+const navItems = document.querySelectorAll('.nav-item');
+
+function updateActiveNav() {
+    let current = '';
+    sections.forEach(s => {
+        const rect = s.getBoundingClientRect();
+        if (rect.top <= 120 && rect.bottom >= 120) current = s.id;
+    });
+    navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + current);
+    });
+}
+document.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+
+// Copy code blocks
+function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    const text = pre.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copié !';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 1500);
+    });
+}
+</script>
+
+</body>
+</html>
